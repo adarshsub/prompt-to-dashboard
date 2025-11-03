@@ -151,14 +151,14 @@ export const AISidebar = ({
                       <p className="text-xs text-muted-foreground mb-3 leading-relaxed">
                         Ask questions about the insights generated for your dashboard.
                       </p>
-                      <div className="flex gap-2">
-                        <button className="px-3 py-1.5 text-xs rounded-full border border-border bg-card text-card-foreground hover:bg-muted">
+                      <div className="flex gap-2 overflow-x-auto flex-nowrap pb-1">
+                        <button className="px-3 py-1.5 text-xs rounded-full border border-border bg-card text-card-foreground hover:bg-muted whitespace-nowrap flex-shrink-0">
                           Insight 1 <span className="ml-1 text-muted-foreground">○</span>
                         </button>
-                        <button className="px-3 py-1.5 text-xs rounded-full border border-border bg-card text-card-foreground hover:bg-muted">
+                        <button className="px-3 py-1.5 text-xs rounded-full border border-border bg-card text-card-foreground hover:bg-muted whitespace-nowrap flex-shrink-0">
                           Insight 2 <span className="ml-1 text-muted-foreground">○</span>
                         </button>
-                        <button className="px-3 py-1.5 text-xs rounded-full border border-border bg-card text-card-foreground hover:bg-muted">
+                        <button className="px-3 py-1.5 text-xs rounded-full border border-border bg-card text-card-foreground hover:bg-muted whitespace-nowrap flex-shrink-0">
                           Insight 3
                         </button>
                       </div>
