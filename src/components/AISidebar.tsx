@@ -234,10 +234,10 @@ export const AISidebar = ({
                         <button 
                           onClick={() => handleInsightToggle("insight1", 1)}
                           className={cn(
-                            "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-colors whitespace-nowrap flex-shrink-0",
+                            "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-colors whitespace-nowrap flex-shrink-0 border",
                             selectedInsights.includes("insight1")
-                              ? "bg-primary text-primary-foreground"
-                              : "bg-white text-black border border-[#E2E6E9]"
+                              ? "bg-primary text-primary-foreground border-primary"
+                              : "bg-white text-black border-[#E2E6E9]"
                           )}
                         >
                           Insight 1
@@ -254,10 +254,10 @@ export const AISidebar = ({
                         <button 
                           onClick={() => handleInsightToggle("insight2", 2)}
                           className={cn(
-                            "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-colors whitespace-nowrap flex-shrink-0",
+                            "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-colors whitespace-nowrap flex-shrink-0 border",
                             selectedInsights.includes("insight2")
-                              ? "bg-primary text-primary-foreground"
-                              : "bg-white text-black border border-[#E2E6E9]"
+                              ? "bg-primary text-primary-foreground border-primary"
+                              : "bg-white text-black border-[#E2E6E9]"
                           )}
                         >
                           Insight 2
@@ -274,10 +274,10 @@ export const AISidebar = ({
                         <button 
                           onClick={() => handleInsightToggle("insight3", 3)}
                           className={cn(
-                            "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-colors whitespace-nowrap flex-shrink-0",
+                            "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-colors whitespace-nowrap flex-shrink-0 border",
                             selectedInsights.includes("insight3")
-                              ? "bg-primary text-primary-foreground"
-                              : "bg-white text-black border border-[#E2E6E9]"
+                              ? "bg-primary text-primary-foreground border-primary"
+                              : "bg-white text-black border-[#E2E6E9]"
                           )}
                         >
                           Insight 3
@@ -419,13 +419,13 @@ export const AISidebar = ({
 
               {selectedSubjects.length > 0 && <>
                   <div className="flex gap-2 mt-4 pt-2 overflow-x-auto flex-nowrap pb-1">
-                    <button onClick={() => setSelectedCategory(prev => prev === "performance" ? null : "performance")} className={cn("flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-colors whitespace-nowrap flex-shrink-0", selectedCategory === "performance" ? "bg-primary text-primary-foreground" : "bg-white text-black border border-[#E2E6E9]")}>
+                    <button onClick={() => setSelectedCategory(prev => prev === "performance" ? null : "performance")} className={cn("flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-colors whitespace-nowrap flex-shrink-0 border", selectedCategory === "performance" ? "bg-primary text-primary-foreground border-primary" : "bg-white text-black border-[#E2E6E9]")}>
                       Performance
                       <span className={cn("w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0", selectedCategory === "performance" ? "bg-white/20" : "bg-[#E2E6E9]")}>
                         {selectedCategory === "performance" ? <Minus className="h-2.5 w-2.5" color="#FFFFFF" strokeWidth={2.5} /> : <Plus className="h-2.5 w-2.5" color="#FFFFFF" strokeWidth={2.5} />}
                       </span>
                     </button>
-                    <button onClick={() => setSelectedCategory(prev => prev === "engagement" ? null : "engagement")} className={cn("flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-colors whitespace-nowrap flex-shrink-0", selectedCategory === "engagement" ? "bg-primary text-primary-foreground" : "bg-white text-black border border-[#E2E6E9]")}>
+                    <button onClick={() => setSelectedCategory(prev => prev === "engagement" ? null : "engagement")} className={cn("flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-colors whitespace-nowrap flex-shrink-0 border", selectedCategory === "engagement" ? "bg-primary text-primary-foreground border-primary" : "bg-white text-black border-[#E2E6E9]")}>
                       Engagement
                       <span className={cn("w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0", selectedCategory === "engagement" ? "bg-white/20" : "bg-[#E2E6E9]")}>
                         {selectedCategory === "engagement" ? <Minus className="h-2.5 w-2.5" color="#FFFFFF" strokeWidth={2.5} /> : <Plus className="h-2.5 w-2.5" color="#FFFFFF" strokeWidth={2.5} />}
