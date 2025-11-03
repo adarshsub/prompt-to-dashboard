@@ -120,15 +120,17 @@ export const AISidebar = ({
                     <Loader2 className="h-4 w-4 animate-spin" />
                     Generating response...
                   </div> : <>
-                    <div ref={headingRef} className="font-semibold text-card-foreground text-sm mb-3">
-                      Students Below 70% in Math
-                    </div>
-                    <div className="grid grid-cols-2 gap-2 mb-4 scale-y-[0.85]">
-                      <div className="bg-muted/60 rounded-lg h-full" />
-                      <div className="space-y-2">
-                        <div className="bg-muted/60 rounded-lg aspect-[4/3]" />
-                        <div className="bg-muted/60 rounded-lg aspect-square" />
-                        
+                    <div className="bg-[#EBF8FF] rounded-lg p-3">
+                      <div ref={headingRef} className="font-semibold text-card-foreground text-sm mb-3">
+                        Students Below 70% in Math
+                      </div>
+                      <div className="grid grid-cols-2 gap-2 mb-4 scale-y-[0.85]">
+                        <div className="bg-muted/60 rounded-lg h-full" />
+                        <div className="space-y-2">
+                          <div className="bg-muted/60 rounded-lg aspect-[4/3]" />
+                          <div className="bg-muted/60 rounded-lg aspect-square" />
+                          
+                        </div>
                       </div>
                     </div>
                     <div className="mb-4">
