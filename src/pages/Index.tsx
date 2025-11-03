@@ -21,15 +21,26 @@ const Index = () => {
 
   return (
     <div className="h-screen bg-background p-6 flex flex-col overflow-hidden">
-      {showResults ? (
+      {(showResults || isLoading) ? (
         <div className="bg-canvas rounded-2xl flex gap-6 p-6 flex-1 overflow-hidden">
-          {/* Dashboard - visible when results shown */}
-          <DashboardView title="Students Below 70% in Math" />
+          {/* Dashboard area - smoothly transitions in */}
+          <div className="flex-1 flex flex-col overflow-hidden min-w-0">
+            {isLoading ? (
+              <div className="flex-1 flex items-center justify-center">
+                <div className="text-center">
+                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+                  <p className="text-muted-foreground">Generating dashboard...</p>
+                </div>
+              </div>
+            ) : (
+              <DashboardView title="Students Below 70% in Math" />
+            )}
+          </div>
           
           {/* Vertical divider */}
           <div className="w-[1px] bg-[#E2E6E9] shrink-0" />
           
-          {/* Sidebar - same instance, just showing history */}
+          {/* Sidebar - same position throughout */}
           <AISidebar
             onSubmit={handleSubmit}
             isLoading={isLoading}
@@ -39,13 +50,13 @@ const Index = () => {
         </div>
       ) : (
         <div className="flex gap-6 flex-1 overflow-hidden">
-          {/* Empty canvas area before results */}
+          {/* Empty canvas area before submission */}
           <div className="flex-1 bg-canvas rounded-2xl" />
           
           {/* Sidebar - initial state */}
           <AISidebar
             onSubmit={handleSubmit}
-            isLoading={isLoading}
+            isLoading={false}
             showHistory={false}
             userPrompt={userPrompt}
           />
