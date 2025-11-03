@@ -38,7 +38,7 @@ const Index = () => {
           </div>
           
           {/* Vertical divider */}
-          <div className="w-[1px] bg-[#E2E6E9] shrink-0" />
+          <div className="w-px bg-border shrink-0" />
           
           {/* Sidebar - same position throughout */}
           <AISidebar
@@ -49,9 +49,12 @@ const Index = () => {
           />
         </div>
       ) : (
-        <div className="flex gap-6 flex-1 overflow-hidden">
+        <div className="bg-canvas rounded-2xl flex gap-6 p-6 flex-1 overflow-hidden">
           {/* Empty canvas area before submission */}
-          <div className="flex-1 bg-canvas rounded-2xl" />
+          <div className="flex-1 rounded-2xl min-w-0" />
+          
+          {/* Vertical divider (kept for consistent layout) */}
+          <div className="w-px bg-border shrink-0" />
           
           {/* Sidebar - initial state */}
           <AISidebar
