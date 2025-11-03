@@ -7,9 +7,11 @@ const Index = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showResults, setShowResults] = useState(false);
   const [isDashboardCollapsed, setIsDashboardCollapsed] = useState(false);
+  const [submittedAt, setSubmittedAt] = useState<Date | null>(null);
 
   const handleSubmit = (prompt: string) => {
     setUserPrompt(prompt);
+    setSubmittedAt(new Date());
     setIsLoading(true);
     setShowResults(false);
 
@@ -52,6 +54,7 @@ const Index = () => {
               showHistory={true}
               userPrompt={userPrompt}
               isDashboardCollapsed={false}
+              submittedAt={submittedAt}
             />
           </div>
         ) : (
@@ -71,6 +74,7 @@ const Index = () => {
               userPrompt={userPrompt}
               isDashboardCollapsed={true}
               onExpand={() => setIsDashboardCollapsed(false)}
+              submittedAt={submittedAt}
             />
           </div>
         )

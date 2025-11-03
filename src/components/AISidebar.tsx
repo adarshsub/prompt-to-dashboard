@@ -15,6 +15,7 @@ interface AISidebarProps {
   userPrompt?: string;
   isDashboardCollapsed?: boolean;
   onExpand?: () => void;
+  submittedAt?: Date | null;
 }
 const TEMPLATE_PROMPTS = {
   math: {
@@ -32,7 +33,8 @@ export const AISidebar = ({
   showHistory = false,
   userPrompt,
   isDashboardCollapsed = false,
-  onExpand
+  onExpand,
+  submittedAt
 }: AISidebarProps) => {
   const [prompt, setPrompt] = useState("");
   const [selectedSubjects, setSelectedSubjects] = useState<string[]>([]);
@@ -43,12 +45,12 @@ export const AISidebar = ({
   const [gradeLevelsOpen, setGradeLevelsOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<"performance" | "engagement" | null>("performance");
   const [selectedInsights, setSelectedInsights] = useState<string[]>([]);
-  const [submissionTime, setSubmissionTime] = useState<Date | null>(null);
+  
   const headingRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!submissionTime) return;
+    if (!submittedAt) return;
     if (!isLoading && scrollContainerRef.current) {
       // Small delay to ensure content is rendered
       setTimeout(() => {
@@ -58,7 +60,7 @@ export const AISidebar = ({
         }
       }, 100);
     }
-  }, [submissionTime, isLoading]);
+  }, [submittedAt, isLoading]);
 
   // Maintain scroll position at bottom when isDashboardCollapsed changes
   useEffect(() => {
@@ -146,8 +148,6 @@ export const AISidebar = ({
   };
   const handleSend = () => {
     if (prompt.trim() && onSubmit) {
-      const currentTime = new Date();
-      setSubmissionTime(currentTime);
       onSubmit(prompt);
     }
   };
@@ -187,7 +187,7 @@ export const AISidebar = ({
                     {userPrompt}
                   </div>
                   <div className="text-xs text-muted-foreground text-right">
-                    {submissionTime ? submissionTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }) : '09:23 am'}
+                    {submittedAt ? submittedAt.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }) : '09:23 am'}
                   </div>
                 </div>
                 
@@ -221,7 +221,7 @@ export const AISidebar = ({
                         )}
                       </div>
                       <div className="text-xs text-muted-foreground text-left pl-4">
-                        {submissionTime ? new Date(submissionTime.getTime() + 2000).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }) : '09:23 am'}
+                        {submittedAt ? new Date(submittedAt.getTime() + 2000).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }) : '09:23 am'}
                       </div>
                     </div>
                     <div className="mb-4">
