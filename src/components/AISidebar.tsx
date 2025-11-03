@@ -241,19 +241,23 @@ export const AISidebar = ({
                   <div className="flex gap-2 mt-6 pt-2 overflow-x-auto flex-nowrap pb-1">
                     <button onClick={() => setSelectedCategory("performance")} className={cn("flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-colors whitespace-nowrap flex-shrink-0", selectedCategory === "performance" ? "bg-primary text-primary-foreground" : "bg-white text-black border border-[#E2E6E9]")}>
                       Performance
-                      {selectedCategory === "performance" ? (
-                        <Minus className="h-3 w-3" />
-                      ) : (
-                        <Plus className="h-3 w-3" color="#000000" />
-                      )}
+                      <span className={cn("w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0", selectedCategory === "performance" ? "bg-white/20" : "bg-[#E2E6E9]")}>
+                        {selectedCategory === "performance" ? (
+                          <Minus className="h-2.5 w-2.5" color="#FFFFFF" strokeWidth={2.5} />
+                        ) : (
+                          <Plus className="h-2.5 w-2.5" color="#FFFFFF" strokeWidth={2.5} />
+                        )}
+                      </span>
                     </button>
                     <button onClick={() => setSelectedCategory("engagement")} className={cn("flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-colors whitespace-nowrap flex-shrink-0", selectedCategory === "engagement" ? "bg-primary text-primary-foreground" : "bg-white text-black border border-[#E2E6E9]")}>
                       Engagement
-                      {selectedCategory === "engagement" ? (
-                        <Minus className="h-3 w-3" />
-                      ) : (
-                        <Plus className="h-3 w-3" color="#000000" />
-                      )}
+                      <span className={cn("w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0", selectedCategory === "engagement" ? "bg-white/20" : "bg-[#E2E6E9]")}>
+                        {selectedCategory === "engagement" ? (
+                          <Minus className="h-2.5 w-2.5" color="#FFFFFF" strokeWidth={2.5} />
+                        ) : (
+                          <Plus className="h-2.5 w-2.5" color="#FFFFFF" strokeWidth={2.5} />
+                        )}
+                      </span>
                     </button>
                   </div>
 
