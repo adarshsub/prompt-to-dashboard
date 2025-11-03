@@ -1,4 +1,4 @@
-import { ChevronLeft, BarChart2 } from "lucide-react";
+import { ChevronsRight, BarChart2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 
@@ -23,9 +23,9 @@ export const DashboardView = ({ title }: DashboardViewProps) => {
             variant="ghost"
             size="icon"
             onClick={() => setIsCollapsed(!isCollapsed)}
-            className="h-8 w-8 text-muted-foreground hover:text-card-foreground"
+            className="h-8 w-8"
           >
-            <ChevronLeft className="h-5 w-5" />
+            <ChevronsRight className="h-5 w-5" style={{ color: '#999999' }} />
           </Button>
           <div className="flex items-center gap-2 pb-1 border-b-2 border-primary">
             <BarChart2 className="h-5 w-5 text-primary" />
