@@ -238,14 +238,14 @@ export const AISidebar = ({
               </div>
 
               {selectedSubjects.length > 0 && <>
-                  <div className="flex gap-2 mt-4">
-                    <button onClick={() => setSelectedCategory("performance")} className={cn("flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-colors", selectedCategory === "performance" ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground hover:bg-muted/80")}>
+                  <div className="flex gap-2 mt-4 overflow-x-auto flex-nowrap pb-1">
+                    <button onClick={() => setSelectedCategory("performance")} className={cn("flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-colors whitespace-nowrap flex-shrink-0", selectedCategory === "performance" ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground hover:bg-muted/80")}>
                       Performance
                       <span className={cn("w-4 h-4 rounded-full flex items-center justify-center text-[10px]", selectedCategory === "performance" ? "bg-primary-foreground/20" : "bg-background")}>
                         ○
                       </span>
                     </button>
-                    <button onClick={() => setSelectedCategory("engagement")} className={cn("flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-colors", selectedCategory === "engagement" ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground hover:bg-muted/80")}>
+                    <button onClick={() => setSelectedCategory("engagement")} className={cn("flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-colors whitespace-nowrap flex-shrink-0", selectedCategory === "engagement" ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground hover:bg-muted/80")}>
                       Engagement
                       <span className={cn("w-4 h-4 rounded-full flex items-center justify-center text-[10px]", selectedCategory === "engagement" ? "bg-primary-foreground/20" : "bg-background")}>
                         ○
