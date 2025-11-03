@@ -149,7 +149,7 @@ export const AISidebar = ({
               <div className="space-y-2">
                 <Popover open={subjectsOpen} onOpenChange={setSubjectsOpen}>
                   <PopoverTrigger asChild>
-                    <Button variant="outline" className="w-full justify-between bg-card border-border text-card-foreground hover:bg-muted h-[40px] py-2 rounded-full">
+                    <Button variant="outline" className="w-full justify-between bg-card border-border text-card-foreground hover:bg-muted/80 hover:border-primary/30 transition-all h-[40px] py-2 rounded-full">
                       {selectedSubjects.length > 0 ? <div className="flex flex-wrap gap-1 flex-1 mr-2">
                           {selectedSubjects.map(subject => <Badge key={subject} variant="secondary" className="pl-2 pr-1 py-0.5 text-xs h-6" style={{ backgroundColor: '#EBF8FF', color: '#00A6FF', borderColor: '#00A6FF', borderWidth: '1px' }}>
                               {subject}
@@ -189,7 +189,7 @@ export const AISidebar = ({
 
                 <Popover open={termsOpen} onOpenChange={setTermsOpen}>
                   <PopoverTrigger asChild>
-                    <Button variant="outline" className="w-full justify-between bg-card border-border text-card-foreground hover:bg-muted rounded-full">
+                    <Button variant="outline" className="w-full justify-between bg-card border-border text-card-foreground hover:bg-muted/80 hover:border-primary/30 transition-all rounded-full">
                       <span style={{ color: '#6F8090' }}>Terms</span>
                       <ChevronDown className={cn("h-4 w-4 transition-transform", termsOpen && "rotate-180")} />
                     </Button>
@@ -219,7 +219,7 @@ export const AISidebar = ({
 
                 <Popover open={gradeLevelsOpen} onOpenChange={setGradeLevelsOpen}>
                   <PopoverTrigger asChild>
-                    <Button variant="outline" className="w-full justify-between bg-card border-border text-card-foreground hover:bg-muted rounded-full">
+                    <Button variant="outline" className="w-full justify-between bg-card border-border text-card-foreground hover:bg-muted/80 hover:border-primary/30 transition-all rounded-full">
                       <span style={{ color: '#6F8090' }}>Grade Levels</span>
                       <ChevronDown className={cn("h-4 w-4 transition-transform", gradeLevelsOpen && "rotate-180")} />
                     </Button>
