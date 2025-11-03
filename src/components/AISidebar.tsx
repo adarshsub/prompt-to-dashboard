@@ -140,7 +140,7 @@ export const AISidebar = ({
                           </div>
                         </div>
                       </div>
-                      <div className="text-xs text-muted-foreground text-left ml-4">
+                      <div className="text-xs text-muted-foreground text-left">
                         {submissionTime ? new Date(submissionTime.getTime() + 2000).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }) : '09:23 am'}
                       </div>
                     </div>
