@@ -64,7 +64,8 @@ export const DashboardView = ({ title }: DashboardViewProps) => {
               </div>
               <Button
                 variant="outline"
-                className="border-primary text-primary hover:bg-primary/10 hover:text-primary shrink-0 bg-white rounded-[5px]"
+                size="sm"
+                className="border-primary text-primary hover:bg-primary/10 hover:text-primary shrink-0 bg-white rounded-[5px] text-xs h-8 px-3"
               >
                 Generate Intervention
               </Button>
