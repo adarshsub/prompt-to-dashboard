@@ -1,6 +1,7 @@
 import { X, Send, Loader2, BarChart3 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -299,19 +300,25 @@ export const AISidebar = ({ onSubmit, isLoading = false, showHistory = false, us
 
       <div className="mt-auto">
         <div className="relative">
-          <Input
+          <Textarea
             placeholder="What would you like to create?"
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && handleSend()}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault();
+                handleSend();
+              }
+            }}
             disabled={isLoading}
-            className="pr-10 bg-card border-border text-card-foreground placeholder:text-muted-foreground"
+            className="pr-10 bg-card border-border text-card-foreground placeholder:text-muted-foreground resize-none min-h-[88px]"
+            rows={4}
           />
           <Button
             size="icon"
             onClick={handleSend}
             disabled={!prompt.trim() || isLoading}
-            className="absolute right-1 top-1/2 -translate-y-1/2 h-8 w-8 bg-transparent hover:bg-muted text-muted-foreground hover:text-card-foreground disabled:opacity-50"
+            className="absolute right-1 bottom-1 h-8 w-8 bg-transparent hover:bg-muted text-muted-foreground hover:text-card-foreground disabled:opacity-50"
           >
             {isLoading ? (
               <Loader2 className="h-4 w-4 animate-spin" />
