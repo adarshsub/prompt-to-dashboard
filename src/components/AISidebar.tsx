@@ -50,8 +50,13 @@ export const AISidebar = ({
   useEffect(() => {
     if (!submissionTime) return;
     if (!isLoading && scrollContainerRef.current) {
-      const container = scrollContainerRef.current;
-      container.scrollTop = container.scrollHeight;
+      // Small delay to ensure content is rendered
+      setTimeout(() => {
+        if (scrollContainerRef.current) {
+          const container = scrollContainerRef.current;
+          container.scrollTop = container.scrollHeight;
+        }
+      }, 100);
     }
   }, [submissionTime, isLoading]);
 
