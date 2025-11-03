@@ -162,7 +162,7 @@ export const AISidebar = ({
                               </button>
                             </Badge>)}
                         </div> : <span style={{ color: '#6F8090' }}>Subjects</span>}
-                      <ChevronDown className={cn("h-4 w-4 transition-transform flex-shrink-0", subjectsOpen && "rotate-180")} />
+                      <ChevronDown className={cn("h-4 w-4 transition-transform flex-shrink-0 text-foreground", subjectsOpen && "rotate-180")} />
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-[232px] p-3 bg-card border-border" align="start">
@@ -192,7 +192,7 @@ export const AISidebar = ({
                   <PopoverTrigger asChild>
                     <Button variant="outline" className="w-full justify-between bg-card border-border text-card-foreground hover:bg-[#faf8fb] transition-all rounded-full">
                       <span style={{ color: '#6F8090' }}>Terms</span>
-                      <ChevronDown className={cn("h-4 w-4 transition-transform", termsOpen && "rotate-180")} />
+                      <ChevronDown className={cn("h-4 w-4 transition-transform text-foreground", termsOpen && "rotate-180")} />
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-[232px] p-3 bg-card border-border" align="start">
@@ -222,7 +222,7 @@ export const AISidebar = ({
                   <PopoverTrigger asChild>
                     <Button variant="outline" className="w-full justify-between bg-card border-border text-card-foreground hover:bg-[#faf8fb] transition-all rounded-full">
                       <span style={{ color: '#6F8090' }}>Grade Levels</span>
-                      <ChevronDown className={cn("h-4 w-4 transition-transform", gradeLevelsOpen && "rotate-180")} />
+                      <ChevronDown className={cn("h-4 w-4 transition-transform text-foreground", gradeLevelsOpen && "rotate-180")} />
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-[232px] p-3 bg-card border-border" align="start">
