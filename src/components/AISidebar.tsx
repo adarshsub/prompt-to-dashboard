@@ -67,6 +67,12 @@ export const AISidebar = ({
   const getTemplatePrompts = () => {
     if (selectedSubjects.length === 0) return [];
     const subject = selectedSubjects[0].toLowerCase();
+    
+    // When "All" is selected, show math prompts (they'll display as "Math and English")
+    if (subject === "all") {
+      return TEMPLATE_PROMPTS.math?.[selectedCategory] || [];
+    }
+    
     return TEMPLATE_PROMPTS[subject as keyof typeof TEMPLATE_PROMPTS]?.[selectedCategory] || [];
   };
   const templatePrompts = getTemplatePrompts();
