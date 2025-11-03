@@ -113,7 +113,7 @@ export const AISidebar = ({
         scrollbarGutter: "stable"
       }}>
             {userPrompt && <>
-                <div className="bg-muted/50 rounded-lg p-3 text-sm text-card-foreground">
+                <div className="bg-muted/50 rounded-lg p-3 text-sm text-card-foreground ml-4">
                   {userPrompt}
                 </div>
                 <div className="text-xs text-muted-foreground text-right -mt-2">
@@ -124,7 +124,7 @@ export const AISidebar = ({
                     <Loader2 className="h-4 w-4 animate-spin" />
                     Generating response...
                   </div> : <>
-                    <div className="bg-[#EBF8FF] rounded-lg p-3">
+                    <div className="bg-[#EBF8FF] rounded-lg p-3 mr-4">
                       <div ref={headingRef} className="font-semibold text-card-foreground text-sm mb-1">
                         Students Below 70% in Math
                       </div>
