@@ -4,7 +4,6 @@ import { useState } from "react";
 
 interface DashboardViewProps {
   title: string;
-  onCollapse?: () => void;
 }
 
 const INSIGHTS = [
@@ -13,7 +12,9 @@ const INSIGHTS = [
   "Lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor",
 ];
 
-export const DashboardView = ({ title, onCollapse }: DashboardViewProps) => {
+export const DashboardView = ({ title }: DashboardViewProps) => {
+  const [isCollapsed, setIsCollapsed] = useState(false);
+
   return (
     <div className="flex-1 flex flex-col overflow-hidden min-w-0">
       <div className="flex items-center justify-between p-6 pb-4">
@@ -21,7 +22,7 @@ export const DashboardView = ({ title, onCollapse }: DashboardViewProps) => {
           <Button
             variant="ghost"
             size="icon"
-            onClick={onCollapse}
+            onClick={() => setIsCollapsed(!isCollapsed)}
             className="h-8 w-8 text-[#797985] hover:text-white hover:bg-[#AC5CCC]/75 transition-all rounded-lg"
           >
             <ChevronsRight className="h-6 w-6" />
