@@ -82,11 +82,33 @@ export const AISidebar = ({
     const wasSelected = selectedInsights.includes(insight);
     
     if (wasSelected) {
+      // Remove from selection
       setSelectedInsights(prev => prev.filter(i => i !== insight));
-      setPrompt("");
+      
+      // Remove the corresponding text from prompt
+      setPrompt(prev => {
+        // Pattern to match "For Insight X, tell me ..." up to next "; " or end
+        const pattern = new RegExp(
+          `(^|; )For Insight ${insightNumber}, tell me[^;]*`,
+          'g'
+        );
+        let updated = prev.replace(pattern, '');
+        // Clean up leading/trailing semicolons and extra spaces
+        updated = updated.replace(/^;\s*/, '').replace(/;\s*$/, '').trim();
+        return updated;
+      });
     } else {
-      setSelectedInsights([insight]);
-      setPrompt(`For Insight ${insightNumber}, tell me `);
+      // Add to selection
+      setSelectedInsights(prev => [...prev, insight]);
+      
+      // Append to prompt
+      setPrompt(prev => {
+        if (!prev.trim()) {
+          return `For Insight ${insightNumber}, tell me `;
+        } else {
+          return `${prev.trim()}; For Insight ${insightNumber}, tell me `;
+        }
+      });
     }
   };
   const handleSend = () => {
