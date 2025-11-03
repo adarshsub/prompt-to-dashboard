@@ -1,4 +1,4 @@
-import { X, Send, Loader2, BarChart3, ChevronDown, Plus, Minus } from "lucide-react";
+import { X, Send, Loader2, BarChart3, ChevronDown, Plus, Minus, ChevronsLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -13,6 +13,8 @@ interface AISidebarProps {
   isLoading?: boolean;
   showHistory?: boolean;
   userPrompt?: string;
+  isDashboardCollapsed?: boolean;
+  onExpand?: () => void;
 }
 const TEMPLATE_PROMPTS = {
   math: {
@@ -28,7 +30,9 @@ export const AISidebar = ({
   onSubmit,
   isLoading = false,
   showHistory = false,
-  userPrompt
+  userPrompt,
+  isDashboardCollapsed = false,
+  onExpand
 }: AISidebarProps) => {
   const [prompt, setPrompt] = useState("");
   const [selectedSubjects, setSelectedSubjects] = useState<string[]>([]);
@@ -174,6 +178,17 @@ export const AISidebar = ({
                             
                           </div>
                         </div>
+                        {isDashboardCollapsed && (
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={onExpand}
+                            className="w-full justify-center gap-2 text-card-foreground hover:bg-white/50 h-8"
+                          >
+                            <ChevronsLeft className="h-4 w-4" />
+                            <span className="text-xs">Expand Dashboard</span>
+                          </Button>
+                        )}
                       </div>
                       <div className="text-xs text-muted-foreground text-left pl-4">
                         {submissionTime ? new Date(submissionTime.getTime() + 2000).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }) : '09:23 am'}

@@ -51,6 +51,7 @@ const Index = () => {
               isLoading={isLoading}
               showHistory={true}
               userPrompt={userPrompt}
+              isDashboardCollapsed={false}
             />
           </div>
         ) : (
@@ -64,6 +65,8 @@ const Index = () => {
               isLoading={isLoading}
               showHistory={true}
               userPrompt={userPrompt}
+              isDashboardCollapsed={true}
+              onExpand={() => setIsDashboardCollapsed(false)}
             />
           </div>
         )
