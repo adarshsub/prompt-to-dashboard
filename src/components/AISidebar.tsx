@@ -49,8 +49,9 @@ export const AISidebar = ({
 
   useEffect(() => {
     if (!submissionTime) return;
-    if (!isLoading && headingRef.current) {
-      headingRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    if (!isLoading && scrollContainerRef.current) {
+      const container = scrollContainerRef.current;
+      container.scrollTop = container.scrollHeight;
     }
   }, [submissionTime, isLoading]);
 
