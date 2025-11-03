@@ -255,7 +255,7 @@ export const AISidebar = ({
 
                   <div className="space-y-2 mt-3">
                     {templatePrompts.map((templatePrompt, index) => <button key={index} onClick={() => handlePromptClick(templatePrompt)} className={cn("w-full text-left p-3 rounded-lg border transition-colors text-sm flex items-start gap-2", prompt === templatePrompt ? "border-primary bg-primary/5" : "border-border bg-card hover:border-primary/50 hover:bg-card/80")}>
-                        <BarChart3 className="h-4 w-4 mt-0.5 flex-shrink-0" />
+                        <BarChart3 className="h-4 w-4 mt-0.5 flex-shrink-0" color="#323232" />
                         <span className="text-card-foreground leading-snug">{templatePrompt}</span>
                       </button>)}
                   </div>
