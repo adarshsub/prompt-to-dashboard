@@ -149,15 +149,15 @@ export const AISidebar = ({
               <div className="space-y-2">
                 <Popover open={subjectsOpen} onOpenChange={setSubjectsOpen}>
                   <PopoverTrigger asChild>
-                    <Button variant="outline" className="w-full justify-between bg-card border-border text-card-foreground hover:bg-muted min-h-[40px] h-auto py-2">
-                      {selectedSubjects.length > 0 ? <div className="flex flex-wrap gap-1.5 flex-1 mr-2">
-                          {selectedSubjects.map(subject => <Badge key={subject} variant="secondary" className="bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 pl-2.5 pr-1.5 py-1">
+                    <Button variant="outline" className="w-full justify-between bg-card border-border text-card-foreground hover:bg-muted h-[40px] py-2">
+                      {selectedSubjects.length > 0 ? <div className="flex flex-wrap gap-1 flex-1 mr-2">
+                          {selectedSubjects.map(subject => <Badge key={subject} variant="secondary" className="bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 pl-2 pr-1 py-0.5 text-xs h-6">
                               {subject}
                               <button onClick={e => {
                         e.stopPropagation();
                         handleRemoveSubject(subject);
-                      }} className="ml-1.5 hover:bg-primary/30 rounded-full p-0.5">
-                                <X className="h-3 w-3" />
+                      }} className="ml-1 hover:bg-primary/30 rounded-full p-0.5">
+                                <X className="h-2.5 w-2.5" />
                               </button>
                             </Badge>)}
                         </div> : <span style={{ color: '#6F8090' }}>Subjects</span>}
