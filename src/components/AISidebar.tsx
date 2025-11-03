@@ -143,7 +143,7 @@ export const AISidebar = ({
                 <Popover open={subjectsOpen} onOpenChange={setSubjectsOpen}>
                   <PopoverTrigger asChild>
                     <Button variant="outline" className="w-full justify-between bg-card border-border text-card-foreground hover:bg-muted">
-                      Subject
+                      Subjects
                       <ChevronDown className={cn("h-4 w-4 transition-transform", subjectsOpen && "rotate-180")} />
                     </Button>
                   </PopoverTrigger>
@@ -161,12 +161,12 @@ export const AISidebar = ({
               </div>
 
               <Button variant="outline" className="w-full justify-between bg-card border-border text-card-foreground hover:bg-muted" disabled={selectedSubjects.length === 0}>
-                Term
+                Terms
                 <ChevronDown className="h-4 w-4" />
               </Button>
 
               <Button variant="outline" className="w-full justify-between bg-card border-border text-card-foreground hover:bg-muted" disabled={selectedSubjects.length === 0}>
-                Grade Level
+                Grade Levels
                 <ChevronDown className="h-4 w-4" />
               </Button>
 
