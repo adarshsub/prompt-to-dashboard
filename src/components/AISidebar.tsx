@@ -100,7 +100,9 @@ export const AISidebar = ({
           <p className="text-xs text-[#AC5CCC] mb-3.5 leading-relaxed">Enter a question about the data you'd like to visualize. Our AI will generate appropriate charts and insights.</p>
           <div className="h-px bg-[#E2E6E9] mb-6" />
 
-          <div className="flex-1 overflow-y-auto mb-6 pr-2 space-y-4" style={{ scrollbarGutter: "stable" }}>
+          <div className="flex-1 overflow-y-auto mb-6 pr-2 space-y-4" style={{
+        scrollbarGutter: "stable"
+      }}>
             {userPrompt && <>
                 <div className="bg-muted/50 rounded-lg p-3 text-sm text-card-foreground">
                   {userPrompt}
@@ -119,7 +121,7 @@ export const AISidebar = ({
                       <div className="space-y-2">
                         <div className="bg-muted/60 rounded-lg aspect-[4/3]" />
                         <div className="bg-muted/60 rounded-lg aspect-square" />
-                        <div className="bg-muted/60 rounded-lg aspect-square" />
+                        
                       </div>
                     </div>
                     <div className="mb-4">
@@ -148,7 +150,9 @@ export const AISidebar = ({
           <p className="text-xs text-[#AC5CCC] mb-3.5 leading-relaxed">Enter a question about the data you'd like to visualize. Our AI will generate appropriate charts and insights.</p>
           <div className="h-px bg-[#E2E6E9] mb-6" />
 
-          <div className={cn("flex-1 overflow-y-auto mb-6 pr-2", selectedSubjects.length > 0 && "max-h-[400px]")} style={{ scrollbarGutter: "stable" }}>
+          <div className={cn("flex-1 overflow-y-auto mb-6 pr-2", selectedSubjects.length > 0 && "max-h-[400px]")} style={{
+        scrollbarGutter: "stable"
+      }}>
             <h3 className="text-sm font-semibold text-card-foreground mb-3">
               Quick actions
             </h3>
