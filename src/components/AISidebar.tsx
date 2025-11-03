@@ -39,7 +39,18 @@ export const AISidebar = ({
   const [gradeLevelsOpen, setGradeLevelsOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<"performance" | "engagement" | null>("performance");
   const handleSubjectToggle = (subject: string) => {
-    setSelectedSubjects(prev => prev.includes(subject) ? prev.filter(s => s !== subject) : [...prev, subject]);
+    setSelectedSubjects(prev => {
+      if (subject === "All") {
+        // If toggling "All", add or remove all subjects
+        return prev.includes("All") ? [] : ["All", "Math", "English"];
+      } else {
+        // If toggling individual subject, remove "All" if it was selected
+        const newSubjects = prev.includes(subject) 
+          ? prev.filter(s => s !== subject) 
+          : [...prev.filter(s => s !== "All"), subject];
+        return newSubjects;
+      }
+    });
   };
   const handleRemoveSubject = (subject: string) => {
     setSelectedSubjects(prev => prev.filter(s => s !== subject));
@@ -168,7 +179,7 @@ export const AISidebar = ({
                   <PopoverContent className="w-[232px] p-3 bg-card border-border" align="start">
                     <div className="space-y-2">
                       {["All", "Math", "English"].map(subject => <div key={subject} className="flex items-center space-x-2">
-                          <Checkbox id={subject} checked={selectedSubjects.includes(subject)} onCheckedChange={() => handleSubjectToggle(subject)} className="border-border data-[state=checked]:bg-primary data-[state=checked]:border-primary" />
+                          <Checkbox id={subject} checked={selectedSubjects.includes("All") || selectedSubjects.includes(subject)} onCheckedChange={() => handleSubjectToggle(subject)} className="border-border data-[state=checked]:bg-primary data-[state=checked]:border-primary" />
                           <label htmlFor={subject} className="text-sm text-card-foreground cursor-pointer flex-1">
                             {subject}
                           </label>
