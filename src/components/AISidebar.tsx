@@ -334,9 +334,9 @@ export const AISidebar = ({
             <div className="space-y-3">
               <Popover open={filtersOpen} onOpenChange={setFiltersOpen}>
                 <PopoverTrigger asChild>
-                  <Button variant="outline" className="w-full justify-between bg-card border-border text-card-foreground hover:bg-[#faf8fb] hover:border-[#AC5CCC] transition-all rounded-full text-sm">
-                    <span style={{ color: '#6F8090' }}>Add filters</span>
-                    <ChevronDown className={cn("h-4 w-4 transition-transform text-[#2e2e37]", filtersOpen && "rotate-180")} />
+                  <Button variant="ghost" className="w-full justify-start gap-2 text-[#AC5CCC] hover:text-[#AC5CCC] hover:bg-[#AC5CCC]/10 transition-all text-sm font-medium h-9 px-3">
+                    <Plus className="h-4 w-4" />
+                    <span>Add filters</span>
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-[232px] p-3 bg-card border-border" align="start">
