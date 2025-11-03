@@ -465,7 +465,13 @@ export const AISidebar = ({
                   const activeSubjects = selectedSubjects.includes("All") 
                     ? ["Math", "English", "Science", "History"]
                     : selectedSubjects.filter(s => s !== "All");
-                  displaySubject = activeSubjects.join(" and ");
+                  
+                  // Format with commas and "and"
+                  if (activeSubjects.length === 2) {
+                    displaySubject = activeSubjects.join(" and ");
+                  } else if (activeSubjects.length > 2) {
+                    displaySubject = activeSubjects.slice(0, -1).join(", ") + ", and " + activeSubjects[activeSubjects.length - 1];
+                  }
                 }
                 
                 // Adjust grammar for multiple subjects
