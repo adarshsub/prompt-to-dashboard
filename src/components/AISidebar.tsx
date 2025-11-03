@@ -332,31 +332,6 @@ export const AISidebar = ({
             </p>
 
             <div className="space-y-3">
-              <Popover open={filtersOpen} onOpenChange={setFiltersOpen}>
-                <PopoverTrigger asChild>
-                  <Button variant="ghost" className="w-full justify-start gap-2 text-[#AC5CCC] hover:text-[#AC5CCC] hover:bg-[#AC5CCC]/10 transition-all text-sm font-medium h-9 px-3">
-                    <Plus className="h-4 w-4" />
-                    <span>Add filters</span>
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-[232px] p-3 bg-card border-border" align="start">
-                  <div className="space-y-2">
-                    {["Terms", "Grade Levels"].map(filter => (
-                      <div key={filter} className="flex items-center space-x-2">
-                        <Checkbox 
-                          id={filter} 
-                          checked={activeFilters.includes(filter)} 
-                          onCheckedChange={() => handleFilterToggle(filter)} 
-                        />
-                        <label htmlFor={filter} className="text-sm text-card-foreground cursor-pointer flex-1">
-                          {filter}
-                        </label>
-                      </div>
-                    ))}
-                  </div>
-                </PopoverContent>
-              </Popover>
-
               <div className="space-y-2">
                 <Popover open={subjectsOpen} onOpenChange={setSubjectsOpen}>
                   <PopoverTrigger asChild>
@@ -466,6 +441,31 @@ export const AISidebar = ({
                 </Popover>
                 </div>
               )}
+
+              <Popover open={filtersOpen} onOpenChange={setFiltersOpen}>
+                <PopoverTrigger asChild>
+                  <Button variant="ghost" className="w-full justify-start gap-2 text-[#AC5CCC] hover:text-[#AC5CCC] hover:bg-[#AC5CCC]/10 transition-all text-sm font-medium h-9 px-3">
+                    <Plus className="h-4 w-4" />
+                    <span>Add filters</span>
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-[232px] p-3 bg-card border-border" align="start">
+                  <div className="space-y-2">
+                    {["Terms", "Grade Levels"].map(filter => (
+                      <div key={filter} className="flex items-center space-x-2">
+                        <Checkbox 
+                          id={filter} 
+                          checked={activeFilters.includes(filter)} 
+                          onCheckedChange={() => handleFilterToggle(filter)} 
+                        />
+                        <label htmlFor={filter} className="text-sm text-card-foreground cursor-pointer flex-1">
+                          {filter}
+                        </label>
+                      </div>
+                    ))}
+                  </div>
+                </PopoverContent>
+              </Popover>
 
               {selectedSubjects.length > 0 && <>
                   <div className="flex gap-2 mt-4 pt-2 overflow-x-auto flex-nowrap pb-1">
