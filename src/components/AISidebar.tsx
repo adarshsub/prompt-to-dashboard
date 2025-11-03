@@ -45,6 +45,7 @@ export const AISidebar = ({
   const [selectedInsights, setSelectedInsights] = useState<string[]>([]);
   const [submissionTime, setSubmissionTime] = useState<Date | null>(null);
   const headingRef = useRef<HTMLDivElement>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!submissionTime) return;
@@ -52,6 +53,14 @@ export const AISidebar = ({
       headingRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   }, [submissionTime, isLoading]);
+
+  // Maintain scroll position at bottom when isDashboardCollapsed changes
+  useEffect(() => {
+    if (showHistory && scrollContainerRef.current) {
+      const container = scrollContainerRef.current;
+      container.scrollTop = container.scrollHeight;
+    }
+  }, [isDashboardCollapsed, showHistory]);
   const handleSubjectToggle = (subject: string) => {
     setSelectedSubjects(prev => {
       if (subject === "All") {
@@ -149,7 +158,7 @@ export const AISidebar = ({
           <p className="text-xs text-[#AC5CCC] mb-3.5 leading-relaxed">Enter a question about the data you'd like to visualize. Our AI will generate appropriate charts and insights.</p>
           <div className="h-px bg-[#E2E6E9] mb-6" />
 
-          <div className="flex-1 overflow-y-auto mb-3.5 pr-2 space-y-4" style={{
+          <div ref={scrollContainerRef} className="flex-1 overflow-y-auto mb-3.5 pr-2 space-y-4" style={{
         scrollbarGutter: "stable"
       }}>
             {userPrompt && <>
