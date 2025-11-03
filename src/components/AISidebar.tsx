@@ -45,9 +45,7 @@ export const AISidebar = ({
         return prev.includes("All") ? [] : ["All", "Math", "English"];
       } else {
         // If toggling individual subject, remove "All" if it was selected
-        const newSubjects = prev.includes(subject) 
-          ? prev.filter(s => s !== subject) 
-          : [...prev.filter(s => s !== "All"), subject];
+        const newSubjects = prev.includes(subject) ? prev.filter(s => s !== subject) : [...prev.filter(s => s !== "All"), subject];
         return newSubjects;
       }
     });
@@ -141,10 +139,7 @@ export const AISidebar = ({
               </>}
           </div>
         </> : <>
-          <p className="text-xs text-[#AC5CCC] mb-3.5 leading-relaxed">
-            Enter your question about the data you'd like to visualize. Our AI will
-            generate appropriate charts and insights based on your query.
-          </p>
+          <p className="text-xs text-[#AC5CCC] mb-3.5 leading-relaxed">Enter a question about the data you'd like to visualize. Our AI will generate appropriate charts and insights based on your query.</p>
           <div className="h-px bg-[#E2E6E9] mb-6" />
 
           <div className={cn("mb-6", selectedSubjects.length > 0 && "max-h-[400px] overflow-y-auto")}>
@@ -163,16 +158,25 @@ export const AISidebar = ({
                   <PopoverTrigger asChild>
                     <Button variant="outline" className="w-full justify-between bg-card border-border text-card-foreground hover:bg-[#faf8fb] transition-all h-[40px] py-2 rounded-full">
                       {selectedSubjects.length > 0 ? <div className="flex flex-wrap gap-1 flex-1 mr-2">
-                          {(selectedSubjects.includes("All") ? ["All"] : selectedSubjects).map(subject => <Badge key={subject} variant="secondary" className="pl-2 pr-1 py-0.5 text-xs h-6" style={{ backgroundColor: '#EBF8FF', color: '#00A6FF', borderColor: '#00A6FF', borderWidth: '1px' }}>
+                          {(selectedSubjects.includes("All") ? ["All"] : selectedSubjects).map(subject => <Badge key={subject} variant="secondary" className="pl-2 pr-1 py-0.5 text-xs h-6" style={{
+                      backgroundColor: '#EBF8FF',
+                      color: '#00A6FF',
+                      borderColor: '#00A6FF',
+                      borderWidth: '1px'
+                    }}>
                               {subject}
                               <button onClick={e => {
                         e.stopPropagation();
                         handleRemoveSubject(subject);
                       }} className="ml-1 hover:bg-primary/30 rounded-full p-0.5">
-                                <X className="h-2.5 w-2.5" style={{ color: '#00A6FF' }} />
+                                <X className="h-2.5 w-2.5" style={{
+                          color: '#00A6FF'
+                        }} />
                               </button>
                             </Badge>)}
-                        </div> : <span style={{ color: '#6F8090' }}>Subjects</span>}
+                        </div> : <span style={{
+                    color: '#6F8090'
+                  }}>Subjects</span>}
                       <ChevronDown className={cn("h-4 w-4 transition-transform flex-shrink-0 text-[#2e2e37]", subjectsOpen && "rotate-180")} />
                     </Button>
                   </PopoverTrigger>
@@ -202,7 +206,9 @@ export const AISidebar = ({
                 <Popover open={termsOpen} onOpenChange={setTermsOpen}>
                   <PopoverTrigger asChild>
                     <Button variant="outline" className="w-full justify-between bg-card border-border text-card-foreground hover:bg-[#faf8fb] transition-all rounded-full">
-                      <span style={{ color: '#6F8090' }}>Terms</span>
+                      <span style={{
+                    color: '#6F8090'
+                  }}>Terms</span>
                       <ChevronDown className={cn("h-4 w-4 transition-transform text-[#2e2e37]", termsOpen && "rotate-180")} />
                     </Button>
                   </PopoverTrigger>
@@ -232,7 +238,9 @@ export const AISidebar = ({
                 <Popover open={gradeLevelsOpen} onOpenChange={setGradeLevelsOpen}>
                   <PopoverTrigger asChild>
                     <Button variant="outline" className="w-full justify-between bg-card border-border text-card-foreground hover:bg-[#faf8fb] transition-all rounded-full">
-                      <span style={{ color: '#6F8090' }}>Grade Levels</span>
+                      <span style={{
+                    color: '#6F8090'
+                  }}>Grade Levels</span>
                       <ChevronDown className={cn("h-4 w-4 transition-transform text-[#2e2e37]", gradeLevelsOpen && "rotate-180")} />
                     </Button>
                   </PopoverTrigger>
@@ -254,47 +262,33 @@ export const AISidebar = ({
                     <button onClick={() => setSelectedCategory(prev => prev === "performance" ? null : "performance")} className={cn("flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-colors whitespace-nowrap flex-shrink-0", selectedCategory === "performance" ? "bg-primary text-primary-foreground" : "bg-white text-black border border-[#E2E6E9]")}>
                       Performance
                       <span className={cn("w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0", selectedCategory === "performance" ? "bg-white/20" : "bg-[#E2E6E9]")}>
-                        {selectedCategory === "performance" ? (
-                          <Minus className="h-2.5 w-2.5" color="#FFFFFF" strokeWidth={2.5} />
-                        ) : (
-                          <Plus className="h-2.5 w-2.5" color="#FFFFFF" strokeWidth={2.5} />
-                        )}
+                        {selectedCategory === "performance" ? <Minus className="h-2.5 w-2.5" color="#FFFFFF" strokeWidth={2.5} /> : <Plus className="h-2.5 w-2.5" color="#FFFFFF" strokeWidth={2.5} />}
                       </span>
                     </button>
                     <button onClick={() => setSelectedCategory(prev => prev === "engagement" ? null : "engagement")} className={cn("flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-colors whitespace-nowrap flex-shrink-0", selectedCategory === "engagement" ? "bg-primary text-primary-foreground" : "bg-white text-black border border-[#E2E6E9]")}>
                       Engagement
                       <span className={cn("w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0", selectedCategory === "engagement" ? "bg-white/20" : "bg-[#E2E6E9]")}>
-                        {selectedCategory === "engagement" ? (
-                          <Minus className="h-2.5 w-2.5" color="#FFFFFF" strokeWidth={2.5} />
-                        ) : (
-                          <Plus className="h-2.5 w-2.5" color="#FFFFFF" strokeWidth={2.5} />
-                        )}
+                        {selectedCategory === "engagement" ? <Minus className="h-2.5 w-2.5" color="#FFFFFF" strokeWidth={2.5} /> : <Plus className="h-2.5 w-2.5" color="#FFFFFF" strokeWidth={2.5} />}
                       </span>
                     </button>
                   </div>
 
                   {selectedCategory && <div className="space-y-2 mt-2">
                     {templatePrompts.map((templatePrompt, index) => {
-                      const showBothSubjects = selectedSubjects.includes("All") || 
-                        (selectedSubjects.includes("Math") && selectedSubjects.includes("English"));
-                      const subject = selectedSubjects[0];
-                      const displaySubject = showBothSubjects ? "Math and English" : subject;
-                      const parts = templatePrompt.split(showBothSubjects ? "Math" : subject);
-                      
-                      return (
-                        <button key={index} onClick={() => handlePromptClick(templatePrompt)} className={cn("w-full text-left p-3 rounded-lg border transition-colors text-sm flex items-center gap-2", prompt === templatePrompt ? "border-primary bg-primary/5" : "border-border bg-card hover:border-primary/50 hover:bg-card/80")}>
+                const showBothSubjects = selectedSubjects.includes("All") || selectedSubjects.includes("Math") && selectedSubjects.includes("English");
+                const subject = selectedSubjects[0];
+                const displaySubject = showBothSubjects ? "Math and English" : subject;
+                const parts = templatePrompt.split(showBothSubjects ? "Math" : subject);
+                return <button key={index} onClick={() => handlePromptClick(templatePrompt)} className={cn("w-full text-left p-3 rounded-lg border transition-colors text-sm flex items-center gap-2", prompt === templatePrompt ? "border-primary bg-primary/5" : "border-border bg-card hover:border-primary/50 hover:bg-card/80")}>
                           <BarChart3 className="h-4 w-4 flex-shrink-0" color="#323232" />
                           <span className="text-card-foreground leading-snug px-0.5">
-                            {parts.map((part, i) => (
-                              <React.Fragment key={i}>
+                            {parts.map((part, i) => <React.Fragment key={i}>
                                 {part}
                                 {i < parts.length - 1 && <strong>{displaySubject}</strong>}
-                              </React.Fragment>
-                            ))}
+                              </React.Fragment>)}
                           </span>
-                        </button>
-                      );
-                    })}
+                        </button>;
+              })}
                   </div>}
                 </>}
             </div>
