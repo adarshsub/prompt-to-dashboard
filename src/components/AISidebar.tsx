@@ -135,7 +135,7 @@ export const AISidebar = ({
           </p>
           <div className="h-px bg-[#E2E6E9] mb-6" />
 
-          <div className="mb-6">
+          <div className={cn("mb-6", selectedSubjects.length > 0 && "max-h-[400px] overflow-y-auto overflow-x-hidden pr-2")}>
             <h3 className="text-sm font-semibold text-card-foreground mb-3">
               Quick actions
             </h3>
