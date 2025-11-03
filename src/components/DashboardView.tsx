@@ -56,7 +56,7 @@ export const DashboardView = ({ title }: DashboardViewProps) => {
               <div className="flex items-start gap-2 flex-1">
                 <div className="flex items-center gap-2 text-card-foreground">
                   <span className="font-semibold">{index + 1}.</span>
-                  <span className="text-sm leading-relaxed px-1">{insight}</span>
+                  <span className="text-sm leading-relaxed px-2">{insight}</span>
                 </div>
               </div>
               <Button
