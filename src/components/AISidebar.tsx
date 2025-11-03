@@ -5,7 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import * as React from "react";
 import { cn } from "@/lib/utils";
 interface AISidebarProps {
@@ -38,6 +38,13 @@ export const AISidebar = ({
   const [selectedGradeLevels, setSelectedGradeLevels] = useState<string[]>([]);
   const [gradeLevelsOpen, setGradeLevelsOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<"performance" | "engagement" | null>("performance");
+  const headingRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (showHistory && userPrompt && !isLoading && headingRef.current) {
+      headingRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [showHistory, userPrompt, isLoading]);
   const handleSubjectToggle = (subject: string) => {
     setSelectedSubjects(prev => {
       if (subject === "All") {
@@ -113,7 +120,7 @@ export const AISidebar = ({
                     <Loader2 className="h-4 w-4 animate-spin" />
                     Generating response...
                   </div> : <>
-                    <div className="font-semibold text-card-foreground text-sm mb-3">
+                    <div ref={headingRef} className="font-semibold text-card-foreground text-sm mb-3">
                       Students Below 70% in Math
                     </div>
                     <div className="grid grid-cols-2 gap-2 mb-4 scale-y-[0.85]">
