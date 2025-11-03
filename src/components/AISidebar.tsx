@@ -67,6 +67,19 @@ export const AISidebar = ({
       container.scrollTop = container.scrollHeight;
     }
   }, [isDashboardCollapsed, showHistory]);
+
+  // After dashboard generation, ensure we scroll to the bottom
+  useEffect(() => {
+    if (showHistory && !isLoading && scrollContainerRef.current) {
+      // next tick to allow DOM to paint
+      setTimeout(() => {
+        if (scrollContainerRef.current) {
+          const container = scrollContainerRef.current;
+          container.scrollTop = container.scrollHeight;
+        }
+      }, 0);
+    }
+  }, [showHistory, isLoading, userPrompt]);
   const handleSubjectToggle = (subject: string) => {
     setSelectedSubjects(prev => {
       if (subject === "All") {
