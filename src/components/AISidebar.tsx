@@ -160,7 +160,7 @@ export const AISidebar = ({ onSubmit, isLoading = false, showHistory = false, us
             </p>
 
             <div className="space-y-3">
-              <p className="text-xs text-muted-foreground mb-2">
+              <p className="text-xs text-muted-foreground mb-2 font-semibold">
                 Select dropdown(s) for template prompts
               </p>
 
