@@ -145,7 +145,7 @@ export const AISidebar = ({ onSubmit, isLoading = false, showHistory = false, us
         </>
       ) : (
         <>
-          <p className="text-sm text-muted-foreground mb-8 leading-relaxed">
+          <p className="text-xs text-[#AC5CCC] mb-8 leading-relaxed">
             Enter your question about the data you'd like to visualize. Our AI will
             generate appropriate charts and insights based on your query.
           </p>
