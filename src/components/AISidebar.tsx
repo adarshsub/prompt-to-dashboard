@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { useState } from "react";
+import * as React from "react";
 import { cn } from "@/lib/utils";
 interface AISidebarProps {
   onSubmit?: (prompt: string) => void;
@@ -262,10 +263,24 @@ export const AISidebar = ({
                   </div>
 
                   <div className="space-y-2 mt-3">
-                    {templatePrompts.map((templatePrompt, index) => <button key={index} onClick={() => handlePromptClick(templatePrompt)} className={cn("w-full text-left p-3 rounded-lg border transition-colors text-sm flex items-center gap-2", prompt === templatePrompt ? "border-primary bg-primary/5" : "border-border bg-card hover:border-primary/50 hover:bg-card/80")}>
-                        <BarChart3 className="h-4 w-4 flex-shrink-0" color="#323232" />
-                        <span className="text-card-foreground leading-snug px-0.5">{templatePrompt}</span>
-                      </button>)}
+                    {templatePrompts.map((templatePrompt, index) => {
+                      const subject = selectedSubjects[0];
+                      const parts = templatePrompt.split(subject);
+                      
+                      return (
+                        <button key={index} onClick={() => handlePromptClick(templatePrompt)} className={cn("w-full text-left p-3 rounded-lg border transition-colors text-sm flex items-center gap-2", prompt === templatePrompt ? "border-primary bg-primary/5" : "border-border bg-card hover:border-primary/50 hover:bg-card/80")}>
+                          <BarChart3 className="h-4 w-4 flex-shrink-0" color="#323232" />
+                          <span className="text-card-foreground leading-snug px-0.5">
+                            {parts.map((part, i) => (
+                              <React.Fragment key={i}>
+                                {part}
+                                {i < parts.length - 1 && <strong>{subject}</strong>}
+                              </React.Fragment>
+                            ))}
+                          </span>
+                        </button>
+                      );
+                    })}
                   </div>
                 </>}
             </div>
