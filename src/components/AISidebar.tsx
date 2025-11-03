@@ -387,7 +387,7 @@ export const AISidebar = ({
 
                 <Popover open={termsOpen} onOpenChange={setTermsOpen}>
                   <PopoverTrigger asChild>
-                    <Button variant="outline" className="w-full justify-between bg-card border-border text-card-foreground hover:bg-[#faf8fb] hover:border-[#AC5CCC] transition-all rounded-full text-sm">
+                    <Button variant="outline" className="w-full justify-between bg-card border-border text-card-foreground hover:bg-white hover:border-[#AC5CCC] transition-all rounded-full text-sm">
                       <span style={{
                     color: '#6F8090'
                   }}>Terms</span>
@@ -421,7 +421,7 @@ export const AISidebar = ({
 
                 <Popover open={gradeLevelsOpen} onOpenChange={setGradeLevelsOpen}>
                   <PopoverTrigger asChild>
-                    <Button variant="outline" className="w-full justify-between bg-card border-border text-card-foreground hover:bg-[#faf8fb] hover:border-[#AC5CCC] transition-all rounded-full text-sm">
+                    <Button variant="outline" className="w-full justify-between bg-card border-border text-card-foreground hover:bg-white hover:border-[#AC5CCC] transition-all rounded-full text-sm">
                       <span style={{
                     color: '#6F8090'
                   }}>Grade Levels</span>
