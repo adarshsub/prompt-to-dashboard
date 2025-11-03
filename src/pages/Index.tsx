@@ -57,7 +57,11 @@ const Index = () => {
         ) : (
           <div className="flex gap-6 flex-1 overflow-hidden">
             {/* Empty canvas area when collapsed */}
-            <div className="flex-1 bg-canvas rounded-2xl" />
+            <div className="flex-1 bg-canvas rounded-2xl flex items-start justify-start p-6">
+              <h2 className="text-2xl font-semibold bg-gradient-purple bg-clip-text text-transparent">
+                Innovare Main UI
+              </h2>
+            </div>
             
             {/* Sidebar - collapsed state */}
             <AISidebar
@@ -73,7 +77,11 @@ const Index = () => {
       ) : (
         <div className="flex gap-6 flex-1 overflow-hidden">
           {/* Empty canvas area before submission */}
-          <div className="flex-1 bg-canvas rounded-2xl" />
+          <div className="flex-1 bg-canvas rounded-2xl flex items-start justify-start p-6">
+            <h2 className="text-2xl font-semibold bg-gradient-purple bg-clip-text text-transparent">
+              Innovare Main UI
+            </h2>
+          </div>
           
           {/* Sidebar - initial state */}
           <AISidebar
