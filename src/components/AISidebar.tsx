@@ -1,4 +1,4 @@
-import { X, Send, Loader2, BarChart3 } from "lucide-react";
+import { X, Send, Loader2, BarChart3, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -192,7 +192,7 @@ export const AISidebar = ({ onSubmit, isLoading = false, showHistory = false, us
                       className="w-full justify-between bg-card border-border text-card-foreground hover:bg-muted"
                     >
                       Subjects
-                      <X className={cn("h-4 w-4 transition-transform", subjectsOpen && "rotate-180")} />
+                      <ChevronDown className={cn("h-4 w-4 transition-transform", subjectsOpen && "rotate-180")} />
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-[232px] p-3 bg-card border-border" align="start">
@@ -224,7 +224,7 @@ export const AISidebar = ({ onSubmit, isLoading = false, showHistory = false, us
                 disabled={selectedSubjects.length === 0}
               >
                 Terms
-                <X className="h-4 w-4" />
+                <ChevronDown className="h-4 w-4" />
               </Button>
 
               <Button
@@ -233,7 +233,7 @@ export const AISidebar = ({ onSubmit, isLoading = false, showHistory = false, us
                 disabled={selectedSubjects.length === 0}
               >
                 Grade Levels
-                <X className="h-4 w-4" />
+                <ChevronDown className="h-4 w-4" />
               </Button>
 
               {selectedSubjects.length > 0 && (
