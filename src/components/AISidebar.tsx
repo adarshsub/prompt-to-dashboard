@@ -163,7 +163,7 @@ export const AISidebar = ({
                   </div> : <>
                     <div className="space-y-[4px]">
                       <div className="bg-[#D9F2FF] rounded-lg p-3 mr-4">
-                        <div ref={headingRef} className="font-semibold text-card-foreground text-sm mb-1">
+                        <div className="font-semibold text-card-foreground text-sm mb-1">
                           Students Below 70% in Math
                         </div>
                         <div className="grid grid-cols-2 gap-2 mb-4 scale-y-[0.85]">
@@ -180,7 +180,7 @@ export const AISidebar = ({
                       </div>
                     </div>
                     <div className="mb-4">
-                      <h3 className="font-semibold text-card-foreground text-sm mb-2">
+                      <h3 ref={headingRef} className="font-semibold text-card-foreground text-sm mb-2">
                         Query Your Insights
                       </h3>
                       <p className="text-xs text-muted-foreground mb-3 leading-relaxed">
