@@ -436,7 +436,8 @@ export const AISidebar = ({
 
                   {selectedCategory && <div className="space-y-2 mt-2">
                     {templatePrompts.map((templatePrompt, index) => {
-                const showBothSubjects = selectedSubjects.includes("All");
+                const showBothSubjects = selectedSubjects.includes("All") || 
+                  (selectedSubjects.includes("Math") && selectedSubjects.includes("English"));
 
                 // Detect which subject is in this specific prompt
                 const promptSubject = templatePrompt.includes("Math") ? "Math" : "English";
