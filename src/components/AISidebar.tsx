@@ -37,7 +37,7 @@ export const AISidebar = ({
   const [termsOpen, setTermsOpen] = useState(false);
   const [selectedGradeLevels, setSelectedGradeLevels] = useState<string[]>([]);
   const [gradeLevelsOpen, setGradeLevelsOpen] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState<"performance" | "engagement">("performance");
+  const [selectedCategory, setSelectedCategory] = useState<"performance" | "engagement" | null>("performance");
   const handleSubjectToggle = (subject: string) => {
     setSelectedSubjects(prev => prev.includes(subject) ? prev.filter(s => s !== subject) : [...prev, subject]);
   };
@@ -240,7 +240,7 @@ export const AISidebar = ({
 
               {selectedSubjects.length > 0 && <>
                   <div className="flex gap-2 mt-6 pt-2 overflow-x-auto flex-nowrap pb-1">
-                    <button onClick={() => setSelectedCategory("performance")} className={cn("flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-colors whitespace-nowrap flex-shrink-0", selectedCategory === "performance" ? "bg-primary text-primary-foreground" : "bg-white text-black border border-[#E2E6E9]")}>
+                    <button onClick={() => setSelectedCategory(prev => prev === "performance" ? null : "performance")} className={cn("flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-colors whitespace-nowrap flex-shrink-0", selectedCategory === "performance" ? "bg-primary text-primary-foreground" : "bg-white text-black border border-[#E2E6E9]")}>
                       Performance
                       <span className={cn("w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0", selectedCategory === "performance" ? "bg-white/20" : "bg-[#E2E6E9]")}>
                         {selectedCategory === "performance" ? (
@@ -250,7 +250,7 @@ export const AISidebar = ({
                         )}
                       </span>
                     </button>
-                    <button onClick={() => setSelectedCategory("engagement")} className={cn("flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-colors whitespace-nowrap flex-shrink-0", selectedCategory === "engagement" ? "bg-primary text-primary-foreground" : "bg-white text-black border border-[#E2E6E9]")}>
+                    <button onClick={() => setSelectedCategory(prev => prev === "engagement" ? null : "engagement")} className={cn("flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-colors whitespace-nowrap flex-shrink-0", selectedCategory === "engagement" ? "bg-primary text-primary-foreground" : "bg-white text-black border border-[#E2E6E9]")}>
                       Engagement
                       <span className={cn("w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0", selectedCategory === "engagement" ? "bg-white/20" : "bg-[#E2E6E9]")}>
                         {selectedCategory === "engagement" ? (
@@ -262,7 +262,7 @@ export const AISidebar = ({
                     </button>
                   </div>
 
-                  <div className="space-y-2 mt-3">
+                  {selectedCategory && <div className="space-y-2 mt-3">
                     {templatePrompts.map((templatePrompt, index) => {
                       const subject = selectedSubjects[0];
                       const parts = templatePrompt.split(subject);
@@ -281,7 +281,7 @@ export const AISidebar = ({
                         </button>
                       );
                     })}
-                  </div>
+                  </div>}
                 </>}
             </div>
           </div>
