@@ -153,20 +153,31 @@ export const AISidebar = ({
               <div className="space-y-2">
                 <Popover open={subjectsOpen} onOpenChange={setSubjectsOpen}>
                   <PopoverTrigger asChild>
-                    <Button variant="outline" className="w-full justify-between bg-card border-border text-card-foreground hover:bg-muted">
-                      Subjects
-                      <ChevronDown className={cn("h-4 w-4 transition-transform", subjectsOpen && "rotate-180")} />
+                    <Button variant="outline" className="w-full justify-between bg-card border-border text-card-foreground hover:bg-muted min-h-[40px] h-auto py-2">
+                      {selectedSubjects.length > 0 ? (
+                        <div className="flex flex-wrap gap-1.5 flex-1 mr-2">
+                          {selectedSubjects.map(subject => (
+                            <Badge key={subject} variant="secondary" className="bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 pl-2.5 pr-1.5 py-1">
+                              {subject}
+                              <button 
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleRemoveSubject(subject);
+                                }} 
+                                className="ml-1.5 hover:bg-primary/30 rounded-full p-0.5"
+                              >
+                                <X className="h-3 w-3" />
+                              </button>
+                            </Badge>
+                          ))}
+                        </div>
+                      ) : (
+                        <span>Subjects</span>
+                      )}
+                      <ChevronDown className={cn("h-4 w-4 transition-transform flex-shrink-0", subjectsOpen && "rotate-180")} />
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-[232px] p-3 bg-card border-border" align="start">
-                    {selectedSubjects.length > 0 && <div className="flex flex-wrap gap-1.5 mb-3 pb-3 border-b border-border">
-                        {selectedSubjects.map(subject => <Badge key={subject} variant="secondary" className="bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 pl-2.5 pr-1.5 py-1">
-                            {subject}
-                            <button onClick={() => handleRemoveSubject(subject)} className="ml-1.5 hover:bg-primary/30 rounded-full p-0.5">
-                              <X className="h-3 w-3" />
-                            </button>
-                          </Badge>)}
-                      </div>}
                     <div className="space-y-2">
                       {["All", "Math", "English"].map(subject => <div key={subject} className="flex items-center space-x-2">
                           <Checkbox id={subject} checked={selectedSubjects.includes(subject)} onCheckedChange={() => handleSubjectToggle(subject)} className="border-border data-[state=checked]:bg-primary data-[state=checked]:border-primary" />
