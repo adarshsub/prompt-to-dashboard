@@ -97,7 +97,8 @@ export const AISidebar = ({
       </div>
 
       {showHistory ? <>
-          <p className="text-sm text-muted-foreground mb-8 leading-relaxed">Enter your question about the data you'd like to visualize. Our AI will generate appropriate charts and insights.</p>
+          <p className="text-xs text-[#AC5CCC] mb-3.5 leading-relaxed">Enter a question about the data you'd like to visualize. Our AI will generate appropriate charts and insights.</p>
+          <div className="h-px bg-[#E2E6E9] mb-6" />
 
           <div className="flex-1 space-y-4 overflow-y-auto mb-4">
             {userPrompt && <>
