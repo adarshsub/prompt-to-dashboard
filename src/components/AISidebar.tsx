@@ -193,7 +193,7 @@ export const AISidebar = ({
                             variant="ghost"
                             size="sm"
                             onClick={onExpand}
-                            className="w-full justify-start gap-2 text-card-foreground bg-white/50 hover:bg-white/90 h-8"
+                            className="w-full justify-start gap-2 text-card-foreground bg-white/50 hover:bg-white/90 hover:text-[#2e2e37] h-8"
                           >
                             <ChevronsLeft className="h-4 w-4" />
                             <span className="text-xs">Expand Dashboard</span>
