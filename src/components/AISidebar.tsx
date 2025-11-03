@@ -168,7 +168,7 @@ export const AISidebar = ({
                               <button onClick={e => {
                         e.stopPropagation();
                         handleRemoveSubject(subject);
-                      }} className="ml-1 hover:bg-[#00A6FF]/30 rounded-full p-0.5">
+                      }} className="ml-1 hover:bg-primary/30 rounded-full p-0.5">
                                 <X className="h-2.5 w-2.5" style={{
                           color: '#00A6FF'
                         }} />
