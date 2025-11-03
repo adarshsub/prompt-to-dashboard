@@ -22,18 +22,11 @@ const Index = () => {
   return (
     <div className="h-screen bg-background p-6 flex flex-col overflow-hidden">
       <div className="flex gap-6 flex-1 overflow-hidden">
-        {/* Container that expands from sidebar width to full width */}
-        <div 
-          className={`bg-canvas rounded-2xl flex gap-6 p-6 overflow-hidden transition-all duration-500 ${
-            showResults || isLoading 
-              ? 'flex-1' 
-              : 'w-[280px]'
-          }`}
-        >
-          {/* Dashboard area - fades in when loading/showing results */}
+        {/* Left panel - always present */}
+        <div className="flex-1 bg-canvas rounded-2xl overflow-hidden min-w-0">
           {(showResults || isLoading) && (
-            <>
-              <div className="flex-1 flex flex-col overflow-hidden min-w-0 animate-in fade-in duration-500">
+            <div className="p-6 h-full flex flex-col animate-in fade-in duration-300">
+              <div className="flex-1 flex flex-col overflow-hidden min-w-0">
                 {isLoading ? (
                   <div className="flex-1 flex items-center justify-center">
                     <div className="text-center">
@@ -45,20 +38,17 @@ const Index = () => {
                   <DashboardView title="Students Below 70% in Math" />
                 )}
               </div>
-              
-              {/* Vertical divider */}
-              <div className="w-[1px] bg-[#E2E6E9] shrink-0" />
-            </>
+            </div>
           )}
-          
-          {/* Sidebar - stays in same position throughout */}
-          <AISidebar
-            onSubmit={handleSubmit}
-            isLoading={isLoading}
-            showHistory={showResults || isLoading}
-            userPrompt={userPrompt}
-          />
         </div>
+
+        {/* Sidebar - always on the right */}
+        <AISidebar
+          onSubmit={handleSubmit}
+          isLoading={isLoading}
+          showHistory={showResults || isLoading}
+          userPrompt={userPrompt}
+        />
       </div>
     </div>
   );
