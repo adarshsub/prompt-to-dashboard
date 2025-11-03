@@ -23,7 +23,7 @@ export const DashboardView = ({ title }: DashboardViewProps) => {
             variant="ghost"
             size="icon"
             onClick={() => setIsCollapsed(!isCollapsed)}
-            className="h-8 w-8 text-[#999999] hover:text-white hover:bg-[#AC5CCC]/75 transition-all"
+            className="h-8 w-8 text-[#999999] hover:text-white hover:bg-[#AC5CCC]/75 transition-all rounded-lg"
           >
             <ChevronsRight className="h-5 w-5" />
           </Button>
