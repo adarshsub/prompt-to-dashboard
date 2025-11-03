@@ -1,5 +1,5 @@
 import { AISidebar } from "@/components/AISidebar";
-import { DashboardView } from "@/components/DashboardView";
+import { ResultsPanel } from "@/components/ResultsPanel";
 import { useState } from "react";
 
 const Index = () => {
@@ -22,18 +22,24 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background p-6 flex gap-6">
       {showResults ? (
-        <DashboardView title="Students Below 70% in Math" />
+        <ResultsPanel
+          onSubmit={handleSubmit}
+          isLoading={isLoading}
+          userPrompt={userPrompt}
+          title="Students Below 70% in Math"
+        />
       ) : (
-        <div className="flex-1 bg-canvas rounded-2xl">
-          {/* Main canvas area for charts and visualizations */}
-        </div>
+        <>
+          <div className="flex-1 bg-canvas rounded-2xl">
+            {/* Main canvas area for charts and visualizations */}
+          </div>
+          <AISidebar
+            onSubmit={handleSubmit}
+            isLoading={isLoading}
+            showHistory={false}
+          />
+        </>
       )}
-      <AISidebar
-        onSubmit={handleSubmit}
-        isLoading={isLoading}
-        showHistory={userPrompt !== ""}
-        userPrompt={userPrompt}
-      />
     </div>
   );
 };
