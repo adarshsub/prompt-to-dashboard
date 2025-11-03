@@ -160,7 +160,7 @@ export const AISidebar = ({
                                 <X className="h-3 w-3" />
                               </button>
                             </Badge>)}
-                        </div> : <span>Subjects</span>}
+                        </div> : <span style={{ color: '#6F8090' }}>Subjects</span>}
                       <ChevronDown className={cn("h-4 w-4 transition-transform flex-shrink-0", subjectsOpen && "rotate-180")} />
                     </Button>
                   </PopoverTrigger>
@@ -190,7 +190,7 @@ export const AISidebar = ({
                 <Popover open={termsOpen} onOpenChange={setTermsOpen}>
                   <PopoverTrigger asChild>
                     <Button variant="outline" className="w-full justify-between bg-card border-border text-card-foreground hover:bg-muted">
-                      Terms
+                      <span style={{ color: '#6F8090' }}>Terms</span>
                       <ChevronDown className={cn("h-4 w-4 transition-transform", termsOpen && "rotate-180")} />
                     </Button>
                   </PopoverTrigger>
@@ -220,7 +220,7 @@ export const AISidebar = ({
                 <Popover open={gradeLevelsOpen} onOpenChange={setGradeLevelsOpen}>
                   <PopoverTrigger asChild>
                     <Button variant="outline" className="w-full justify-between bg-card border-border text-card-foreground hover:bg-muted">
-                      Grade Levels
+                      <span style={{ color: '#6F8090' }}>Grade Levels</span>
                       <ChevronDown className={cn("h-4 w-4 transition-transform", gradeLevelsOpen && "rotate-180")} />
                     </Button>
                   </PopoverTrigger>
