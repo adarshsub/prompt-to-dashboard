@@ -100,7 +100,7 @@ export const AISidebar = ({
           <p className="text-xs text-[#AC5CCC] mb-3.5 leading-relaxed">Enter a question about the data you'd like to visualize. Our AI will generate appropriate charts and insights.</p>
           <div className="h-px bg-[#E2E6E9] mb-6" />
 
-          <div className="flex-1 space-y-4 overflow-y-auto mb-6">
+          <div className="flex-1 space-y-4 overflow-y-auto mb-6 pr-2" style={{ scrollbarGutter: "stable both-edges" }}>
             {userPrompt && <>
                 <div className="bg-muted/50 rounded-lg p-3 text-sm text-card-foreground">
                   {userPrompt}
@@ -148,7 +148,7 @@ export const AISidebar = ({
           <p className="text-xs text-[#AC5CCC] mb-3.5 leading-relaxed">Enter a question about the data you'd like to visualize. Our AI will generate appropriate charts and insights.</p>
           <div className="h-px bg-[#E2E6E9] mb-6" />
 
-          <div className="flex-1 overflow-y-auto mb-6">
+          <div className="flex-1 overflow-y-auto mb-6 pr-2" style={{ scrollbarGutter: "stable both-edges" }}>
             <h3 className="text-sm font-semibold text-card-foreground mb-3">
               Quick actions
             </h3>
