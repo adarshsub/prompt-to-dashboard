@@ -139,7 +139,7 @@ export const AISidebar = ({
               </>}
           </div>
         </> : <>
-          <p className="text-xs text-[#AC5CCC] mb-3.5 leading-relaxed">Enter a question about the data you'd like to visualize. Our AI will generate appropriate charts and insights based on your query.</p>
+          <p className="text-xs text-[#AC5CCC] mb-3.5 leading-relaxed">Enter a question about the data you'd like to visualize. Our AI will generate appropriate charts and insights.</p>
           <div className="h-px bg-[#E2E6E9] mb-6" />
 
           <div className={cn("mb-6", selectedSubjects.length > 0 && "max-h-[400px] overflow-y-auto")}>
