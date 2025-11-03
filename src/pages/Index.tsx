@@ -48,7 +48,7 @@ const Index = () => {
             </>
           ) : (
             /* Empty canvas area when collapsed */
-            <div className="flex-1 bg-canvas rounded-2xl" />
+            <div className="flex-1" />
           )}
           
           {/* Sidebar - same position throughout */}
