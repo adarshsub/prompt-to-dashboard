@@ -38,6 +38,7 @@ export const AISidebar = ({
   const [selectedGradeLevels, setSelectedGradeLevels] = useState<string[]>([]);
   const [gradeLevelsOpen, setGradeLevelsOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<"performance" | "engagement" | null>("performance");
+  const [submissionTime, setSubmissionTime] = useState<Date | null>(null);
   const headingRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -77,6 +78,7 @@ export const AISidebar = ({
   };
   const handleSend = () => {
     if (prompt.trim() && onSubmit) {
+      setSubmissionTime(new Date());
       onSubmit(prompt);
     }
   };
@@ -114,7 +116,9 @@ export const AISidebar = ({
                 <div className="bg-muted/50 rounded-lg p-3 text-sm text-card-foreground">
                   {userPrompt}
                 </div>
-                <div className="text-xs text-muted-foreground text-right">09:23 am</div>
+                <div className="text-xs text-muted-foreground text-right">
+                  {submissionTime ? submissionTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }) : '09:23 am'}
+                </div>
                 
                 {isLoading ? <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <Loader2 className="h-4 w-4 animate-spin" />
