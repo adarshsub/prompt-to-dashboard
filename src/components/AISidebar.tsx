@@ -38,6 +38,7 @@ export const AISidebar = ({
   const [selectedGradeLevels, setSelectedGradeLevels] = useState<string[]>([]);
   const [gradeLevelsOpen, setGradeLevelsOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<"performance" | "engagement" | null>("performance");
+  const [selectedInsights, setSelectedInsights] = useState<string[]>([]);
   const [submissionTime, setSubmissionTime] = useState<Date | null>(null);
   const headingRef = useRef<HTMLDivElement>(null);
 
@@ -75,6 +76,12 @@ export const AISidebar = ({
   };
   const handlePromptClick = (templatePrompt: string) => {
     setPrompt(templatePrompt);
+  };
+  
+  const handleInsightToggle = (insight: string) => {
+    setSelectedInsights(prev => 
+      prev.includes(insight) ? prev.filter(i => i !== insight) : [...prev, insight]
+    );
   };
   const handleSend = () => {
     if (prompt.trim() && onSubmit) {
@@ -152,14 +159,65 @@ export const AISidebar = ({
                         Ask questions about the insights generated for your dashboard.
                       </p>
                       <div className="flex gap-2 overflow-x-auto flex-nowrap pb-1">
-                        <button className="px-3 py-1.5 text-xs rounded-full border border-border bg-card text-card-foreground hover:bg-muted whitespace-nowrap flex-shrink-0">
-                          Insight 1 <span className="ml-1 text-muted-foreground">○</span>
+                        <button 
+                          onClick={() => handleInsightToggle("insight1")}
+                          className={cn(
+                            "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-colors whitespace-nowrap flex-shrink-0",
+                            selectedInsights.includes("insight1")
+                              ? "bg-primary text-primary-foreground"
+                              : "bg-white text-black border border-[#E2E6E9]"
+                          )}
+                        >
+                          Insight 1
+                          <span className={cn(
+                            "w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0",
+                            selectedInsights.includes("insight1") ? "bg-white/20" : "bg-[#E2E6E9]"
+                          )}>
+                            {selectedInsights.includes("insight1") 
+                              ? <Minus className="h-2.5 w-2.5" color="#FFFFFF" strokeWidth={2.5} />
+                              : <Plus className="h-2.5 w-2.5" color="#FFFFFF" strokeWidth={2.5} />
+                            }
+                          </span>
                         </button>
-                        <button className="px-3 py-1.5 text-xs rounded-full border border-border bg-card text-card-foreground hover:bg-muted whitespace-nowrap flex-shrink-0">
-                          Insight 2 <span className="ml-1 text-muted-foreground">○</span>
+                        <button 
+                          onClick={() => handleInsightToggle("insight2")}
+                          className={cn(
+                            "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-colors whitespace-nowrap flex-shrink-0",
+                            selectedInsights.includes("insight2")
+                              ? "bg-primary text-primary-foreground"
+                              : "bg-white text-black border border-[#E2E6E9]"
+                          )}
+                        >
+                          Insight 2
+                          <span className={cn(
+                            "w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0",
+                            selectedInsights.includes("insight2") ? "bg-white/20" : "bg-[#E2E6E9]"
+                          )}>
+                            {selectedInsights.includes("insight2") 
+                              ? <Minus className="h-2.5 w-2.5" color="#FFFFFF" strokeWidth={2.5} />
+                              : <Plus className="h-2.5 w-2.5" color="#FFFFFF" strokeWidth={2.5} />
+                            }
+                          </span>
                         </button>
-                        <button className="px-3 py-1.5 text-xs rounded-full border border-border bg-card text-card-foreground hover:bg-muted whitespace-nowrap flex-shrink-0">
+                        <button 
+                          onClick={() => handleInsightToggle("insight3")}
+                          className={cn(
+                            "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-colors whitespace-nowrap flex-shrink-0",
+                            selectedInsights.includes("insight3")
+                              ? "bg-primary text-primary-foreground"
+                              : "bg-white text-black border border-[#E2E6E9]"
+                          )}
+                        >
                           Insight 3
+                          <span className={cn(
+                            "w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0",
+                            selectedInsights.includes("insight3") ? "bg-white/20" : "bg-[#E2E6E9]"
+                          )}>
+                            {selectedInsights.includes("insight3") 
+                              ? <Minus className="h-2.5 w-2.5" color="#FFFFFF" strokeWidth={2.5} />
+                              : <Plus className="h-2.5 w-2.5" color="#FFFFFF" strokeWidth={2.5} />
+                            }
+                          </span>
                         </button>
                       </div>
                     </div>
