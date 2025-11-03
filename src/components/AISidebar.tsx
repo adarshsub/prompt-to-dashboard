@@ -121,14 +121,14 @@ export const AISidebar = ({
                     Generating response...
                   </div> : <>
                     <div className="bg-[#EBF8FF] rounded-lg p-3">
-                      <div ref={headingRef} className="font-semibold text-card-foreground text-sm mb-3">
+                      <div ref={headingRef} className="font-semibold text-card-foreground text-sm mb-1.5">
                         Students Below 70% in Math
                       </div>
                       <div className="grid grid-cols-2 gap-2 mb-4 scale-y-[0.85]">
-                        <div className="bg-muted/60 rounded-lg h-full" />
+                        <div className="bg-muted/75 rounded-lg h-full" />
                         <div className="space-y-2">
-                          <div className="bg-muted/60 rounded-lg aspect-[4/3]" />
-                          <div className="bg-muted/60 rounded-lg aspect-square" />
+                          <div className="bg-muted/75 rounded-lg aspect-[4/3]" />
+                          <div className="bg-muted/75 rounded-lg aspect-square" />
                           
                         </div>
                       </div>
