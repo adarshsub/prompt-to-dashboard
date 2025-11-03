@@ -24,6 +24,7 @@ const Index = () => {
       {showResults ? (
         <div className="bg-canvas rounded-2xl flex gap-6 p-6">
           <DashboardView title="Students Below 70% in Math" />
+          <div className="w-[1px] bg-[#E2E6E9]"></div>
           <AISidebar
             onSubmit={handleSubmit}
             isLoading={isLoading}
