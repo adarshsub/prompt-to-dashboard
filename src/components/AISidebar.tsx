@@ -75,13 +75,14 @@ export const AISidebar = ({
   };
   const getTemplatePrompts = () => {
     if (selectedSubjects.length === 0 || !selectedCategory) return [];
-
+    
     // If "All" is selected, combine Math and English prompts
     if (selectedSubjects.includes("All")) {
       const mathPrompts = TEMPLATE_PROMPTS.math[selectedCategory] || [];
       const englishPrompts = TEMPLATE_PROMPTS.english[selectedCategory] || [];
       return [...mathPrompts, ...englishPrompts];
     }
+    
     const subject = selectedSubjects[0].toLowerCase();
     return TEMPLATE_PROMPTS[subject as keyof typeof TEMPLATE_PROMPTS]?.[selectedCategory] || [];
   };
@@ -97,7 +98,9 @@ export const AISidebar = ({
       </div>
 
       {showHistory ? <>
-          <p className="text-sm text-muted-foreground mb-8 leading-relaxed">Enter your question about the data you'd like to visualize. Our AI will generate appropriate charts and insights.</p>
+          <p className="text-sm text-muted-foreground mb-8 leading-relaxed">
+            Lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor
+          </p>
 
           <div className="flex-1 space-y-4 overflow-y-auto mb-4">
             {userPrompt && <>
@@ -281,11 +284,12 @@ export const AISidebar = ({
                   {selectedCategory && <div className="space-y-2 mt-2">
                     {templatePrompts.map((templatePrompt, index) => {
                 const showBothSubjects = selectedSubjects.includes("All");
-
+                
                 // Detect which subject is in this specific prompt
                 const promptSubject = templatePrompt.includes("Math") ? "Math" : "English";
                 const displaySubject = showBothSubjects ? "Math and English" : promptSubject;
                 const parts = templatePrompt.split(promptSubject);
+                
                 return <button key={index} onClick={() => handlePromptClick(templatePrompt)} className={cn("w-full text-left p-3 rounded-lg border transition-colors text-xs flex items-center gap-2", prompt === templatePrompt ? "border-primary bg-primary/5" : "border-border bg-card hover:border-primary/50 hover:bg-card/80")}>
                           <BarChart3 className="h-4 w-4 flex-shrink-0" color="#323232" />
                           <span className="text-card-foreground leading-snug px-0.5">
