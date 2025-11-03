@@ -23,9 +23,9 @@ export const DashboardView = ({ title }: DashboardViewProps) => {
             variant="ghost"
             size="icon"
             onClick={() => setIsCollapsed(!isCollapsed)}
-            className="h-8 w-8"
+            className="h-8 w-8 text-[#999999] hover:text-primary transition-colors"
           >
-            <ChevronsRight className="h-5 w-5" style={{ color: '#999999' }} />
+            <ChevronsRight className="h-5 w-5" />
           </Button>
           <div className="flex items-center gap-2 pb-1 border-b-2 border-primary">
             <BarChart2 className="h-5 w-5 text-primary" />
