@@ -145,10 +145,11 @@ export const AISidebar = ({ onSubmit, isLoading = false, showHistory = false, us
         </>
       ) : (
         <>
-          <p className="text-xs text-[#AC5CCC] mb-8 leading-relaxed">
+          <p className="text-xs text-[#AC5CCC] mb-3.5 leading-relaxed">
             Enter your question about the data you'd like to visualize. Our AI will
             generate appropriate charts and insights based on your query.
           </p>
+          <div className="h-px bg-[#E2E6E9] mb-6" />
 
           <div className="mb-6">
             <h3 className="text-sm font-semibold text-card-foreground mb-3">
