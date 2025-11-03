@@ -189,7 +189,7 @@ export const AISidebar = ({
         <h2 className="text-2xl font-semibold bg-gradient-purple bg-clip-text text-transparent">
           Create with AI
         </h2>
-        <Button variant="ghost" size="icon" className="h-6 w-6 -mt-1 -mr-2 text-muted-foreground hover:text-white hover:bg-[#AC5CCC]/75 transition-all">
+        <Button variant="ghost" size="icon" className="h-6 w-6 -mt-1 -mr-2 text-muted-foreground hover:text-white hover:bg-[#c69fdc]/75 transition-all">
           <X className="h-4 w-4" />
         </Button>
       </div>
@@ -444,7 +444,7 @@ export const AISidebar = ({
 
               <Popover open={filtersOpen} onOpenChange={setFiltersOpen}>
                 <PopoverTrigger asChild>
-                  <Button variant="ghost" className="w-full justify-start gap-2 text-[#AC5CCC] hover:text-[#AC5CCC] hover:bg-[#AC5CCC]/10 transition-all text-sm font-medium h-9 px-3">
+                  <Button variant="ghost" className="w-full justify-start gap-2 text-[#c69fdc] hover:text-[#c69fdc] hover:bg-[#c69fdc]/10 transition-all text-sm font-medium h-9 px-3">
                     <Plus className="h-4 w-4" />
                     <span>Add filters</span>
                   </Button>
@@ -519,7 +519,7 @@ export const AISidebar = ({
                 }
                 
                 const parts = adjustedPrompt.split(promptSubject);
-                return <button key={index} onClick={() => handlePromptClick(adjustedPrompt)} className={cn("w-full text-left p-3 rounded-lg border transition-colors text-xs flex items-center gap-2", prompt === adjustedPrompt ? "border-primary bg-primary/5" : "border-border bg-card hover:border-primary/50 hover:bg-card/80")}>
+                return <button key={index} onClick={() => handlePromptClick(adjustedPrompt)} className={cn("w-full text-left p-3 rounded-lg border transition-colors text-xs flex items-center gap-2", prompt === adjustedPrompt ? "border-primary bg-primary/5" : "border-border bg-card hover:border-[#c69fdc] hover:bg-card/80")}>
                           <BarChart3 className="h-4 w-4 flex-shrink-0" color="#323232" />
                           <span className="text-card-foreground leading-snug px-0.5">
                             {parts.map((part, i) => <React.Fragment key={i}>
