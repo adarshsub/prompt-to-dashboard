@@ -250,7 +250,7 @@ export const AISidebar = ({
               </div>
 
               {selectedSubjects.length > 0 && <>
-                  <div className="flex gap-2 mt-6 pt-2 overflow-x-auto flex-nowrap pb-1">
+                  <div className="flex gap-2 mt-4 pt-2 overflow-x-auto flex-nowrap pb-1">
                     <button onClick={() => setSelectedCategory(prev => prev === "performance" ? null : "performance")} className={cn("flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-colors whitespace-nowrap flex-shrink-0", selectedCategory === "performance" ? "bg-primary text-primary-foreground" : "bg-white text-black border border-[#E2E6E9]")}>
                       Performance
                       <span className={cn("w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0", selectedCategory === "performance" ? "bg-white/20" : "bg-[#E2E6E9]")}>
@@ -273,7 +273,7 @@ export const AISidebar = ({
                     </button>
                   </div>
 
-                  {selectedCategory && <div className="space-y-2 mt-3">
+                  {selectedCategory && <div className="space-y-2 mt-2">
                     {templatePrompts.map((templatePrompt, index) => {
                       const showBothSubjects = selectedSubjects.includes("All") || 
                         (selectedSubjects.includes("Math") && selectedSubjects.includes("English"));
@@ -308,7 +308,7 @@ export const AISidebar = ({
             e.preventDefault();
             handleSend();
           }
-        }} disabled={isLoading} className="pr-10 bg-card border-border text-card-foreground placeholder:text-muted-foreground resize-none min-h-[88px]" rows={4} />
+        }} disabled={isLoading} className="pr-10 bg-card border-border text-card-foreground placeholder:text-muted-foreground resize-none min-h-[60px]" rows={3} />
           <Button size="icon" onClick={handleSend} disabled={!prompt.trim() || isLoading} className="absolute right-1 bottom-1 h-8 w-8 bg-transparent hover:bg-muted text-muted-foreground hover:text-card-foreground disabled:opacity-50">
             {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
           </Button>
