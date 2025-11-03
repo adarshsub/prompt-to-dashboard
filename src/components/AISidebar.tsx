@@ -170,7 +170,7 @@ export const AISidebar = ({
                         <div className="font-semibold text-card-foreground text-sm mb-1">
                           Students Below 70% in Math
                         </div>
-                        <div className="grid grid-cols-2 gap-2 mb-4 scale-y-[0.85]">
+                        <div className="grid grid-cols-2 gap-2 mb-2 scale-y-[0.85]">
                           <div className="bg-white rounded-lg h-full" />
                           <div className="space-y-2">
                             <div className="bg-white rounded-lg aspect-[4/3]" />
@@ -183,7 +183,7 @@ export const AISidebar = ({
                             variant="ghost"
                             size="sm"
                             onClick={onExpand}
-                            className="w-full justify-center gap-2 text-card-foreground hover:bg-white/50 h-8"
+                            className="w-full justify-start gap-2 text-card-foreground hover:bg-white/50 h-8"
                           >
                             <ChevronsLeft className="h-4 w-4" />
                             <span className="text-xs">Expand Dashboard</span>
