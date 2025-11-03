@@ -151,15 +151,6 @@ export const AISidebar = ({
               <p className="text-xs text-muted-foreground mb-2 font-semibold">Select dropdown(s) for template prompts.</p>
 
               <div className="space-y-2">
-                {selectedSubjects.length > 0 && <div className="flex flex-wrap gap-1.5 mb-2">
-                    {selectedSubjects.map(subject => <Badge key={subject} variant="secondary" className="bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 pl-2.5 pr-1.5 py-1">
-                        {subject}
-                        <button onClick={() => handleRemoveSubject(subject)} className="ml-1.5 hover:bg-primary/30 rounded-full p-0.5">
-                          <X className="h-3 w-3" />
-                        </button>
-                      </Badge>)}
-                  </div>}
-
                 <Popover open={subjectsOpen} onOpenChange={setSubjectsOpen}>
                   <PopoverTrigger asChild>
                     <Button variant="outline" className="w-full justify-between bg-card border-border text-card-foreground hover:bg-muted">
@@ -168,6 +159,14 @@ export const AISidebar = ({
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-[232px] p-3 bg-card border-border" align="start">
+                    {selectedSubjects.length > 0 && <div className="flex flex-wrap gap-1.5 mb-3 pb-3 border-b border-border">
+                        {selectedSubjects.map(subject => <Badge key={subject} variant="secondary" className="bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 pl-2.5 pr-1.5 py-1">
+                            {subject}
+                            <button onClick={() => handleRemoveSubject(subject)} className="ml-1.5 hover:bg-primary/30 rounded-full p-0.5">
+                              <X className="h-3 w-3" />
+                            </button>
+                          </Badge>)}
+                      </div>}
                     <div className="space-y-2">
                       {["All", "Math", "English"].map(subject => <div key={subject} className="flex items-center space-x-2">
                           <Checkbox id={subject} checked={selectedSubjects.includes(subject)} onCheckedChange={() => handleSubjectToggle(subject)} className="border-border data-[state=checked]:bg-primary data-[state=checked]:border-primary" />
