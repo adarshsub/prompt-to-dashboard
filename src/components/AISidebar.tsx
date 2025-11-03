@@ -420,7 +420,7 @@ export const AISidebar = ({
             e.preventDefault();
             handleSend();
           }
-        }} disabled={isLoading} className="pr-10 bg-card border-border text-card-foreground placeholder:text-muted-foreground resize-none h-[60px] min-h-[60px] max-h-[60px]" rows={3} />
+        }} disabled={isLoading} className="pr-10 bg-card border-border text-card-foreground placeholder:text-muted-foreground resize-none h-[72px] min-h-[72px] max-h-[72px]" rows={3} />
           <Button size="icon" onClick={handleSend} disabled={!prompt.trim() || isLoading} className="absolute right-1 bottom-1 h-8 w-8 bg-transparent hover:bg-muted text-muted-foreground hover:text-card-foreground disabled:opacity-50">
             {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
           </Button>
