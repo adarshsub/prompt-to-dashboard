@@ -113,32 +113,36 @@ export const AISidebar = ({
         scrollbarGutter: "stable"
       }}>
             {userPrompt && <>
-                <div className="bg-muted/50 rounded-lg p-3 text-sm text-card-foreground ml-4">
-                  {userPrompt}
-                </div>
-                <div className="text-xs text-muted-foreground text-right -mt-3.5">
-                  {submissionTime ? submissionTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }) : '09:23 am'}
+                <div className="space-y-[2px]">
+                  <div className="bg-muted/50 rounded-lg p-3 text-sm text-card-foreground ml-4">
+                    {userPrompt}
+                  </div>
+                  <div className="text-xs text-muted-foreground text-right">
+                    {submissionTime ? submissionTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }) : '09:23 am'}
+                  </div>
                 </div>
                 
                 {isLoading ? <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <Loader2 className="h-4 w-4 animate-spin" />
                     Generating response...
                   </div> : <>
-                    <div className="bg-[#EBF8FF] rounded-lg p-3 mr-4">
-                      <div ref={headingRef} className="font-semibold text-card-foreground text-sm mb-1">
-                        Students Below 70% in Math
-                      </div>
-                      <div className="grid grid-cols-2 gap-2 mb-4 scale-y-[0.85]">
-                        <div className="bg-muted/60 rounded-lg h-full" />
-                        <div className="space-y-2">
-                          <div className="bg-muted/60 rounded-lg aspect-[4/3]" />
-                          <div className="bg-muted/60 rounded-lg aspect-square" />
-                          
+                    <div className="space-y-[2px]">
+                      <div className="bg-[#EBF8FF] rounded-lg p-3 mr-4">
+                        <div ref={headingRef} className="font-semibold text-card-foreground text-sm mb-1">
+                          Students Below 70% in Math
+                        </div>
+                        <div className="grid grid-cols-2 gap-2 mb-4 scale-y-[0.85]">
+                          <div className="bg-muted/60 rounded-lg h-full" />
+                          <div className="space-y-2">
+                            <div className="bg-muted/60 rounded-lg aspect-[4/3]" />
+                            <div className="bg-muted/60 rounded-lg aspect-square" />
+                            
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div className="text-xs text-muted-foreground text-left pl-4 -mt-3.5">
-                      {submissionTime ? new Date(submissionTime.getTime() + 2000).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }) : '09:23 am'}
+                      <div className="text-xs text-muted-foreground text-left pl-4">
+                        {submissionTime ? new Date(submissionTime.getTime() + 2000).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }) : '09:23 am'}
+                      </div>
                     </div>
                     <div className="mb-4">
                       <h3 className="font-semibold text-card-foreground text-sm mb-2">
