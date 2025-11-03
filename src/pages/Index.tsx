@@ -21,47 +21,42 @@ const Index = () => {
 
   return (
     <div className="h-screen bg-background p-6 flex flex-col overflow-hidden">
-      {(showResults || isLoading) ? (
-        <div className="bg-canvas rounded-2xl flex gap-6 p-6 flex-1 overflow-hidden">
-          {/* Dashboard area - smoothly transitions in */}
-          <div className="flex-1 flex flex-col overflow-hidden min-w-0">
-            {isLoading ? (
-              <div className="flex-1 flex items-center justify-center">
-                <div className="text-center">
-                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-                  <p className="text-muted-foreground">Generating dashboard...</p>
-                </div>
+      <div className="flex gap-6 flex-1 overflow-hidden">
+        {/* Left panel - starts as empty canvas, expands to show content */}
+        <div 
+          className={`bg-canvas rounded-2xl overflow-hidden transition-all duration-500 ${
+            showResults || isLoading ? 'flex-1' : 'flex-1'
+          }`}
+        >
+          {(showResults || isLoading) && (
+            <div className="p-6 h-full flex gap-6 animate-in fade-in duration-300">
+              <div className="flex-1 flex flex-col overflow-hidden min-w-0">
+                {isLoading ? (
+                  <div className="flex-1 flex items-center justify-center">
+                    <div className="text-center">
+                      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+                      <p className="text-muted-foreground">Generating dashboard...</p>
+                    </div>
+                  </div>
+                ) : (
+                  <DashboardView title="Students Below 70% in Math" />
+                )}
               </div>
-            ) : (
-              <DashboardView title="Students Below 70% in Math" />
-            )}
-          </div>
-          
-          {/* Vertical divider */}
-          <div className="w-[1px] bg-[#E2E6E9] shrink-0" />
-          
-          {/* Sidebar - same position throughout */}
-          <AISidebar
-            onSubmit={handleSubmit}
-            isLoading={isLoading}
-            showHistory={true}
-            userPrompt={userPrompt}
-          />
+              
+              {/* Vertical divider */}
+              <div className="w-[1px] bg-[#E2E6E9] shrink-0" />
+            </div>
+          )}
         </div>
-      ) : (
-        <div className="flex gap-6 flex-1 overflow-hidden">
-          {/* Empty canvas area before submission */}
-          <div className="flex-1 bg-canvas rounded-2xl" />
-          
-          {/* Sidebar - initial state */}
-          <AISidebar
-            onSubmit={handleSubmit}
-            isLoading={false}
-            showHistory={false}
-            userPrompt={userPrompt}
-          />
-        </div>
-      )}
+        
+        {/* Sidebar - always rendered, stays on right */}
+        <AISidebar
+          onSubmit={handleSubmit}
+          isLoading={isLoading}
+          showHistory={showResults || isLoading}
+          userPrompt={userPrompt}
+        />
+      </div>
     </div>
   );
 };
