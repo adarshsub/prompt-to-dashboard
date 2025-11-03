@@ -53,6 +53,8 @@ export const AISidebar = ({
   const [gradeLevelsOpen, setGradeLevelsOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<"performance" | "engagement" | null>("performance");
   const [selectedInsights, setSelectedInsights] = useState<string[]>([]);
+  const [activeFilters, setActiveFilters] = useState<string[]>([]);
+  const [filtersOpen, setFiltersOpen] = useState(false);
   
   const headingRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -116,6 +118,9 @@ export const AISidebar = ({
   };
   const handleRemoveGradeLevel = (level: string) => {
     setSelectedGradeLevels(prev => prev.filter(l => l !== level));
+  };
+  const handleFilterToggle = (filter: string) => {
+    setActiveFilters(prev => prev.includes(filter) ? prev.filter(f => f !== filter) : [...prev, filter]);
   };
   const handlePromptClick = (templatePrompt: string) => {
     setPrompt(templatePrompt);
@@ -327,7 +332,30 @@ export const AISidebar = ({
             </p>
 
             <div className="space-y-3">
-              
+              <Popover open={filtersOpen} onOpenChange={setFiltersOpen}>
+                <PopoverTrigger asChild>
+                  <Button variant="outline" className="w-full justify-between bg-card border-border text-card-foreground hover:bg-[#faf8fb] hover:border-[#AC5CCC] transition-all rounded-full text-sm">
+                    <span style={{ color: '#6F8090' }}>Add filters</span>
+                    <ChevronDown className={cn("h-4 w-4 transition-transform text-[#2e2e37]", filtersOpen && "rotate-180")} />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-[232px] p-3 bg-card border-border" align="start">
+                  <div className="space-y-2">
+                    {["Terms", "Grade Levels"].map(filter => (
+                      <div key={filter} className="flex items-center space-x-2">
+                        <Checkbox 
+                          id={filter} 
+                          checked={activeFilters.includes(filter)} 
+                          onCheckedChange={() => handleFilterToggle(filter)} 
+                        />
+                        <label htmlFor={filter} className="text-sm text-card-foreground cursor-pointer flex-1">
+                          {filter}
+                        </label>
+                      </div>
+                    ))}
+                  </div>
+                </PopoverContent>
+              </Popover>
 
               <div className="space-y-2">
                 <Popover open={subjectsOpen} onOpenChange={setSubjectsOpen}>
@@ -371,8 +399,9 @@ export const AISidebar = ({
                 </Popover>
               </div>
 
-              <div className="space-y-2">
-                {selectedTerms.length > 0 && <div className="flex flex-wrap gap-1.5 mb-2">
+              {activeFilters.includes("Terms") && (
+                <div className="space-y-2">
+                  {selectedTerms.length > 0 && <div className="flex flex-wrap gap-1.5 mb-2">
                     {selectedTerms.map(term => <Badge key={term} variant="secondary" className="bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 pl-2.5 pr-1.5 py-1">
                         {term}
                         <button onClick={() => handleRemoveTerm(term)} className="ml-1.5 hover:bg-primary/30 rounded-full p-0.5">
@@ -401,9 +430,11 @@ export const AISidebar = ({
                     </div>
                   </PopoverContent>
                 </Popover>
-              </div>
+                </div>
+              )}
 
-              <div className="space-y-2">
+              {activeFilters.includes("Grade Levels") && (
+                <div className="space-y-2">
                 {selectedGradeLevels.length > 0 && <div className="flex flex-wrap gap-1.5 mb-2">
                     {selectedGradeLevels.map(level => <Badge key={level} variant="secondary" className="bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 pl-2.5 pr-1.5 py-1">
                         {level}
@@ -433,7 +464,8 @@ export const AISidebar = ({
                     </div>
                   </PopoverContent>
                 </Popover>
-              </div>
+                </div>
+              )}
 
               {selectedSubjects.length > 0 && <>
                   <div className="flex gap-2 mt-4 pt-2 overflow-x-auto flex-nowrap pb-1">
