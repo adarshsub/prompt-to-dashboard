@@ -81,9 +81,9 @@ export const AISidebar = ({
     return TEMPLATE_PROMPTS[subject as keyof typeof TEMPLATE_PROMPTS]?.[selectedCategory] || [];
   };
   const templatePrompts = getTemplatePrompts();
-  return <div className="w-[280px] bg-sidebar rounded-2xl p-6 flex flex-col overflow-hidden shrink-0">
-      <div className="flex items-start justify-between mb-4">
-        <h2 className="text-2xl font-semibold bg-gradient-purple bg-clip-text text-transparent">
+  return <div className="w-[280px] bg-sidebar rounded-2xl p-4 flex flex-col overflow-hidden shrink-0">
+      <div className="flex items-start justify-between mb-3">
+        <h2 className="text-xl font-semibold bg-gradient-purple bg-clip-text text-transparent">
           Create with AI
         </h2>
         <Button variant="ghost" size="icon" className="h-6 w-6 -mt-1 -mr-2 text-muted-foreground hover:text-foreground">
@@ -141,21 +141,21 @@ export const AISidebar = ({
               </>}
           </div>
         </> : <>
-          <p className="text-xs text-[#AC5CCC] mb-3.5 leading-relaxed">
+          <p className="text-xs text-[#AC5CCC] mb-2 leading-relaxed">
             Enter your question about the data you'd like to visualize. Our AI will
             generate appropriate charts and insights based on your query.
           </p>
-          <div className="h-px bg-[#E2E6E9] mb-6" />
+          <div className="h-px bg-[#E2E6E9] mb-3" />
 
-          <div className={cn("mb-6", selectedSubjects.length > 0 && "max-h-[400px] overflow-y-auto")}>
-            <h3 className="text-sm font-semibold text-card-foreground mb-3">
+          <div className={cn("mb-3", selectedSubjects.length > 0 && "max-h-[240px] overflow-y-auto")}>
+            <h3 className="text-sm font-semibold text-card-foreground mb-2">
               Quick actions
             </h3>
-            <p className="text-xs text-muted-foreground mb-4 leading-relaxed">
+            <p className="text-xs text-muted-foreground mb-2 leading-relaxed">
               Start with a template prompt for inspiration or use your own prompt below.
             </p>
 
-            <div className="space-y-3">
+            <div className="space-y-2">
               
 
               <div className="space-y-2">
@@ -250,7 +250,7 @@ export const AISidebar = ({
               </div>
 
               {selectedSubjects.length > 0 && <>
-                  <div className="flex gap-2 mt-4 pt-2 overflow-x-auto flex-nowrap pb-1">
+                  <div className="flex gap-2 mt-2 pt-1 overflow-x-auto flex-nowrap pb-1">
                     <button onClick={() => setSelectedCategory(prev => prev === "performance" ? null : "performance")} className={cn("flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-colors whitespace-nowrap flex-shrink-0", selectedCategory === "performance" ? "bg-primary text-primary-foreground" : "bg-white text-black border border-[#E2E6E9]")}>
                       Performance
                       <span className={cn("w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0", selectedCategory === "performance" ? "bg-white/20" : "bg-[#E2E6E9]")}>
@@ -273,7 +273,7 @@ export const AISidebar = ({
                     </button>
                   </div>
 
-                  {selectedCategory && <div className="space-y-2 mt-2">
+                  {selectedCategory && <div className="space-y-1.5 mt-2">
                     {templatePrompts.map((templatePrompt, index) => {
                       const showBothSubjects = selectedSubjects.includes("All") || 
                         (selectedSubjects.includes("Math") && selectedSubjects.includes("English"));
@@ -308,7 +308,7 @@ export const AISidebar = ({
             e.preventDefault();
             handleSend();
           }
-        }} disabled={isLoading} className="pr-10 bg-card border-border text-card-foreground placeholder:text-muted-foreground resize-none min-h-[60px]" rows={3} />
+        }} disabled={isLoading} className="pr-10 bg-card border-border text-card-foreground placeholder:text-muted-foreground resize-none min-h-[50px]" rows={2} />
           <Button size="icon" onClick={handleSend} disabled={!prompt.trim() || isLoading} className="absolute right-1 bottom-1 h-8 w-8 bg-transparent hover:bg-muted text-muted-foreground hover:text-card-foreground disabled:opacity-50">
             {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
           </Button>
