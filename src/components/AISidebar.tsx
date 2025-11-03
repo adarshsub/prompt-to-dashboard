@@ -361,7 +361,7 @@ export const AISidebar = ({
                   <PopoverContent className="w-[232px] p-3 bg-card border-border" align="start">
                     <div className="space-y-2">
                       {["All", "Math", "English", "Science", "History"].map(subject => <div key={subject} className="flex items-center space-x-2">
-                          <Checkbox id={subject} checked={selectedSubjects.includes("All") || selectedSubjects.includes(subject)} onCheckedChange={() => handleSubjectToggle(subject)} className="border-border data-[state=checked]:bg-primary data-[state=checked]:border-primary" />
+                          <Checkbox id={subject} checked={selectedSubjects.includes("All") || selectedSubjects.includes(subject)} onCheckedChange={() => handleSubjectToggle(subject)} />
                           <label htmlFor={subject} className="text-sm text-card-foreground cursor-pointer flex-1">
                             {subject}
                           </label>
@@ -393,7 +393,7 @@ export const AISidebar = ({
                   <PopoverContent className="w-[232px] p-3 bg-card border-border" align="start">
                     <div className="space-y-2">
                       {["Fall 2024", "Spring 2024", "Fall 2023"].map(term => <div key={term} className="flex items-center space-x-2">
-                          <Checkbox id={term} checked={selectedTerms.includes(term)} onCheckedChange={() => handleTermToggle(term)} className="border-border data-[state=checked]:bg-primary data-[state=checked]:border-primary" />
+                          <Checkbox id={term} checked={selectedTerms.includes(term)} onCheckedChange={() => handleTermToggle(term)} />
                           <label htmlFor={term} className="text-sm text-card-foreground cursor-pointer flex-1">
                             {term}
                           </label>
@@ -425,7 +425,7 @@ export const AISidebar = ({
                   <PopoverContent className="w-[232px] p-3 bg-card border-border" align="start">
                     <div className="space-y-2">
                       {["9th Grade", "10th Grade", "11th Grade", "12th Grade"].map(level => <div key={level} className="flex items-center space-x-2">
-                          <Checkbox id={level} checked={selectedGradeLevels.includes(level)} onCheckedChange={() => handleGradeLevelToggle(level)} className="border-border data-[state=checked]:bg-primary data-[state=checked]:border-primary" />
+                          <Checkbox id={level} checked={selectedGradeLevels.includes(level)} onCheckedChange={() => handleGradeLevelToggle(level)} />
                           <label htmlFor={level} className="text-sm text-card-foreground cursor-pointer flex-1">
                             {level}
                           </label>
