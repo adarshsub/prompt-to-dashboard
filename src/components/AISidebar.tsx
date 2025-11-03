@@ -25,6 +25,14 @@ const TEMPLATE_PROMPTS = {
   english: {
     performance: ["Show me all students below 70% in English class.", "How does my English class's average score compare to the school's average?"],
     engagement: []
+  },
+  science: {
+    performance: ["Show me all students below 70% in Science class.", "How does my Science class's average score compare to the school's average?"],
+    engagement: []
+  },
+  history: {
+    performance: ["Show me all students below 70% in History class.", "How does my History class's average score compare to the school's average?"],
+    engagement: []
   }
 };
 export const AISidebar = ({
@@ -86,7 +94,7 @@ export const AISidebar = ({
     setSelectedSubjects(prev => {
       if (subject === "All") {
         // If toggling "All", add or remove all subjects
-        return prev.includes("All") ? [] : ["All", "Math", "English"];
+        return prev.includes("All") ? [] : ["All", "Math", "English", "Science", "History"];
       } else {
         // If toggling individual subject, remove "All" if it was selected
         const newSubjects = prev.includes(subject) ? prev.filter(s => s !== subject) : [...prev.filter(s => s !== "All"), subject];
@@ -154,14 +162,21 @@ export const AISidebar = ({
   const getTemplatePrompts = () => {
     if (selectedSubjects.length === 0 || !selectedCategory) return [];
 
-    // If "All" is selected, combine Math and English prompts
+    // If "All" is selected, combine all subject prompts
     if (selectedSubjects.includes("All")) {
       const mathPrompts = TEMPLATE_PROMPTS.math[selectedCategory] || [];
       const englishPrompts = TEMPLATE_PROMPTS.english[selectedCategory] || [];
-      return [...mathPrompts, ...englishPrompts];
+      const sciencePrompts = TEMPLATE_PROMPTS.science[selectedCategory] || [];
+      const historyPrompts = TEMPLATE_PROMPTS.history[selectedCategory] || [];
+      return [...mathPrompts, ...englishPrompts, ...sciencePrompts, ...historyPrompts];
     }
-    const subject = selectedSubjects[0].toLowerCase();
-    return TEMPLATE_PROMPTS[subject as keyof typeof TEMPLATE_PROMPTS]?.[selectedCategory] || [];
+    
+    // Combine prompts for all selected subjects
+    const allPrompts = selectedSubjects.flatMap(subject => {
+      const subjectKey = subject.toLowerCase();
+      return TEMPLATE_PROMPTS[subjectKey as keyof typeof TEMPLATE_PROMPTS]?.[selectedCategory] || [];
+    });
+    return allPrompts;
   };
   const templatePrompts = getTemplatePrompts();
   return <div className="w-[280px] bg-sidebar rounded-2xl p-6 flex flex-col overflow-hidden shrink-0 min-h-0">
@@ -343,7 +358,7 @@ export const AISidebar = ({
                   </PopoverTrigger>
                   <PopoverContent className="w-[232px] p-3 bg-card border-border" align="start">
                     <div className="space-y-2">
-                      {["All", "Math", "English"].map(subject => <div key={subject} className="flex items-center space-x-2">
+                      {["All", "Math", "English", "Science", "History"].map(subject => <div key={subject} className="flex items-center space-x-2">
                           <Checkbox id={subject} checked={selectedSubjects.includes("All") || selectedSubjects.includes(subject)} onCheckedChange={() => handleSubjectToggle(subject)} className="border-border data-[state=checked]:bg-primary data-[state=checked]:border-primary" />
                           <label htmlFor={subject} className="text-sm text-card-foreground cursor-pointer flex-1">
                             {subject}
@@ -436,16 +451,26 @@ export const AISidebar = ({
 
                   {selectedCategory && <div className="space-y-2 mt-2">
                     {templatePrompts.map((templatePrompt, index) => {
-                const showBothSubjects = selectedSubjects.includes("All") || 
-                  (selectedSubjects.includes("Math") && selectedSubjects.includes("English"));
+                const showMultipleSubjects = selectedSubjects.includes("All") || selectedSubjects.length > 1;
 
                 // Detect which subject is in this specific prompt
-                const promptSubject = templatePrompt.includes("Math") ? "Math" : "English";
-                const displaySubject = showBothSubjects ? "Math and English" : promptSubject;
+                const promptSubject = templatePrompt.includes("Math") ? "Math" 
+                  : templatePrompt.includes("English") ? "English"
+                  : templatePrompt.includes("Science") ? "Science"
+                  : "History";
+                
+                // Build display subject text
+                let displaySubject = promptSubject;
+                if (showMultipleSubjects) {
+                  const activeSubjects = selectedSubjects.includes("All") 
+                    ? ["Math", "English", "Science", "History"]
+                    : selectedSubjects.filter(s => s !== "All");
+                  displaySubject = activeSubjects.join(" and ");
+                }
                 
                 // Adjust grammar for multiple subjects
                 let adjustedPrompt = templatePrompt;
-                if (showBothSubjects) {
+                if (showMultipleSubjects) {
                   adjustedPrompt = adjustedPrompt
                     .replace(`${promptSubject} class.`, `${promptSubject} classes.`)
                     .replace(`${promptSubject} class's`, `${promptSubject} classes'`)
