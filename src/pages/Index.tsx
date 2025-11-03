@@ -20,7 +20,7 @@ const Index = () => {
   };
 
   return (
-    <div className="h-screen bg-background p-6 flex flex-col overflow-hidden">
+    <div className="h-screen bg-background p-6 flex overflow-hidden">
       <div className="bg-canvas rounded-2xl flex gap-6 p-6 flex-1 overflow-hidden">
         {/* Dashboard - slides in from left with smooth transition */}
         <div 
@@ -40,13 +40,15 @@ const Index = () => {
           }`}
         />
 
-        {/* Sidebar - always present, same instance */}
-        <AISidebar
-          onSubmit={handleSubmit}
-          isLoading={isLoading}
-          showHistory={showResults}
-          userPrompt={userPrompt}
-        />
+        {/* Sidebar - always on the right, fills vertical viewport */}
+        <div className="flex flex-col h-full">
+          <AISidebar
+            onSubmit={handleSubmit}
+            isLoading={isLoading}
+            showHistory={showResults}
+            userPrompt={userPrompt}
+          />
+        </div>
       </div>
     </div>
   );
