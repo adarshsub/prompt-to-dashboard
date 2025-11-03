@@ -51,7 +51,7 @@ export const DashboardView = ({ title }: DashboardViewProps) => {
           {INSIGHTS.map((insight, index) => (
             <div
               key={index}
-              className="flex items-start gap-4 p-4 bg-card rounded-lg border border-border"
+              className="flex items-start gap-4 py-4 px-6 bg-card rounded-lg border border-border"
             >
               <div className="flex items-start gap-2 flex-1">
                 <div className="flex items-center gap-2 text-card-foreground">
