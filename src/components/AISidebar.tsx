@@ -335,7 +335,7 @@ export const AISidebar = ({
               <div className="space-y-2">
                 <Popover open={subjectsOpen} onOpenChange={setSubjectsOpen}>
                   <PopoverTrigger asChild>
-                    <Button variant="outline" className="w-full justify-between items-center bg-card border-border text-card-foreground hover:bg-white hover:border-[#AC5CCC] transition-all min-h-[40px] h-auto py-2 rounded-full text-sm">
+                    <Button variant="outline" className="w-full justify-between items-center bg-card border-border text-card-foreground hover:bg-white hover:border-[#c69fdc] transition-all min-h-[40px] h-auto py-2 rounded-full text-sm">
                       {selectedSubjects.length > 0 ? <div className="flex flex-wrap gap-1 flex-1 mr-2">
                           {(selectedSubjects.includes("All") ? ["All"] : selectedSubjects).map(subject => <Badge key={subject} variant="secondary" className="pl-2 pr-1 py-0.5 text-xs h-6" style={{
                       backgroundColor: '#EBF8FF',
@@ -387,7 +387,7 @@ export const AISidebar = ({
 
                 <Popover open={termsOpen} onOpenChange={setTermsOpen}>
                   <PopoverTrigger asChild>
-                    <Button variant="outline" className="w-full justify-between bg-card border-border text-card-foreground hover:bg-white hover:border-[#AC5CCC] transition-all rounded-full text-sm">
+                    <Button variant="outline" className="w-full justify-between bg-card border-border text-card-foreground hover:bg-white hover:border-[#c69fdc] transition-all rounded-full text-sm">
                       <span style={{
                     color: '#6F8090'
                   }}>Terms</span>
@@ -421,7 +421,7 @@ export const AISidebar = ({
 
                 <Popover open={gradeLevelsOpen} onOpenChange={setGradeLevelsOpen}>
                   <PopoverTrigger asChild>
-                    <Button variant="outline" className="w-full justify-between bg-card border-border text-card-foreground hover:bg-white hover:border-[#AC5CCC] transition-all rounded-full text-sm">
+                    <Button variant="outline" className="w-full justify-between bg-card border-border text-card-foreground hover:bg-white hover:border-[#c69fdc] transition-all rounded-full text-sm">
                       <span style={{
                     color: '#6F8090'
                   }}>Grade Levels</span>
