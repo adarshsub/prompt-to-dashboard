@@ -57,8 +57,8 @@ const Index = () => {
         ) : (
           <div className="flex gap-6 flex-1 overflow-hidden">
             {/* Empty canvas area when collapsed */}
-            <div className="flex-1 bg-canvas rounded-2xl flex items-start justify-start p-6">
-              <h2 className="text-2xl font-semibold bg-gradient-purple bg-clip-text text-transparent">
+            <div className="flex-1 bg-canvas rounded-2xl flex items-center justify-center">
+              <h2 className="text-2xl font-medium text-muted-foreground">
                 Innovare Main UI
               </h2>
             </div>
@@ -77,8 +77,8 @@ const Index = () => {
       ) : (
         <div className="flex gap-6 flex-1 overflow-hidden">
           {/* Empty canvas area before submission */}
-          <div className="flex-1 bg-canvas rounded-2xl flex items-start justify-start p-6">
-            <h2 className="text-2xl font-semibold bg-gradient-purple bg-clip-text text-transparent">
+          <div className="flex-1 bg-canvas rounded-2xl flex items-center justify-center">
+            <h2 className="text-2xl font-medium text-muted-foreground">
               Innovare Main UI
             </h2>
           </div>
