@@ -32,12 +32,32 @@ export const AISidebar = ({
   const [prompt, setPrompt] = useState("");
   const [selectedSubjects, setSelectedSubjects] = useState<string[]>([]);
   const [subjectsOpen, setSubjectsOpen] = useState(false);
+  const [selectedTerms, setSelectedTerms] = useState<string[]>([]);
+  const [termsOpen, setTermsOpen] = useState(false);
+  const [selectedGradeLevels, setSelectedGradeLevels] = useState<string[]>([]);
+  const [gradeLevelsOpen, setGradeLevelsOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<"performance" | "engagement">("performance");
   const handleSubjectToggle = (subject: string) => {
     setSelectedSubjects(prev => prev.includes(subject) ? prev.filter(s => s !== subject) : [...prev, subject]);
   };
   const handleRemoveSubject = (subject: string) => {
     setSelectedSubjects(prev => prev.filter(s => s !== subject));
+  };
+  
+  const handleTermToggle = (term: string) => {
+    setSelectedTerms(prev => prev.includes(term) ? prev.filter(t => t !== term) : [...prev, term]);
+  };
+  
+  const handleRemoveTerm = (term: string) => {
+    setSelectedTerms(prev => prev.filter(t => t !== term));
+  };
+  
+  const handleGradeLevelToggle = (level: string) => {
+    setSelectedGradeLevels(prev => prev.includes(level) ? prev.filter(l => l !== level) : [...prev, level]);
+  };
+  
+  const handleRemoveGradeLevel = (level: string) => {
+    setSelectedGradeLevels(prev => prev.filter(l => l !== level));
   };
   const handlePromptClick = (templatePrompt: string) => {
     setPrompt(templatePrompt);
@@ -160,15 +180,65 @@ export const AISidebar = ({
                 </Popover>
               </div>
 
-              <Button variant="outline" className="w-full justify-between bg-card border-border text-card-foreground hover:bg-muted" disabled={selectedSubjects.length === 0}>
-                Terms
-                <ChevronDown className="h-4 w-4" />
-              </Button>
+              <div className="space-y-2">
+                {selectedTerms.length > 0 && <div className="flex flex-wrap gap-1.5 mb-2">
+                    {selectedTerms.map(term => <Badge key={term} variant="secondary" className="bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 pl-2.5 pr-1.5 py-1">
+                        {term}
+                        <button onClick={() => handleRemoveTerm(term)} className="ml-1.5 hover:bg-primary/30 rounded-full p-0.5">
+                          <X className="h-3 w-3" />
+                        </button>
+                      </Badge>)}
+                  </div>}
 
-              <Button variant="outline" className="w-full justify-between bg-card border-border text-card-foreground hover:bg-muted" disabled={selectedSubjects.length === 0}>
-                Grade Levels
-                <ChevronDown className="h-4 w-4" />
-              </Button>
+                <Popover open={termsOpen} onOpenChange={setTermsOpen}>
+                  <PopoverTrigger asChild>
+                    <Button variant="outline" className="w-full justify-between bg-card border-border text-card-foreground hover:bg-muted">
+                      Terms
+                      <ChevronDown className={cn("h-4 w-4 transition-transform", termsOpen && "rotate-180")} />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-[232px] p-3 bg-card border-border" align="start">
+                    <div className="space-y-2">
+                      {["Fall 2024", "Spring 2024", "Fall 2023"].map(term => <div key={term} className="flex items-center space-x-2">
+                          <Checkbox id={term} checked={selectedTerms.includes(term)} onCheckedChange={() => handleTermToggle(term)} className="border-border data-[state=checked]:bg-primary data-[state=checked]:border-primary" />
+                          <label htmlFor={term} className="text-sm text-card-foreground cursor-pointer flex-1">
+                            {term}
+                          </label>
+                        </div>)}
+                    </div>
+                  </PopoverContent>
+                </Popover>
+              </div>
+
+              <div className="space-y-2">
+                {selectedGradeLevels.length > 0 && <div className="flex flex-wrap gap-1.5 mb-2">
+                    {selectedGradeLevels.map(level => <Badge key={level} variant="secondary" className="bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 pl-2.5 pr-1.5 py-1">
+                        {level}
+                        <button onClick={() => handleRemoveGradeLevel(level)} className="ml-1.5 hover:bg-primary/30 rounded-full p-0.5">
+                          <X className="h-3 w-3" />
+                        </button>
+                      </Badge>)}
+                  </div>}
+
+                <Popover open={gradeLevelsOpen} onOpenChange={setGradeLevelsOpen}>
+                  <PopoverTrigger asChild>
+                    <Button variant="outline" className="w-full justify-between bg-card border-border text-card-foreground hover:bg-muted">
+                      Grade Levels
+                      <ChevronDown className={cn("h-4 w-4 transition-transform", gradeLevelsOpen && "rotate-180")} />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-[232px] p-3 bg-card border-border" align="start">
+                    <div className="space-y-2">
+                      {["9th Grade", "10th Grade", "11th Grade", "12th Grade"].map(level => <div key={level} className="flex items-center space-x-2">
+                          <Checkbox id={level} checked={selectedGradeLevels.includes(level)} onCheckedChange={() => handleGradeLevelToggle(level)} className="border-border data-[state=checked]:bg-primary data-[state=checked]:border-primary" />
+                          <label htmlFor={level} className="text-sm text-card-foreground cursor-pointer flex-1">
+                            {level}
+                          </label>
+                        </div>)}
+                    </div>
+                  </PopoverContent>
+                </Popover>
+              </div>
 
               {selectedSubjects.length > 0 && <>
                   <div className="flex gap-2 mt-4">
