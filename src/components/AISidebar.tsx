@@ -137,6 +137,9 @@ export const AISidebar = ({
                         </div>
                       </div>
                     </div>
+                    <div className="text-xs text-muted-foreground text-left pl-4 -mt-2">
+                      {submissionTime ? new Date(submissionTime.getTime() + 2000).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }) : '09:23 am'}
+                    </div>
                     <div className="mb-4">
                       <h3 className="font-semibold text-card-foreground text-sm mb-2">
                         Query Your Insights
