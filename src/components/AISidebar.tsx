@@ -78,10 +78,16 @@ export const AISidebar = ({
     setPrompt(templatePrompt);
   };
   
-  const handleInsightToggle = (insight: string) => {
-    setSelectedInsights(prev => 
-      prev.includes(insight) ? prev.filter(i => i !== insight) : [...prev, insight]
-    );
+  const handleInsightToggle = (insight: string, insightNumber: number) => {
+    const wasSelected = selectedInsights.includes(insight);
+    
+    if (wasSelected) {
+      setSelectedInsights(prev => prev.filter(i => i !== insight));
+      setPrompt("");
+    } else {
+      setSelectedInsights([insight]);
+      setPrompt(`For Insight ${insightNumber}, tell me `);
+    }
   };
   const handleSend = () => {
     if (prompt.trim() && onSubmit) {
@@ -160,7 +166,7 @@ export const AISidebar = ({
                       </p>
                       <div className="flex gap-2 overflow-x-auto flex-nowrap pb-1">
                         <button 
-                          onClick={() => handleInsightToggle("insight1")}
+                          onClick={() => handleInsightToggle("insight1", 1)}
                           className={cn(
                             "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-colors whitespace-nowrap flex-shrink-0",
                             selectedInsights.includes("insight1")
@@ -180,7 +186,7 @@ export const AISidebar = ({
                           </span>
                         </button>
                         <button 
-                          onClick={() => handleInsightToggle("insight2")}
+                          onClick={() => handleInsightToggle("insight2", 2)}
                           className={cn(
                             "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-colors whitespace-nowrap flex-shrink-0",
                             selectedInsights.includes("insight2")
@@ -200,7 +206,7 @@ export const AISidebar = ({
                           </span>
                         </button>
                         <button 
-                          onClick={() => handleInsightToggle("insight3")}
+                          onClick={() => handleInsightToggle("insight3", 3)}
                           className={cn(
                             "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-colors whitespace-nowrap flex-shrink-0",
                             selectedInsights.includes("insight3")
