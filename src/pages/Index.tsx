@@ -24,9 +24,9 @@ const Index = () => {
     <div className="h-screen bg-background p-6 flex flex-col overflow-hidden">
       {(showResults || isLoading) ? (
         !isDashboardCollapsed ? (
-          <div className="bg-canvas rounded-2xl flex gap-6 p-6 flex-1 overflow-hidden animate-fade-in">
+          <div className="bg-canvas rounded-2xl flex gap-6 p-6 flex-1 overflow-hidden">
             {/* Dashboard area - smoothly transitions in */}
-            <div className="flex-1 flex flex-col overflow-hidden min-w-0 animate-fade-in">
+            <div className="flex-1 flex flex-col overflow-hidden min-w-0">
               {isLoading ? (
                 <div className="flex-1 flex items-center justify-center">
                   <div className="text-center">
@@ -55,9 +55,9 @@ const Index = () => {
             />
           </div>
         ) : (
-          <div className="flex gap-6 flex-1 overflow-hidden animate-fade-in">
+          <div className="flex gap-6 flex-1 overflow-hidden">
             {/* Empty canvas area when collapsed */}
-            <div className="flex-1 bg-canvas rounded-2xl animate-fade-in" />
+            <div className="flex-1 bg-canvas rounded-2xl" />
             
             {/* Sidebar - collapsed state */}
             <AISidebar

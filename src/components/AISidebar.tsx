@@ -47,10 +47,11 @@ export const AISidebar = ({
   const headingRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (showHistory && userPrompt && !isLoading && headingRef.current) {
+    if (!submissionTime) return;
+    if (!isLoading && headingRef.current) {
       headingRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
     }
-  }, [showHistory, userPrompt, isLoading]);
+  }, [submissionTime, isLoading]);
   const handleSubjectToggle = (subject: string) => {
     setSelectedSubjects(prev => {
       if (subject === "All") {
