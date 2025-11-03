@@ -22,7 +22,7 @@ const Index = () => {
   return (
     <div className="h-screen bg-background p-6 flex flex-col overflow-hidden">
       {(showResults || isLoading) ? (
-        <div className="bg-canvas rounded-2xl flex gap-6 p-6 flex-1 overflow-hidden">
+        <div className="bg-canvas rounded-2xl flex gap-6 p-6 flex-1 overflow-hidden animate-in slide-in-from-right duration-500">
           {/* Dashboard area - smoothly transitions in */}
           <div className="flex-1 flex flex-col overflow-hidden min-w-0">
             {isLoading ? (
