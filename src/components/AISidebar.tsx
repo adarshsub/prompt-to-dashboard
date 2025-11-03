@@ -43,19 +43,15 @@ export const AISidebar = ({
   const handleRemoveSubject = (subject: string) => {
     setSelectedSubjects(prev => prev.filter(s => s !== subject));
   };
-  
   const handleTermToggle = (term: string) => {
     setSelectedTerms(prev => prev.includes(term) ? prev.filter(t => t !== term) : [...prev, term]);
   };
-  
   const handleRemoveTerm = (term: string) => {
     setSelectedTerms(prev => prev.filter(t => t !== term));
   };
-  
   const handleGradeLevelToggle = (level: string) => {
     setSelectedGradeLevels(prev => prev.includes(level) ? prev.filter(l => l !== level) : [...prev, level]);
   };
-  
   const handleRemoveGradeLevel = (level: string) => {
     setSelectedGradeLevels(prev => prev.filter(l => l !== level));
   };
@@ -148,32 +144,23 @@ export const AISidebar = ({
             </p>
 
             <div className="space-y-3">
-              <p className="text-xs text-muted-foreground mb-2 font-semibold">Select dropdown(s) for template prompts.</p>
+              
 
               <div className="space-y-2">
                 <Popover open={subjectsOpen} onOpenChange={setSubjectsOpen}>
                   <PopoverTrigger asChild>
                     <Button variant="outline" className="w-full justify-between bg-card border-border text-card-foreground hover:bg-muted min-h-[40px] h-auto py-2">
-                      {selectedSubjects.length > 0 ? (
-                        <div className="flex flex-wrap gap-1.5 flex-1 mr-2">
-                          {selectedSubjects.map(subject => (
-                            <Badge key={subject} variant="secondary" className="bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 pl-2.5 pr-1.5 py-1">
+                      {selectedSubjects.length > 0 ? <div className="flex flex-wrap gap-1.5 flex-1 mr-2">
+                          {selectedSubjects.map(subject => <Badge key={subject} variant="secondary" className="bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 pl-2.5 pr-1.5 py-1">
                               {subject}
-                              <button 
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  handleRemoveSubject(subject);
-                                }} 
-                                className="ml-1.5 hover:bg-primary/30 rounded-full p-0.5"
-                              >
+                              <button onClick={e => {
+                        e.stopPropagation();
+                        handleRemoveSubject(subject);
+                      }} className="ml-1.5 hover:bg-primary/30 rounded-full p-0.5">
                                 <X className="h-3 w-3" />
                               </button>
-                            </Badge>
-                          ))}
-                        </div>
-                      ) : (
-                        <span>Subjects</span>
-                      )}
+                            </Badge>)}
+                        </div> : <span>Subjects</span>}
                       <ChevronDown className={cn("h-4 w-4 transition-transform flex-shrink-0", subjectsOpen && "rotate-180")} />
                     </Button>
                   </PopoverTrigger>
