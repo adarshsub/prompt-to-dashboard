@@ -279,7 +279,7 @@ export const AISidebar = ({
                 const subject = selectedSubjects[0];
                 const displaySubject = showBothSubjects ? "Math and English" : subject;
                 const parts = templatePrompt.split(showBothSubjects ? "Math" : subject);
-                return <button key={index} onClick={() => handlePromptClick(templatePrompt)} className={cn("w-full text-left p-3 rounded-lg border transition-colors text-sm flex items-center gap-2", prompt === templatePrompt ? "border-primary bg-primary/5" : "border-border bg-card hover:border-primary/50 hover:bg-card/80")}>
+                return <button key={index} onClick={() => handlePromptClick(templatePrompt)} className={cn("w-full text-left p-3 rounded-lg border transition-colors text-xs flex items-center gap-2", prompt === templatePrompt ? "border-primary bg-primary/5" : "border-border bg-card hover:border-primary/50 hover:bg-card/80")}>
                           <BarChart3 className="h-4 w-4 flex-shrink-0" color="#323232" />
                           <span className="text-card-foreground leading-snug px-0.5">
                             {parts.map((part, i) => <React.Fragment key={i}>
