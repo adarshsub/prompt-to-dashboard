@@ -32,7 +32,7 @@ export const DashboardView = ({ title }: DashboardViewProps) => {
             <span className="font-semibold text-card-foreground">{title}</span>
           </div>
         </div>
-        <Button className="bg-primary hover:bg-primary/90 text-primary-foreground px-6 h-9 rounded-lg">
+        <Button className="bg-primary hover:bg-primary/90 text-primary-foreground px-6 h-9 rounded-[3px]">
           Save
         </Button>
       </div>
