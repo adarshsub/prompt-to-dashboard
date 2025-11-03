@@ -16,7 +16,7 @@ export const DashboardView = ({ title }: DashboardViewProps) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   return (
-    <div className="flex-1 flex flex-col">
+    <div className="flex-1 flex flex-col overflow-hidden min-w-0">
       <div className="flex items-center justify-between p-6 pb-4">
         <div className="flex items-center gap-3">
           <Button
@@ -37,7 +37,7 @@ export const DashboardView = ({ title }: DashboardViewProps) => {
         </Button>
       </div>
 
-      <div className="flex-1 flex items-center justify-center px-6">
+      <div className="flex-1 flex items-center justify-center px-6 overflow-y-auto">
         <div className="text-center">
           <h2 className="text-2xl font-medium text-muted-foreground">
             Output of Visualizations
@@ -45,7 +45,7 @@ export const DashboardView = ({ title }: DashboardViewProps) => {
         </div>
       </div>
 
-      <div className="p-6 pt-0">
+      <div className="p-6 pt-0 overflow-y-auto max-h-[40%] shrink-0">
         <h3 className="text-sm font-semibold text-primary mb-4">Key Insights</h3>
         <div className="space-y-3">
           {INSIGHTS.map((insight, index) => (

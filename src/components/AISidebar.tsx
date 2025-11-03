@@ -81,7 +81,7 @@ export const AISidebar = ({
     return TEMPLATE_PROMPTS[subject as keyof typeof TEMPLATE_PROMPTS]?.[selectedCategory] || [];
   };
   const templatePrompts = getTemplatePrompts();
-  return <div className="w-[280px] bg-sidebar rounded-2xl p-6 flex flex-col self-stretch">
+  return <div className="w-[280px] bg-sidebar rounded-2xl p-6 flex flex-col overflow-hidden shrink-0">
       <div className="flex items-start justify-between mb-4">
         <h2 className="text-2xl font-semibold bg-gradient-purple bg-clip-text text-transparent">
           Create with AI
