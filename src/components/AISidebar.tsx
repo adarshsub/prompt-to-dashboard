@@ -117,7 +117,7 @@ export const AISidebar = ({
                       Students Below 70% in Math
                     </div>
                     <div className="grid grid-cols-2 gap-2 mb-4">
-                      <div className="bg-muted/60 rounded-lg aspect-[4/5]" />
+                      <div className="bg-muted/60 rounded-lg h-full" />
                       <div className="space-y-2">
                         <div className="bg-muted/60 rounded-lg aspect-[4/3]" />
                         <div className="bg-muted/60 rounded-lg aspect-square" />
