@@ -116,7 +116,7 @@ export const AISidebar = ({
                 <div className="bg-muted/50 rounded-lg p-3 text-sm text-card-foreground">
                   {userPrompt}
                 </div>
-                <div className="text-xs text-muted-foreground text-right">
+                <div className="text-xs text-muted-foreground text-right -mt-1">
                   {submissionTime ? submissionTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }) : '09:23 am'}
                 </div>
                 
