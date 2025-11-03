@@ -21,35 +21,36 @@ const Index = () => {
 
   return (
     <div className="h-screen bg-background p-6 flex flex-col overflow-hidden">
-      <div className="bg-canvas rounded-2xl flex gap-6 p-6 flex-1 overflow-hidden">
-        {/* Dashboard - slides in from left when results shown */}
-        <div 
-          className={`transition-all duration-700 ease-in-out ${
-            showResults 
-              ? "flex-1 opacity-100 translate-x-0" 
-              : "w-0 opacity-0 -translate-x-full overflow-hidden"
-          }`}
-        >
-          {showResults && <DashboardView title="Students Below 70% in Math" />}
-        </div>
-
-        {/* Vertical divider - fades in when dashboard appears */}
-        <div 
-          className={`w-[1px] bg-[#E2E6E9] shrink-0 transition-opacity duration-700 ${
-            showResults ? "opacity-100" : "opacity-0"
-          }`}
-        />
-
-        {/* Sidebar - always present on the right, fills full height */}
-        <div className="flex flex-col h-full">
+      {showResults ? (
+        <div className="bg-canvas rounded-2xl flex gap-6 p-6 flex-1 overflow-hidden">
+          {/* Dashboard - visible when results shown */}
+          <DashboardView title="Students Below 70% in Math" />
+          
+          {/* Vertical divider */}
+          <div className="w-[1px] bg-[#E2E6E9] shrink-0" />
+          
+          {/* Sidebar - same instance, just showing history */}
           <AISidebar
             onSubmit={handleSubmit}
             isLoading={isLoading}
-            showHistory={showResults}
+            showHistory={true}
             userPrompt={userPrompt}
           />
         </div>
-      </div>
+      ) : (
+        <div className="flex gap-6 flex-1 overflow-hidden">
+          {/* Empty canvas area before results */}
+          <div className="flex-1 bg-canvas rounded-2xl" />
+          
+          {/* Sidebar - initial state */}
+          <AISidebar
+            onSubmit={handleSubmit}
+            isLoading={isLoading}
+            showHistory={false}
+            userPrompt={userPrompt}
+          />
+        </div>
+      )}
     </div>
   );
 };
