@@ -146,7 +146,8 @@ export const AISidebar = ({
   };
   const handleSend = () => {
     if (prompt.trim() && onSubmit) {
-      setSubmissionTime(new Date());
+      const currentTime = new Date();
+      setSubmissionTime(currentTime);
       onSubmit(prompt);
     }
   };
