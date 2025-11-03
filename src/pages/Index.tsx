@@ -21,30 +21,35 @@ const Index = () => {
 
   return (
     <div className="h-screen bg-background p-6 flex flex-col overflow-hidden">
-      {showResults ? (
-        <div className="bg-canvas rounded-2xl flex gap-6 p-6 flex-1 overflow-hidden">
-          <DashboardView title="Students Below 70% in Math" />
-          <div className="w-[1px] bg-[#E2E6E9] shrink-0"></div>
+      <div className="bg-canvas rounded-2xl flex gap-6 p-6 flex-1 overflow-hidden">
+        {/* Dashboard - slides in from left when results shown */}
+        <div 
+          className={`transition-all duration-700 ease-in-out ${
+            showResults 
+              ? "flex-1 opacity-100 translate-x-0" 
+              : "w-0 opacity-0 -translate-x-full overflow-hidden"
+          }`}
+        >
+          {showResults && <DashboardView title="Students Below 70% in Math" />}
+        </div>
+
+        {/* Vertical divider - fades in when dashboard appears */}
+        <div 
+          className={`w-[1px] bg-[#E2E6E9] shrink-0 transition-opacity duration-700 ${
+            showResults ? "opacity-100" : "opacity-0"
+          }`}
+        />
+
+        {/* Sidebar - always present on the right, fills full height */}
+        <div className="flex flex-col h-full">
           <AISidebar
             onSubmit={handleSubmit}
             isLoading={isLoading}
-            showHistory={userPrompt !== ""}
+            showHistory={showResults}
             userPrompt={userPrompt}
           />
         </div>
-      ) : (
-        <div className="flex gap-6 flex-1 overflow-hidden">
-          <div className="flex-1 bg-canvas rounded-2xl">
-            {/* Main canvas area for charts and visualizations */}
-          </div>
-          <AISidebar
-            onSubmit={handleSubmit}
-            isLoading={isLoading}
-            showHistory={userPrompt !== ""}
-            userPrompt={userPrompt}
-          />
-        </div>
-      )}
+      </div>
     </div>
   );
 };
