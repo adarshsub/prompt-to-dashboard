@@ -16,7 +16,7 @@ export const DashboardView = ({ title }: DashboardViewProps) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   return (
-    <div className="flex-1 bg-canvas rounded-2xl flex flex-col">
+    <div className="flex-1 flex flex-col">
       <div className="flex items-center justify-between p-6 pb-4">
         <div className="flex items-center gap-3">
           <Button

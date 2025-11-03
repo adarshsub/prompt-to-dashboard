@@ -20,20 +20,30 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background p-6 flex gap-6">
+    <div className="min-h-screen bg-background p-6">
       {showResults ? (
-        <DashboardView title="Students Below 70% in Math" />
+        <div className="bg-canvas rounded-2xl flex gap-6 p-6">
+          <DashboardView title="Students Below 70% in Math" />
+          <AISidebar
+            onSubmit={handleSubmit}
+            isLoading={isLoading}
+            showHistory={userPrompt !== ""}
+            userPrompt={userPrompt}
+          />
+        </div>
       ) : (
-        <div className="flex-1 bg-canvas rounded-2xl">
-          {/* Main canvas area for charts and visualizations */}
+        <div className="flex gap-6">
+          <div className="flex-1 bg-canvas rounded-2xl">
+            {/* Main canvas area for charts and visualizations */}
+          </div>
+          <AISidebar
+            onSubmit={handleSubmit}
+            isLoading={isLoading}
+            showHistory={userPrompt !== ""}
+            userPrompt={userPrompt}
+          />
         </div>
       )}
-      <AISidebar
-        onSubmit={handleSubmit}
-        isLoading={isLoading}
-        showHistory={userPrompt !== ""}
-        userPrompt={userPrompt}
-      />
     </div>
   );
 };
