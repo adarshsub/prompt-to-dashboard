@@ -49,12 +49,9 @@ const Index = () => {
           />
         </div>
       ) : (
-        <div className="bg-canvas rounded-2xl flex gap-6 p-6 flex-1 overflow-hidden">
+        <div className="flex gap-6 flex-1 overflow-hidden">
           {/* Empty canvas area before submission */}
-          <div className="flex-1 rounded-2xl min-w-0" />
-          
-          {/* Vertical divider (kept for consistent layout) */}
-          <div className="w-px bg-border shrink-0" />
+          <div className="flex-1 bg-canvas rounded-2xl" />
           
           {/* Sidebar - initial state */}
           <AISidebar
