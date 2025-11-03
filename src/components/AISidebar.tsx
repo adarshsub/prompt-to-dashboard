@@ -86,7 +86,7 @@ export const AISidebar = ({
     return TEMPLATE_PROMPTS[subject as keyof typeof TEMPLATE_PROMPTS]?.[selectedCategory] || [];
   };
   const templatePrompts = getTemplatePrompts();
-  return <div className="w-[280px] bg-sidebar rounded-2xl p-6 flex flex-col overflow-hidden shrink-0">
+  return <div className="w-[280px] bg-sidebar rounded-2xl p-6 flex flex-col overflow-hidden shrink-0 min-h-0">
       <div className="flex items-start justify-between mb-4">
         <h2 className="text-2xl font-semibold bg-gradient-purple bg-clip-text text-transparent">
           Create with AI
@@ -97,9 +97,10 @@ export const AISidebar = ({
       </div>
 
       {showHistory ? <>
-          <p className="text-sm text-muted-foreground mb-8 leading-relaxed">Enter your question about the data you'd like to visualize. Our AI will generate appropriate charts and insights.</p>
+          <p className="text-xs text-[#AC5CCC] mb-3.5 leading-relaxed">Enter a question about the data you'd like to visualize. Our AI will generate appropriate charts and insights.</p>
+          <div className="h-px bg-[#E2E6E9] mb-6" />
 
-          <div className="flex-1 space-y-4 overflow-y-auto mb-4">
+          <div className="flex-1 overflow-y-auto mb-6 pr-2 space-y-4" style={{ scrollbarGutter: "stable" }}>
             {userPrompt && <>
                 <div className="bg-muted/50 rounded-lg p-3 text-sm text-card-foreground">
                   {userPrompt}
@@ -147,7 +148,7 @@ export const AISidebar = ({
           <p className="text-xs text-[#AC5CCC] mb-3.5 leading-relaxed">Enter a question about the data you'd like to visualize. Our AI will generate appropriate charts and insights.</p>
           <div className="h-px bg-[#E2E6E9] mb-6" />
 
-          <div className={cn("mb-6", selectedSubjects.length > 0 && "max-h-[400px] overflow-y-auto")}>
+          <div className={cn("flex-1 overflow-y-auto mb-6 pr-2", selectedSubjects.length > 0 && "max-h-[400px]")} style={{ scrollbarGutter: "stable" }}>
             <h3 className="text-sm font-semibold text-card-foreground mb-3">
               Quick actions
             </h3>
@@ -309,7 +310,7 @@ export const AISidebar = ({
             e.preventDefault();
             handleSend();
           }
-        }} disabled={isLoading} className="pr-10 bg-card border-border text-card-foreground placeholder:text-muted-foreground resize-none min-h-[60px]" rows={3} />
+        }} disabled={isLoading} className="pr-10 bg-card border-border text-card-foreground placeholder:text-muted-foreground resize-none h-[60px] min-h-[60px] max-h-[60px]" rows={3} />
           <Button size="icon" onClick={handleSend} disabled={!prompt.trim() || isLoading} className="absolute right-1 bottom-1 h-8 w-8 bg-transparent hover:bg-muted text-muted-foreground hover:text-card-foreground disabled:opacity-50">
             {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
           </Button>
