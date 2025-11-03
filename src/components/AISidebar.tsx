@@ -264,11 +264,11 @@ export const AISidebar = ({
 
                   {selectedCategory && <div className="space-y-2 mt-3">
                     {templatePrompts.map((templatePrompt, index) => {
+                      const showBothSubjects = selectedSubjects.includes("All") || 
+                        (selectedSubjects.includes("Math") && selectedSubjects.includes("English"));
                       const subject = selectedSubjects[0];
-                      const displaySubject = (subject === "English" || subject === "All") 
-                        ? "Math and English" 
-                        : subject;
-                      const parts = templatePrompt.split(subject === "English" || subject === "All" ? "Math" : subject);
+                      const displaySubject = showBothSubjects ? "Math and English" : subject;
+                      const parts = templatePrompt.split(showBothSubjects ? "Math" : subject);
                       
                       return (
                         <button key={index} onClick={() => handlePromptClick(templatePrompt)} className={cn("w-full text-left p-3 rounded-lg border transition-colors text-sm flex items-center gap-2", prompt === templatePrompt ? "border-primary bg-primary/5" : "border-border bg-card hover:border-primary/50 hover:bg-card/80")}>
