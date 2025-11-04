@@ -229,17 +229,13 @@ export const AISidebar = ({
                             <div className="bg-white rounded-lg aspect-square" />
                           </div>
                         </div>
-                        {isDashboardCollapsed ? (
-                          <Button variant="ghost" size="default" onClick={onExpand} className="w-full justify-center gap-2 text-card-foreground bg-white/70 hover:bg-white/90 hover:text-[#2e2e37] rounded-full px-6 h-9 mt-2">
+                        {isDashboardCollapsed ? <Button variant="ghost" size="default" onClick={onExpand} className="w-full justify-center gap-2 text-card-foreground bg-white/70 hover:bg-white/90 hover:text-[#2e2e37] rounded-full px-6 h-9 mt-2">
                             <ChevronsLeft className="h-4 w-4" />
                             <span className="text-xs">Expand Dashboard</span>
-                          </Button>
-                        ) : (
-                          <Button variant="ghost" size="default" onClick={onExpand} className="w-full justify-center gap-2 text-card-foreground bg-white/70 hover:bg-white/90 hover:text-[#2e2e37] rounded-full px-6 h-9 mt-2">
+                          </Button> : <Button variant="ghost" size="default" onClick={onExpand} className="w-full justify-center gap-2 text-card-foreground bg-white/70 hover:bg-white/90 hover:text-[#2e2e37] rounded-full px-6 h-9 mt-2">
                             <ChevronsLeft className="h-4 w-4 rotate-180" />
                             <span className="text-xs">Collapse Dashboard</span>
-                          </Button>
-                        )}
+                          </Button>}
                       </div>
                       <div className="text-xs text-muted-foreground text-left pl-4">
                         {submittedAt ? new Date(submittedAt.getTime() + 2000).toLocaleTimeString('en-US', {
@@ -458,7 +454,7 @@ export const AISidebar = ({
 
                 // Check if this is a "below X%" prompt
                 const isBelowPrompt = templatePrompt.includes("below 70%");
-                
+
                 // Adjust grammar for multiple subjects and replace threshold
                 let adjustedPrompt = templatePrompt;
                 if (isBelowPrompt) {
@@ -468,7 +464,6 @@ export const AISidebar = ({
                   adjustedPrompt = adjustedPrompt.replace(`${promptSubject} class.`, `${promptSubject} classes.`).replace(`${promptSubject} class's`, `${promptSubject} classes'`).replace("does my", "do my").replace("score compare", "scores compare");
                 }
                 const parts = adjustedPrompt.split(promptSubject);
-                
                 return <div key={index} className="relative">
                       <button onClick={() => handlePromptClick(adjustedPrompt)} className={cn("w-full text-left p-3 rounded-lg border transition-colors text-xs flex flex-col gap-2", prompt === adjustedPrompt ? "border-primary bg-primary/5" : "border-border bg-card hover:border-[#c69fdc] hover:bg-card/80")}>
                         <div className="flex items-center gap-2">
@@ -480,45 +475,27 @@ export const AISidebar = ({
                               </React.Fragment>)}
                           </span>
                         </div>
-                        {isBelowPrompt && (
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setThresholdDropdownOpen(thresholdDropdownOpen === index ? null : index);
-                            }}
-                            className="flex items-center gap-1.5 text-muted-foreground hover:text-card-foreground transition-colors text-[10px] pl-6"
-                          >
+                        {isBelowPrompt && <button onClick={e => {
+                      e.stopPropagation();
+                      setThresholdDropdownOpen(thresholdDropdownOpen === index ? null : index);
+                    }} className="flex items-center gap-1.5 text-muted-foreground hover:text-card-foreground transition-colors text-[10px] pl-6">
                             <span className="font-semibold">Modify Percent Threshold</span>
                             <ChevronDown className={cn("h-3 w-3 transition-transform", thresholdDropdownOpen === index && "rotate-180")} />
-                          </button>
-                        )}
+                          </button>}
                       </button>
                       
-                      {isBelowPrompt && thresholdDropdownOpen === index && (
-                        <div className="mt-1 p-2 border border-border rounded-lg bg-card">
-                          <p className="text-xs text-muted-foreground mb-2 px-1">Modify Percent Threshold</p>
+                      {isBelowPrompt && thresholdDropdownOpen === index && <div className="mt-1 p-2 border border-border rounded-lg bg-card">
+                          
                           <div className="grid grid-cols-3 gap-1">
-                            {[90, 80, 70, 60, 50, 40, 30, 20, 10].map((threshold) => (
-                              <button
-                                key={threshold}
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  setPercentThreshold(threshold);
-                                  setThresholdDropdownOpen(null);
-                                }}
-                                className={cn(
-                                  "px-2 py-1.5 text-xs rounded transition-colors",
-                                  percentThreshold === threshold
-                                    ? "bg-primary text-primary-foreground"
-                                    : "bg-muted hover:bg-muted/80 text-card-foreground"
-                                )}
-                              >
+                            {[90, 80, 70, 60, 50, 40, 30, 20, 10].map(threshold => <button key={threshold} onClick={e => {
+                        e.stopPropagation();
+                        setPercentThreshold(threshold);
+                        setThresholdDropdownOpen(null);
+                      }} className={cn("px-2 py-1.5 text-xs rounded transition-colors", percentThreshold === threshold ? "bg-primary text-primary-foreground" : "bg-muted hover:bg-muted/80 text-card-foreground")}>
                                 {threshold}%
-                              </button>
-                            ))}
+                              </button>)}
                           </div>
-                        </div>
-                      )}
+                        </div>}
                     </div>;
               })}
                   </div>}
