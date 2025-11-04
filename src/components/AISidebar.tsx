@@ -190,7 +190,7 @@ export const AISidebar = ({
 
       {showHistory ? <>
           <p className="text-xs text-[#AC5CCC] mb-3.5 leading-relaxed">Enter a question about the data you'd like to visualize. Our AI will generate appropriate charts and insights.</p>
-          <div className="h-px bg-[#E2E6E9] mb-6" />
+          <div className="h-px bg-[#E2E6E9] mb-0.5" />
 
           <div ref={scrollContainerRef} className="flex-1 overflow-y-auto mb-3.5 pr-2 space-y-4" style={{
         scrollbarGutter: "stable"
