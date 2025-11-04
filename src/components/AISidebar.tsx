@@ -232,7 +232,7 @@ export const AISidebar = ({
                         {isDashboardCollapsed ? <Button variant="ghost" size="default" onClick={onExpand} className="w-full justify-center gap-2 text-card-foreground bg-white/70 hover:bg-white hover:text-[#2e2e37] rounded-full px-6 h-9 mt-2">
                             <ChevronsLeft className="h-4 w-4" />
                             <span className="text-xs">Expand Dashboard</span>
-                          </Button> : <Button variant="ghost" size="default" onClick={onExpand} className="w-full justify-center gap-2 text-card-foreground bg-white/70 hover:bg-white hover:text-[#2e2e37] rounded-full px-6 h-9 mt-2 py-0 my-[10px]">
+                          </Button> : <Button variant="ghost" size="default" onClick={onExpand} className="w-full justify-center gap-2 text-card-foreground bg-white/70 hover:bg-white hover:text-[#2e2e37] rounded-full px-6 h-9 mt-2">
                             <ChevronsLeft className="h-4 w-4 rotate-180" />
                             <span className="text-xs">Collapse Dashboard</span>
                           </Button>}
@@ -292,7 +292,7 @@ export const AISidebar = ({
               <div className="space-y-2">
                 <Popover open={subjectsOpen} onOpenChange={setSubjectsOpen}>
                   <PopoverTrigger asChild>
-                    <Button variant="outline" className="w-full justify-between items-center bg-card border-border text-card-foreground hover:bg-white hover:border-[#c69fdc] transition-all min-h-10 py-1.5 rounded-full text-sm">
+                    <Button variant="outline" className="w-full justify-between items-center bg-card border-border text-card-foreground hover:bg-white hover:border-[#c69fdc] transition-all min-h-10 py-1.5 rounded-full text-sm h-auto">
 
                       {selectedSubjects.length > 0 ? <div className="flex flex-wrap items-center gap-1 flex-1 mr-2 min-h-0">
                           {(selectedSubjects.includes("All") ? ["All"] : selectedSubjects).map(subject => <Badge key={subject} variant="secondary" className="pl-2 pr-1 py-0.5 text-xs h-6" style={{
@@ -352,27 +352,37 @@ export const AISidebar = ({
               </Popover>
 
               {activeFilters.includes("Terms") && <div className="space-y-2">
-                  {selectedTerms.length > 0 && <div className="flex flex-wrap gap-1.5 mb-2">
-                    {selectedTerms.map(term => <Badge key={term} variant="secondary" className="bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 pl-2.5 pr-1.5 py-1">
-                        {term}
-                        <button onClick={() => handleRemoveTerm(term)} className="ml-1.5 hover:bg-primary/30 rounded-full p-0.5">
-                          <X className="h-3 w-3" />
-                        </button>
-                      </Badge>)}
-                  </div>}
-
                 <Popover open={termsOpen} onOpenChange={setTermsOpen}>
                   <PopoverTrigger asChild>
-                    <Button variant="outline" className="w-full justify-between bg-card border-border text-card-foreground hover:bg-white hover:border-[#c69fdc] transition-all rounded-full text-sm">
-                      <span style={{
+                    <Button variant="outline" className="w-full justify-between items-center bg-card border-border text-card-foreground hover:bg-white hover:border-[#c69fdc] transition-all min-h-10 py-1.5 rounded-full text-sm h-auto">
+                      {selectedTerms.length > 0 ? <div className="flex flex-wrap items-center gap-1 flex-1 mr-2 min-h-0">
+                          {selectedTerms.map(term => <Badge key={term} variant="secondary" className="pl-2 pr-1 py-0.5 text-xs h-6" style={{
+                      backgroundColor: '#EBF8FF',
+                      color: '#00A6FF',
+                      borderColor: '#00A6FF',
+                      borderWidth: '1px'
+                    }}>
+                              {term}
+                              <button onClick={e => {
+                        e.stopPropagation();
+                        handleRemoveTerm(term);
+                      }} className="ml-1 hover:bg-[#00A6FF]/30 rounded-full p-0.5">
+                                <X className="h-2.5 w-2.5" style={{
+                          color: '#00A6FF'
+                        }} />
+                              </button>
+                            </Badge>)}
+                        </div> : <span style={{
                     color: '#6F8090'
-                  }}>Terms</span>
-                      <ChevronDown className={cn("h-4 w-4 transition-transform text-[#2e2e37]", termsOpen && "rotate-180")} />
+                  }}>Terms</span>}
+                      <div className="self-center flex-shrink-0">
+                        <ChevronDown className={cn("h-4 w-4 transition-transform text-[#2e2e37]", termsOpen && "rotate-180")} />
+                      </div>
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-[232px] p-3 bg-card border-border" align="start">
                     <div className="space-y-2">
-                      {["Fall 2025", "Spring 2025", "Fall 2024", "Spring 2024"].map(term => <div key={term} className="flex items-center space-x-2">
+                      {["Fall 2025", "Spring 2025", "Fall 2024", "Spring 2024", "Full Year 2025", "Full Year 2024", "Full Year 2023"].map(term => <div key={term} className="flex items-center space-x-2">
                           <Checkbox id={term} checked={selectedTerms.includes(term)} onCheckedChange={() => handleTermToggle(term)} />
                           <label htmlFor={term} className="text-sm text-card-foreground cursor-pointer flex-1">
                             {term}
@@ -384,22 +394,32 @@ export const AISidebar = ({
                 </div>}
 
               {activeFilters.includes("Grade Levels") && <div className="space-y-2">
-                {selectedGradeLevels.length > 0 && <div className="flex flex-wrap gap-1.5 mb-2">
-                    {selectedGradeLevels.map(level => <Badge key={level} variant="secondary" className="bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 pl-2.5 pr-1.5 py-1">
-                        {level}
-                        <button onClick={() => handleRemoveGradeLevel(level)} className="ml-1.5 hover:bg-primary/30 rounded-full p-0.5">
-                          <X className="h-3 w-3" />
-                        </button>
-                      </Badge>)}
-                  </div>}
-
                 <Popover open={gradeLevelsOpen} onOpenChange={setGradeLevelsOpen}>
                   <PopoverTrigger asChild>
-                    <Button variant="outline" className="w-full justify-between bg-card border-border text-card-foreground hover:bg-white hover:border-[#c69fdc] transition-all rounded-full text-sm">
-                      <span style={{
+                    <Button variant="outline" className="w-full justify-between items-center bg-card border-border text-card-foreground hover:bg-white hover:border-[#c69fdc] transition-all min-h-10 py-1.5 rounded-full text-sm h-auto">
+                      {selectedGradeLevels.length > 0 ? <div className="flex flex-wrap items-center gap-1 flex-1 mr-2 min-h-0">
+                          {selectedGradeLevels.map(level => <Badge key={level} variant="secondary" className="pl-2 pr-1 py-0.5 text-xs h-6" style={{
+                      backgroundColor: '#EBF8FF',
+                      color: '#00A6FF',
+                      borderColor: '#00A6FF',
+                      borderWidth: '1px'
+                    }}>
+                              {level}
+                              <button onClick={e => {
+                        e.stopPropagation();
+                        handleRemoveGradeLevel(level);
+                      }} className="ml-1 hover:bg-[#00A6FF]/30 rounded-full p-0.5">
+                                <X className="h-2.5 w-2.5" style={{
+                          color: '#00A6FF'
+                        }} />
+                              </button>
+                            </Badge>)}
+                        </div> : <span style={{
                     color: '#6F8090'
-                  }}>Grade Levels</span>
-                      <ChevronDown className={cn("h-4 w-4 transition-transform text-[#2e2e37]", gradeLevelsOpen && "rotate-180")} />
+                  }}>Grade Levels</span>}
+                      <div className="self-center flex-shrink-0">
+                        <ChevronDown className={cn("h-4 w-4 transition-transform text-[#2e2e37]", gradeLevelsOpen && "rotate-180")} />
+                      </div>
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-[232px] p-3 bg-card border-border" align="start">
@@ -417,6 +437,39 @@ export const AISidebar = ({
 
 
               {selectedSubjects.length > 0 && <>
+                  {selectedTerms.length > 1 && <div className="mt-4 pt-2">
+                    <button 
+                      onClick={() => {
+                        let comparisonPrompt = "Show me the average math score for ";
+                        if (selectedTerms.length === 2) {
+                          comparisonPrompt += `${selectedTerms[0]} vs ${selectedTerms[1]}.`;
+                        } else if (selectedTerms.length === 3) {
+                          comparisonPrompt += `${selectedTerms[0]} vs ${selectedTerms[1]} vs ${selectedTerms[2]}.`;
+                        } else if (selectedTerms.length === 4) {
+                          comparisonPrompt += `${selectedTerms[0]}-${selectedTerms[1]} vs ${selectedTerms[2]}-${selectedTerms[3]}.`;
+                        } else {
+                          // For 5+ terms, show first two pairs
+                          comparisonPrompt += `${selectedTerms[0]}-${selectedTerms[1]} vs ${selectedTerms[2]}-${selectedTerms[3]}.`;
+                        }
+                        handlePromptClick(comparisonPrompt);
+                      }}
+                      className={cn("w-full text-left p-3 rounded-lg border transition-colors text-xs flex items-center gap-2", "border-border bg-card hover:border-[#c69fdc] hover:bg-card/80")}
+                    >
+                      <Sparkles className="h-4 w-4 flex-shrink-0" color="#323232" />
+                      <span className="text-card-foreground leading-snug px-0.5 flex-1">
+                        Show me the average math score for {selectedTerms.length === 2 ? (
+                          <>{selectedTerms[0]} vs {selectedTerms[1]}.</>
+                        ) : selectedTerms.length === 3 ? (
+                          <>{selectedTerms[0]} vs {selectedTerms[1]} vs {selectedTerms[2]}.</>
+                        ) : selectedTerms.length === 4 ? (
+                          <>{selectedTerms[0]}-{selectedTerms[1]} vs {selectedTerms[2]}-{selectedTerms[3]}.</>
+                        ) : (
+                          <>{selectedTerms[0]}-{selectedTerms[1]} vs {selectedTerms[2]}-{selectedTerms[3]}.</>
+                        )}
+                      </span>
+                    </button>
+                  </div>}
+                  
                   <div className="flex gap-2 mt-4 pt-2 overflow-x-auto flex-nowrap pb-1">
                     <button onClick={() => setSelectedCategory(prev => prev === "performance" ? null : "performance")} className={cn("flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-colors whitespace-nowrap flex-shrink-0 border", selectedCategory === "performance" ? "bg-primary text-primary-foreground border-primary" : "bg-white text-black border-[#E2E6E9]")}>
                       Performance
@@ -463,6 +516,12 @@ export const AISidebar = ({
                 if (showMultipleSubjects) {
                   adjustedPrompt = adjustedPrompt.replace(`${promptSubject} class.`, `${promptSubject} classes.`).replace(`${promptSubject} class's`, `${promptSubject} classes'`).replace("does my", "do my").replace("score compare", "scores compare");
                 }
+                
+                // Append term information if selected
+                if (selectedTerms.length === 1) {
+                  adjustedPrompt = adjustedPrompt.replace(/\.$/, '') + ` in ${selectedTerms[0]}.`;
+                }
+                
                 const parts = adjustedPrompt.split(promptSubject);
 
                 // Split the prompt to bold the percent when modified
