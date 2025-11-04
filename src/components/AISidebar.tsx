@@ -329,7 +329,7 @@ export const AISidebar = ({
                 <PopoverTrigger asChild>
                   <Button variant="ghost" className="justify-center gap-2 text-[#AC5CCC] hover:text-[#AC5CCC] hover:bg-[#c69fdc]/10 transition-all text-xs font-medium h-8 px-3">
                     <Plus className="h-4 w-4" />
-                    <span>Add filters</span>
+                    <span>More filters</span>
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-[232px] p-3 bg-card border-border" align="start">
