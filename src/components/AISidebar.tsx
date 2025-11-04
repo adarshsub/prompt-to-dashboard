@@ -470,23 +470,26 @@ export const AISidebar = ({
                 const parts = adjustedPrompt.split(promptSubject);
                 
                 return <div key={index} className="relative">
-                      <button onClick={() => handlePromptClick(adjustedPrompt)} className={cn("w-full text-left p-3 rounded-lg border transition-colors text-xs flex items-center gap-2", prompt === adjustedPrompt ? "border-primary bg-primary/5" : "border-border bg-card hover:border-[#c69fdc] hover:bg-card/80")}>
-                        <Sparkles className="h-4 w-4 flex-shrink-0" color="#323232" />
-                        <span className="text-card-foreground leading-snug px-0.5 flex-1">
-                          {parts.map((part, i) => <React.Fragment key={i}>
-                              {part}
-                              {i < parts.length - 1 && <strong>{displaySubject}</strong>}
-                            </React.Fragment>)}
-                        </span>
+                      <button onClick={() => handlePromptClick(adjustedPrompt)} className={cn("w-full text-left p-3 rounded-lg border transition-colors text-xs flex flex-col gap-2", prompt === adjustedPrompt ? "border-primary bg-primary/5" : "border-border bg-card hover:border-[#c69fdc] hover:bg-card/80")}>
+                        <div className="flex items-center gap-2">
+                          <Sparkles className="h-4 w-4 flex-shrink-0" color="#323232" />
+                          <span className="text-card-foreground leading-snug px-0.5 flex-1">
+                            {parts.map((part, i) => <React.Fragment key={i}>
+                                {part}
+                                {i < parts.length - 1 && <strong>{displaySubject}</strong>}
+                              </React.Fragment>)}
+                          </span>
+                        </div>
                         {isBelowPrompt && (
                           <button
                             onClick={(e) => {
                               e.stopPropagation();
                               setThresholdDropdownOpen(thresholdDropdownOpen === index ? null : index);
                             }}
-                            className="flex items-center gap-1 text-muted-foreground hover:text-card-foreground transition-colors"
+                            className="flex items-center gap-1.5 text-muted-foreground hover:text-card-foreground transition-colors text-[10px] pl-6"
                           >
-                            <ChevronDown className={cn("h-3.5 w-3.5 transition-transform", thresholdDropdownOpen === index && "rotate-180")} />
+                            <span>Modify Percent Threshold</span>
+                            <ChevronDown className={cn("h-3 w-3 transition-transform", thresholdDropdownOpen === index && "rotate-180")} />
                           </button>
                         )}
                       </button>
