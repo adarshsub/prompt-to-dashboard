@@ -503,22 +503,23 @@ export const AISidebar = ({
                             </Popover>
                           </div>}
 
-                          <div className="flex gap-2 mt-2 overflow-x-auto flex-nowrap pb-1">
-                            <button onClick={() => setSelectedCategory(prev => prev === "performance" ? null : "performance")} className={cn("flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-colors whitespace-nowrap flex-shrink-0 border", selectedCategory === "performance" ? "bg-primary text-primary-foreground border-primary" : "bg-white text-black border-[#E2E6E9]")}>
-                              Performance
-                              <span className={cn("w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0", selectedCategory === "performance" ? "bg-white/20" : "bg-[#E2E6E9]")}>
-                                {selectedCategory === "performance" ? <Minus className="h-2.5 w-2.5" color="#FFFFFF" strokeWidth={2.5} /> : <Plus className="h-2.5 w-2.5" color="#FFFFFF" strokeWidth={2.5} />}
-                              </span>
-                            </button>
-                            <button onClick={() => setSelectedCategory(prev => prev === "engagement" ? null : "engagement")} className={cn("flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-colors whitespace-nowrap flex-shrink-0 border", selectedCategory === "engagement" ? "bg-primary text-primary-foreground border-primary" : "bg-white text-black border-[#E2E6E9]")}>
-                              Engagement
-                              <span className={cn("w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0", selectedCategory === "engagement" ? "bg-white/20" : "bg-[#E2E6E9]")}>
-                                {selectedCategory === "engagement" ? <Minus className="h-2.5 w-2.5" color="#FFFFFF" strokeWidth={2.5} /> : <Plus className="h-2.5 w-2.5" color="#FFFFFF" strokeWidth={2.5} />}
-                              </span>
-                            </button>
-                          </div>
+                          {(selectedSubjects.length > 0 || (selectedTerms.length > 0 || selectedGradeLevels.length > 0)) && <>
+                            <div className="flex gap-2 mt-2 overflow-x-auto flex-nowrap pb-1">
+                              <button onClick={() => setSelectedCategory(prev => prev === "performance" ? null : "performance")} className={cn("flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-colors whitespace-nowrap flex-shrink-0 border", selectedCategory === "performance" ? "bg-primary text-primary-foreground border-primary" : "bg-white text-black border-[#E2E6E9]")}>
+                                Performance
+                                <span className={cn("w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0", selectedCategory === "performance" ? "bg-white/20" : "bg-[#E2E6E9]")}>
+                                  {selectedCategory === "performance" ? <Minus className="h-2.5 w-2.5" color="#FFFFFF" strokeWidth={2.5} /> : <Plus className="h-2.5 w-2.5" color="#FFFFFF" strokeWidth={2.5} />}
+                                </span>
+                              </button>
+                              <button onClick={() => setSelectedCategory(prev => prev === "engagement" ? null : "engagement")} className={cn("flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-colors whitespace-nowrap flex-shrink-0 border", selectedCategory === "engagement" ? "bg-primary text-primary-foreground border-primary" : "bg-white text-black border-[#E2E6E9]")}>
+                                Engagement
+                                <span className={cn("w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0", selectedCategory === "engagement" ? "bg-white/20" : "bg-[#E2E6E9]")}>
+                                  {selectedCategory === "engagement" ? <Minus className="h-2.5 w-2.5" color="#FFFFFF" strokeWidth={2.5} /> : <Plus className="h-2.5 w-2.5" color="#FFFFFF" strokeWidth={2.5} />}
+                                </span>
+                              </button>
+                            </div>
 
-                          {selectedCategory && templatePrompts.length > 0 && <div className="space-y-2 mt-2">
+                            {selectedCategory && templatePrompts.length > 0 && <div className="space-y-2 mt-2">
                             {templatePrompts.map((templatePrompt, index) => {
                               const showMultipleSubjects = selectedSubjects.includes("All") || selectedSubjects.length > 1;
                               const isGenericPrompt = selectedSubjects.length === 0;
@@ -630,6 +631,7 @@ export const AISidebar = ({
                               </div>;
                             })}
                           </div>}
+                          </>}
                         </div>
                       </div>
                     )}
