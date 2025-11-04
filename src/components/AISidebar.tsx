@@ -642,7 +642,7 @@ export const AISidebar = ({
                                   </button>}
                                 </button>
                                 
-                                {isBelowPrompt && thresholdDropdownOpen === index && <div className="absolute left-0 right-0 top-full mt-1 p-2 border border-border rounded-lg bg-card z-50 shadow-lg">
+                                {isBelowPrompt && thresholdDropdownOpen === index && <div className="absolute left-0 right-0 top-full mt-1 p-2 border border-border rounded-lg bg-card z-[9999] shadow-lg">
                                   <div className="grid grid-cols-3 gap-1">
                                     {[90, 80, 70, 60, 50, 40, 30, 20, 10].map(threshold => <button key={threshold} onClick={e => {
                                       e.stopPropagation();
@@ -1042,7 +1042,7 @@ export const AISidebar = ({
                           </button>}
                       </button>
                       
-                      {isBelowPrompt && thresholdDropdownOpen === index && <div className="absolute left-0 right-0 top-full mt-1 p-2 border border-border rounded-lg bg-card z-50 shadow-lg">
+                      {isBelowPrompt && thresholdDropdownOpen === index && <div className="absolute left-0 right-0 top-full mt-1 p-2 border border-border rounded-lg bg-card z-[9999] shadow-lg">
                           
                           <div className="grid grid-cols-3 gap-1">
                             {[90, 80, 70, 60, 50, 40, 30, 20, 10].map(threshold => <button key={threshold} onClick={e => {
