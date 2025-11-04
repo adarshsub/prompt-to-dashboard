@@ -57,6 +57,8 @@ export const AISidebar = ({
   const [selectedInsights, setSelectedInsights] = useState<string[]>([]);
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
   const [filtersOpen, setFiltersOpen] = useState(false);
+  const [percentThreshold, setPercentThreshold] = useState(70);
+  const [thresholdDropdownOpen, setThresholdDropdownOpen] = useState<number | null>(null);
   const headingRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -454,21 +456,67 @@ export const AISidebar = ({
                   }
                 }
 
-                // Adjust grammar for multiple subjects
+                // Check if this is a "below X%" prompt
+                const isBelowPrompt = templatePrompt.includes("below 70%");
+                
+                // Adjust grammar for multiple subjects and replace threshold
                 let adjustedPrompt = templatePrompt;
+                if (isBelowPrompt) {
+                  adjustedPrompt = adjustedPrompt.replace("70%", `${percentThreshold}%`);
+                }
                 if (showMultipleSubjects) {
                   adjustedPrompt = adjustedPrompt.replace(`${promptSubject} class.`, `${promptSubject} classes.`).replace(`${promptSubject} class's`, `${promptSubject} classes'`).replace("does my", "do my").replace("score compare", "scores compare");
                 }
                 const parts = adjustedPrompt.split(promptSubject);
-                return <button key={index} onClick={() => handlePromptClick(adjustedPrompt)} className={cn("w-full text-left p-3 rounded-lg border transition-colors text-xs flex items-center gap-2", prompt === adjustedPrompt ? "border-primary bg-primary/5" : "border-border bg-card hover:border-[#c69fdc] hover:bg-card/80")}>
-                          <Sparkles className="h-4 w-4 flex-shrink-0" color="#323232" />
-                          <span className="text-card-foreground leading-snug px-0.5">
-                            {parts.map((part, i) => <React.Fragment key={i}>
-                                {part}
-                                {i < parts.length - 1 && <strong>{displaySubject}</strong>}
-                              </React.Fragment>)}
-                          </span>
-                        </button>;
+                
+                return <div key={index} className="relative">
+                      <button onClick={() => handlePromptClick(adjustedPrompt)} className={cn("w-full text-left p-3 rounded-lg border transition-colors text-xs flex items-center gap-2", prompt === adjustedPrompt ? "border-primary bg-primary/5" : "border-border bg-card hover:border-[#c69fdc] hover:bg-card/80")}>
+                        <Sparkles className="h-4 w-4 flex-shrink-0" color="#323232" />
+                        <span className="text-card-foreground leading-snug px-0.5 flex-1">
+                          {parts.map((part, i) => <React.Fragment key={i}>
+                              {part}
+                              {i < parts.length - 1 && <strong>{displaySubject}</strong>}
+                            </React.Fragment>)}
+                        </span>
+                        {isBelowPrompt && (
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setThresholdDropdownOpen(thresholdDropdownOpen === index ? null : index);
+                            }}
+                            className="flex items-center gap-1 text-muted-foreground hover:text-card-foreground transition-colors"
+                          >
+                            <ChevronDown className={cn("h-3.5 w-3.5 transition-transform", thresholdDropdownOpen === index && "rotate-180")} />
+                          </button>
+                        )}
+                      </button>
+                      
+                      {isBelowPrompt && thresholdDropdownOpen === index && (
+                        <div className="mt-1 p-2 border border-border rounded-lg bg-card">
+                          <p className="text-xs text-muted-foreground mb-2 px-1">Modify Percent Threshold</p>
+                          <div className="grid grid-cols-3 gap-1">
+                            {[90, 80, 70, 60, 50, 40, 30, 20, 10].map((threshold) => (
+                              <button
+                                key={threshold}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setPercentThreshold(threshold);
+                                  setThresholdDropdownOpen(null);
+                                }}
+                                className={cn(
+                                  "px-2 py-1.5 text-xs rounded transition-colors",
+                                  percentThreshold === threshold
+                                    ? "bg-primary text-primary-foreground"
+                                    : "bg-muted hover:bg-muted/80 text-card-foreground"
+                                )}
+                              >
+                                {threshold}%
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>;
               })}
                   </div>}
                 </>}
