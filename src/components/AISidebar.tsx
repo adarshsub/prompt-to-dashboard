@@ -215,14 +215,14 @@ export const AISidebar = ({
                     <Loader2 className="h-4 w-4 animate-spin" />
                     Generating response...
                   </div> : <>
-                  <div className="space-y-1">
-                      <div className="bg-[#D9F2FF] rounded-lg p-2 mr-4">
-                        <div className="font-semibold text-card-foreground text-xs mb-1">
+                  <div className="space-y-1.5">
+                      <div className="bg-[#D9F2FF] rounded-lg p-2.5 mr-4">
+                        <div className="font-semibold text-card-foreground text-xs mb-1.5">
                           {dashboardTitle}
                         </div>
-                        <div className={`grid grid-cols-2 gap-1.5 ${isDashboardCollapsed ? 'mb-1' : 'mb-0'}`}>
+                        <div className={`grid grid-cols-2 gap-2 ${isDashboardCollapsed ? 'mb-1.5' : 'mb-0'}`}>
                           <div className="bg-white rounded-lg h-16" />
-                          <div className="space-y-1.5">
+                          <div className="space-y-2">
                             <div className="bg-white rounded-lg h-7" />
                             <div className="bg-white rounded-lg h-7" />
                           </div>
