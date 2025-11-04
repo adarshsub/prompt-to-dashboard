@@ -16,6 +16,7 @@ interface AISidebarProps {
     prompt: string;
     title: string;
     submittedAt: Date;
+    isLoaded: boolean;
   }>;
   isDashboardCollapsed?: boolean;
   onExpand?: () => void;
@@ -300,38 +301,40 @@ export const AISidebar = ({
                   </div>
                 </div>
                 
-                <div className="space-y-[4px]">
-                  <div className="bg-[#D9F2FF] rounded-lg p-2">
-                    <div className="font-semibold text-card-foreground text-sm mb-1.5 my-0 py-[6px]">
-                      {conversation.title}
-                    </div>
-                    <div className={`grid grid-cols-2 gap-2 ${isDashboardCollapsed ? 'mb-1' : 'mb-1'}`}>
-                      <div className="bg-white rounded-lg h-full" />
-                      <div className="space-y-1.5">
-                        <div className="bg-white rounded-lg aspect-[4/2]" />
-                        <div className="bg-white rounded-lg aspect-[4/1.5]" />
+                {conversation.isLoaded && (
+                  <div className="space-y-[4px]">
+                    <div className="bg-[#D9F2FF] rounded-lg p-2">
+                      <div className="font-semibold text-card-foreground text-sm mb-1.5 my-0 py-[6px]">
+                        {conversation.title}
                       </div>
+                      <div className={`grid grid-cols-2 gap-2 ${isDashboardCollapsed ? 'mb-1' : 'mb-1'}`}>
+                        <div className="bg-white rounded-lg h-full" />
+                        <div className="space-y-1.5">
+                          <div className="bg-white rounded-lg aspect-[4/2]" />
+                          <div className="bg-white rounded-lg aspect-[4/1.5]" />
+                        </div>
+                      </div>
+                      {index === conversationHistory.length - 1 && (
+                        isDashboardCollapsed ? 
+                          <Button variant="ghost" size="default" onClick={onExpand} className="w-full justify-center gap-2 text-card-foreground bg-white/70 hover:bg-white hover:text-[#2e2e37] rounded-full px-6 h-9 mt-2">
+                            <ChevronsLeft className="h-4 w-4" />
+                            <span className="text-xs">Expand Dashboard</span>
+                          </Button> : 
+                          <Button variant="ghost" size="default" onClick={onExpand} className="w-full justify-center gap-2 text-card-foreground bg-white/70 hover:bg-white hover:text-[#2e2e37] rounded-full px-6 h-9 mt-2">
+                            <ChevronsLeft className="h-4 w-4 rotate-180" />
+                            <span className="text-xs">Collapse Dashboard</span>
+                          </Button>
+                      )}
                     </div>
-                    {index === conversationHistory.length - 1 && (
-                      isDashboardCollapsed ? 
-                        <Button variant="ghost" size="default" onClick={onExpand} className="w-full justify-center gap-2 text-card-foreground bg-white/70 hover:bg-white hover:text-[#2e2e37] rounded-full px-6 h-9 mt-2">
-                          <ChevronsLeft className="h-4 w-4" />
-                          <span className="text-xs">Expand Dashboard</span>
-                        </Button> : 
-                        <Button variant="ghost" size="default" onClick={onExpand} className="w-full justify-center gap-2 text-card-foreground bg-white/70 hover:bg-white hover:text-[#2e2e37] rounded-full px-6 h-9 mt-2">
-                          <ChevronsLeft className="h-4 w-4 rotate-180" />
-                          <span className="text-xs">Collapse Dashboard</span>
-                        </Button>
-                    )}
+                    <div className="text-xs text-muted-foreground text-left pl-4">
+                      {new Date(conversation.submittedAt.getTime() + 2000).toLocaleTimeString('en-US', {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        hour12: true
+                      })}
+                    </div>
                   </div>
-                  <div className="text-xs text-muted-foreground text-left pl-4">
-                    {new Date(conversation.submittedAt.getTime() + 2000).toLocaleTimeString('en-US', {
-                      hour: '2-digit',
-                      minute: '2-digit',
-                      hour12: true
-                    })}
-                  </div>
-                </div>
+                )}
               </React.Fragment>
             ))}
             

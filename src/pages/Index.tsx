@@ -11,6 +11,7 @@ const Index = () => {
       prompt: string;
       title: string;
       submittedAt: Date;
+      isLoaded: boolean;
     }>
   >([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -23,6 +24,7 @@ const Index = () => {
       prompt,
       title: generateDashboardTitle(prompt),
       submittedAt: new Date(),
+      isLoaded: false,
     };
 
     setConversationHistory((prev) => [...prev, newConversation]);
@@ -33,6 +35,12 @@ const Index = () => {
     // Simulate AI processing
     setTimeout(() => {
       setIsLoading(false);
+      // Mark the conversation as loaded
+      setConversationHistory((prev) =>
+        prev.map((conv, idx) =>
+          idx === prev.length - 1 ? { ...conv, isLoaded: true } : conv
+        )
+      );
       // Automatically expand dashboard view
       setIsDashboardCollapsed(false);
     }, 2000);
