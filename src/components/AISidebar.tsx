@@ -19,7 +19,7 @@ interface AISidebarProps {
 }
 const TEMPLATE_PROMPTS = {
   math: {
-    performance: ["Show me all students below 70% in Math class.", "How does my Math class's average score compare to the school's average?", "Which Math topics had the lowest mastery rates?", "Which standards need review based on the data?"],
+    performance: ["Show me all students below 70% in Math class.", "Show me a breakdown of Math scores by homeroom.", "Which Math topics had the lowest mastery rates?", "How does my Math class's average score compare to the school's average?"],
     engagement: ["Show student participation trends in Math.", "Which students need engagement support in Math?"]
   },
   english: {
