@@ -26,7 +26,7 @@ const Index = () => {
     <div className="h-screen bg-background p-6 flex flex-col overflow-hidden">
       {(showResults || isLoading) ? (
         !isDashboardCollapsed ? (
-          <div className="bg-canvas rounded-2xl flex gap-6 p-6 flex-1 overflow-hidden">
+          <div className="bg-canvas rounded-2xl flex gap-6 pt-0.5 px-6 pb-6 flex-1 overflow-hidden">
             {/* Dashboard area - smoothly transitions in */}
             <div className="flex-1 flex flex-col overflow-hidden min-w-0">
               {isLoading ? (
