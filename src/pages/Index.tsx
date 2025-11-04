@@ -27,7 +27,7 @@ const Index = () => {
       setIsLoading(false);
       setShowResults(true);
       // Automatically expand dashboard view
-      setIsDashboardCollapsed(true);
+      setIsDashboardCollapsed(false);
     }, 2000);
   };
 
