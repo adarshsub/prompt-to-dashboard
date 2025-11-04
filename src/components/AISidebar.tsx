@@ -504,13 +504,19 @@ export const AISidebar = ({
                             </Popover>
                           </div>}
 
-                          <div className="space-y-1.5">
-                            <Button variant={selectedCategory === "performance" ? "default" : "outline"} onClick={() => setSelectedCategory("performance")} className="w-full h-8 text-xs rounded-full">
+                          <div className="flex gap-2 mt-2 overflow-x-auto flex-nowrap pb-1">
+                            <button onClick={() => setSelectedCategory(prev => prev === "performance" ? null : "performance")} className={cn("flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-colors whitespace-nowrap flex-shrink-0 border", selectedCategory === "performance" ? "bg-primary text-primary-foreground border-primary" : "bg-white text-black border-[#E2E6E9]")}>
                               Performance
-                            </Button>
-                            <Button variant={selectedCategory === "engagement" ? "default" : "outline"} onClick={() => setSelectedCategory("engagement")} className="w-full h-8 text-xs rounded-full">
+                              <span className={cn("w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0", selectedCategory === "performance" ? "bg-white/20" : "bg-[#E2E6E9]")}>
+                                {selectedCategory === "performance" ? <Minus className="h-2.5 w-2.5" color="#FFFFFF" strokeWidth={2.5} /> : <Plus className="h-2.5 w-2.5" color="#FFFFFF" strokeWidth={2.5} />}
+                              </span>
+                            </button>
+                            <button onClick={() => setSelectedCategory(prev => prev === "engagement" ? null : "engagement")} className={cn("flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-colors whitespace-nowrap flex-shrink-0 border", selectedCategory === "engagement" ? "bg-primary text-primary-foreground border-primary" : "bg-white text-black border-[#E2E6E9]")}>
                               Engagement
-                            </Button>
+                              <span className={cn("w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0", selectedCategory === "engagement" ? "bg-white/20" : "bg-[#E2E6E9]")}>
+                                {selectedCategory === "engagement" ? <Minus className="h-2.5 w-2.5" color="#FFFFFF" strokeWidth={2.5} /> : <Plus className="h-2.5 w-2.5" color="#FFFFFF" strokeWidth={2.5} />}
+                              </span>
+                            </button>
                           </div>
 
                           {selectedCategory && templatePrompts.length > 0 && <div className="space-y-2 mt-2">
@@ -1047,7 +1053,7 @@ export const AISidebar = ({
             e.preventDefault();
             handleSend();
           }
-        }} disabled={isLoading} className={cn("pr-10 bg-card border-border text-card-foreground placeholder:text-muted-foreground resize-none h-[88px] min-h-[88px] max-h-[88px] focus-visible:ring-0 focus-visible:ring-offset-0 focus:border-[#c69fdc]", showHistory && !showQuickActionsInChat && "pl-10")} rows={4} />
+        }} disabled={isLoading} className="pr-10 bg-card border-border text-card-foreground placeholder:text-muted-foreground resize-none h-[88px] min-h-[88px] max-h-[88px] focus-visible:ring-0 focus-visible:ring-offset-0 focus:border-[#c69fdc]" rows={4} />
           <Button size="icon" onClick={handleSend} disabled={!prompt.trim() || isLoading} className="absolute right-1 bottom-1 h-8 w-8 bg-transparent hover:bg-muted text-muted-foreground hover:text-card-foreground disabled:opacity-50">
             {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
           </Button>
