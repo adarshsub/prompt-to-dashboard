@@ -34,6 +34,10 @@ const TEMPLATE_PROMPTS = {
   history: {
     performance: ["Show me all students below 70% in History class.", "How does my History class's average score compare to the school's average?"],
     engagement: []
+  },
+  generic: {
+    performance: ["Show me all students below 70% in my classes.", "Show me a breakdown of scores by homeroom.", "Which topics had the lowest mastery rates?", "How do my classes' average scores compare to the school's average?"],
+    engagement: ["Show student participation trends in my classes.", "Which students need engagement support in my classes?"]
   }
 };
 export const AISidebar = ({
@@ -163,7 +167,15 @@ export const AISidebar = ({
     }
   };
   const getTemplatePrompts = () => {
-    if (selectedSubjects.length === 0 || !selectedCategory) return [];
+    if (!selectedCategory) return [];
+    
+    // If no subjects selected but filters are active, show generic prompts
+    if (selectedSubjects.length === 0 && (selectedTerms.length > 0 || selectedGradeLevels.length > 0)) {
+      return TEMPLATE_PROMPTS.generic[selectedCategory] || [];
+    }
+    
+    // If no subjects and no filters, return empty
+    if (selectedSubjects.length === 0) return [];
 
     // If "All" is selected, combine all subject prompts
     if (selectedSubjects.includes("All")) {
@@ -436,7 +448,7 @@ export const AISidebar = ({
                 </div>}
 
 
-              {selectedSubjects.length > 0 && <>
+              {(selectedSubjects.length > 0 || (selectedTerms.length > 0 || selectedGradeLevels.length > 0)) && <>
                   
                   <div className="flex gap-2 mt-4 pt-2 overflow-x-auto flex-nowrap pb-1">
                     <button onClick={() => setSelectedCategory(prev => prev === "performance" ? null : "performance")} className={cn("flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-colors whitespace-nowrap flex-shrink-0 border", selectedCategory === "performance" ? "bg-primary text-primary-foreground border-primary" : "bg-white text-black border-[#E2E6E9]")}>
@@ -457,9 +469,11 @@ export const AISidebar = ({
                     <button 
                       onClick={() => {
                         const activeSubjects = selectedSubjects.includes("All") ? ["Math", "English", "Science", "History"] : selectedSubjects.filter(s => s !== "All");
-                        const subjectText = activeSubjects.length === 1 ? activeSubjects[0] : activeSubjects.length === 2 ? activeSubjects.join(" and ") : activeSubjects.slice(0, -1).join(", ") + ", and " + activeSubjects[activeSubjects.length - 1];
+                        const subjectText = selectedSubjects.length === 0 ? "score" : (activeSubjects.length === 1 ? activeSubjects[0] : activeSubjects.length === 2 ? activeSubjects.join(" and ") : activeSubjects.slice(0, -1).join(", ") + ", and " + activeSubjects[activeSubjects.length - 1]);
                         
-                        let comparisonPrompt = `Show me the average ${subjectText.toLowerCase()} score for `;
+                        let comparisonPrompt = selectedSubjects.length === 0 
+                          ? `Show me the average score for ` 
+                          : `Show me the average ${subjectText.toLowerCase()} score for `;
                         if (selectedTerms.length === 2) {
                           comparisonPrompt += `${selectedTerms[0]} vs ${selectedTerms[1]}.`;
                         } else if (selectedTerms.length === 3) {
@@ -475,7 +489,7 @@ export const AISidebar = ({
                     >
                       <Sparkles className="h-4 w-4 flex-shrink-0" color="#323232" />
                       <span className="text-card-foreground leading-snug px-0.5 flex-1">
-                        Show me the average {(() => {
+                        Show me the average {selectedSubjects.length === 0 ? "score" : (() => {
                           const activeSubjects = selectedSubjects.includes("All") ? ["Math", "English", "Science", "History"] : selectedSubjects.filter(s => s !== "All");
                           const subjectDisplay = activeSubjects.length === 1 ? <strong>{activeSubjects[0]}</strong> : activeSubjects.length === 2 ? <><strong>{activeSubjects[0]}</strong> and <strong>{activeSubjects[1]}</strong></> : <>{activeSubjects.slice(0, -1).map((s, i) => <React.Fragment key={s}><strong>{s}</strong>{i < activeSubjects.length - 2 ? ", " : ""}</React.Fragment>)}, and <strong>{activeSubjects[activeSubjects.length - 1]}</strong></>;
                           return subjectDisplay;
@@ -494,9 +508,11 @@ export const AISidebar = ({
                     <button 
                       onClick={() => {
                         const activeSubjects = selectedSubjects.includes("All") ? ["Math", "English", "Science", "History"] : selectedSubjects.filter(s => s !== "All");
-                        const subjectText = activeSubjects.length === 1 ? activeSubjects[0] : activeSubjects.length === 2 ? activeSubjects.join(" and ") : activeSubjects.slice(0, -1).join(", ") + ", and " + activeSubjects[activeSubjects.length - 1];
+                        const subjectText = selectedSubjects.length === 0 ? "score" : (activeSubjects.length === 1 ? activeSubjects[0] : activeSubjects.length === 2 ? activeSubjects.join(" and ") : activeSubjects.slice(0, -1).join(", ") + ", and " + activeSubjects[activeSubjects.length - 1]);
                         
-                        let comparisonPrompt = `Show me the average ${subjectText.toLowerCase()} score between `;
+                        let comparisonPrompt = selectedSubjects.length === 0 
+                          ? `Show me the average score between ` 
+                          : `Show me the average ${subjectText.toLowerCase()} score between `;
                         if (selectedTerms.length === 2) {
                           comparisonPrompt += `${selectedTerms[0]} and ${selectedTerms[1]}.`;
                         } else if (selectedTerms.length === 3) {
@@ -512,7 +528,7 @@ export const AISidebar = ({
                     >
                       <Sparkles className="h-4 w-4 flex-shrink-0" color="#323232" />
                       <span className="text-card-foreground leading-snug px-0.5 flex-1">
-                        Show me the average {(() => {
+                        Show me the average {selectedSubjects.length === 0 ? "score" : (() => {
                           const activeSubjects = selectedSubjects.includes("All") ? ["Math", "English", "Science", "History"] : selectedSubjects.filter(s => s !== "All");
                           const subjectDisplay = activeSubjects.length === 1 ? <strong>{activeSubjects[0]}</strong> : activeSubjects.length === 2 ? <><strong>{activeSubjects[0]}</strong> and <strong>{activeSubjects[1]}</strong></> : <>{activeSubjects.slice(0, -1).map((s, i) => <React.Fragment key={s}><strong>{s}</strong>{i < activeSubjects.length - 2 ? ", " : ""}</React.Fragment>)}, and <strong>{activeSubjects[activeSubjects.length - 1]}</strong></>;
                           return subjectDisplay;
@@ -532,13 +548,14 @@ export const AISidebar = ({
                   {selectedCategory && <div className="space-y-2 mt-2">
                     {templatePrompts.map((templatePrompt, index) => {
                 const showMultipleSubjects = selectedSubjects.includes("All") || selectedSubjects.length > 1;
+                const isGenericPrompt = selectedSubjects.length === 0;
 
-                // Detect which subject is in this specific prompt
-                const promptSubject = templatePrompt.includes("Math") ? "Math" : templatePrompt.includes("English") ? "English" : templatePrompt.includes("Science") ? "Science" : "History";
+                // Detect which subject is in this specific prompt (unless generic)
+                const promptSubject = isGenericPrompt ? "" : (templatePrompt.includes("Math") ? "Math" : templatePrompt.includes("English") ? "English" : templatePrompt.includes("Science") ? "Science" : "History");
 
                 // Build display subject text
                 let displaySubject = promptSubject;
-                if (showMultipleSubjects) {
+                if (!isGenericPrompt && showMultipleSubjects) {
                   const activeSubjects = selectedSubjects.includes("All") ? ["Math", "English", "Science", "History"] : selectedSubjects.filter(s => s !== "All");
 
                   // Format with commas and "and"
@@ -557,7 +574,7 @@ export const AISidebar = ({
                 if (isBelowPrompt) {
                   adjustedPrompt = adjustedPrompt.replace("70%", `${percentThreshold}%`);
                 }
-                if (showMultipleSubjects) {
+                if (!isGenericPrompt && showMultipleSubjects) {
                   adjustedPrompt = adjustedPrompt.replace(`${promptSubject} class.`, `${promptSubject} classes.`).replace(`${promptSubject} class's`, `${promptSubject} classes'`).replace("does my", "do my").replace("score compare", "scores compare");
                 }
                 
@@ -588,7 +605,7 @@ export const AISidebar = ({
                 // Remove trailing period from adjustedPrompt before processing if term or grade will be added
                 const hasAppendedText = termText || gradeLevelText;
                 const basePrompt = hasAppendedText ? adjustedPrompt.replace(/\.$/, '') : adjustedPrompt;
-                const parts = basePrompt.split(promptSubject);
+                const parts = isGenericPrompt ? [basePrompt] : basePrompt.split(promptSubject);
 
                 // Split the prompt to bold the percent when modified
                 const isModified = percentThreshold !== 70;
@@ -618,11 +635,11 @@ export const AISidebar = ({
                                   {subPart}
                                   {j < percentParts.length - 1 && (isModified ? <strong>{percentText}</strong> : percentText)}
                                 </React.Fragment>)}
-                                {i < parts.length - 1 && <strong>{displaySubject}</strong>}
+                                {i < parts.length - 1 && !isGenericPrompt && <strong>{displaySubject}</strong>}
                               </React.Fragment>;
                         })}
                             {termText && <> in <strong>{termText}</strong></>}
-                            {gradeLevelText && <> {(() => {
+                            {gradeLevelText && <>{(() => {
                               // Split and bold grade numbers
                               const words = gradeLevelText.split(' ');
                               return words.map((word, idx) => {
@@ -637,7 +654,7 @@ export const AISidebar = ({
                                 return <React.Fragment key={idx}>{word}{' '}</React.Fragment>;
                               });
                             })()}</>}
-                            {'.'}
+                            .
                           </span>
                         </div>
                         {isBelowPrompt && <button onClick={e => {
