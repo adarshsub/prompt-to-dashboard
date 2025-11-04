@@ -88,7 +88,7 @@ const Index = () => {
                 className="absolute top-8 right-8 bg-gradient-purple text-white hover:opacity-90 transition-opacity"
                 size="sm"
               >
-                <Sparkles className="h-4 w-4 mr-2" />
+                <Sparkles className="h-4 w-4" />
                 Create with AI
               </Button>
             )}
@@ -106,7 +106,7 @@ const Index = () => {
                   className="absolute top-8 right-8 bg-gradient-purple text-white hover:opacity-90 transition-opacity"
                   size="sm"
                 >
-                  <Sparkles className="h-4 w-4 mr-1" />
+                  <Sparkles className="h-4 w-4" />
                   Create with AI
                 </Button>
               )}
