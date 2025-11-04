@@ -1,4 +1,4 @@
-import { X, Send, Loader2, BarChart3, ChevronDown, Plus, Minus, ChevronsLeft } from "lucide-react";
+import { X, Send, Loader2, Sparkles, ChevronDown, Plus, Minus, ChevronsLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -453,7 +453,7 @@ export const AISidebar = ({
                 }
                 const parts = adjustedPrompt.split(promptSubject);
                 return <button key={index} onClick={() => handlePromptClick(adjustedPrompt)} className={cn("w-full text-left p-3 rounded-lg border transition-colors text-xs flex items-center gap-2", prompt === adjustedPrompt ? "border-primary bg-primary/5" : "border-border bg-card hover:border-[#c69fdc] hover:bg-card/80")}>
-                          <BarChart3 className="h-4 w-4 flex-shrink-0" color="#323232" />
+                          <Sparkles className="h-4 w-4 flex-shrink-0" color="#323232" />
                           <span className="text-card-foreground leading-snug px-0.5">
                             {parts.map((part, i) => <React.Fragment key={i}>
                                 {part}
