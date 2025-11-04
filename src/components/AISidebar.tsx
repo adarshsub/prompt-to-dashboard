@@ -456,7 +456,8 @@ export const AISidebar = ({
                         <Checkbox 
                           id={filter} 
                           checked={activeFilters.includes(filter)} 
-                          onCheckedChange={() => handleFilterToggle(filter)} 
+                          onCheckedChange={() => handleFilterToggle(filter)}
+                          className="border-[#AC5CCC] data-[state=checked]:bg-[#AC5CCC] data-[state=checked]:border-[#AC5CCC]"
                         />
                         <label htmlFor={filter} className="text-sm text-card-foreground cursor-pointer flex-1">
                           {filter}
