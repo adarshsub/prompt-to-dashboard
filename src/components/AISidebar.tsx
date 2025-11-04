@@ -365,7 +365,7 @@ export const AISidebar = ({
                   </PopoverTrigger>
                   <PopoverContent className="w-[232px] p-3 bg-card border-border" align="start">
                     <div className="space-y-2">
-                      {["Fall 2024", "Spring 2024", "Fall 2023"].map(term => <div key={term} className="flex items-center space-x-2">
+                      {["Fall 2025", "Spring 2025", "Fall 2024", "Spring 2024"].map(term => <div key={term} className="flex items-center space-x-2">
                           <Checkbox id={term} checked={selectedTerms.includes(term)} onCheckedChange={() => handleTermToggle(term)} />
                           <label htmlFor={term} className="text-sm text-card-foreground cursor-pointer flex-1">
                             {term}
