@@ -178,7 +178,7 @@ export const AISidebar = ({
     return allPrompts;
   };
   const templatePrompts = getTemplatePrompts();
-  return <div className={cn("w-[280px] bg-sidebar rounded-2xl p-6 flex flex-col overflow-hidden shrink-0 min-h-0", showHistory && !isDashboardCollapsed && "pb-0 pr-1.5 pl-10.5")}>
+  return <div className={cn("w-[280px] bg-sidebar rounded-2xl p-6 flex flex-col overflow-hidden shrink-0 min-h-0", showHistory && !isDashboardCollapsed && "pb-0 pr-1.5 pl-[11%]")}>
       <div className="flex items-start justify-between mb-4">
         <h2 className="text-2xl font-semibold bg-gradient-purple bg-clip-text text-transparent">
           Create with AI
