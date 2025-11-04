@@ -121,6 +121,7 @@ export const AISidebar = ({
   };
   const handleFilterToggle = (filter: string) => {
     setActiveFilters(prev => prev.includes(filter) ? prev.filter(f => f !== filter) : [...prev, filter]);
+    setFiltersOpen(false);
   };
   const handlePromptClick = (templatePrompt: string) => {
     setPrompt(templatePrompt);
