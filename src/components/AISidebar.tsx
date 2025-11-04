@@ -178,7 +178,7 @@ export const AISidebar = ({
     return allPrompts;
   };
   const templatePrompts = getTemplatePrompts();
-  return <div className="w-[280px] bg-sidebar rounded-2xl p-6 pb-0 flex flex-col overflow-hidden shrink-0 min-h-0">
+  return <div className="w-[280px] bg-sidebar rounded-2xl p-6 flex flex-col overflow-hidden shrink-0 min-h-0">
       <div className="flex items-start justify-between mb-4">
         <h2 className="text-2xl font-semibold bg-gradient-purple bg-clip-text text-transparent">
           Create with AI
@@ -468,7 +468,7 @@ export const AISidebar = ({
           </div>
         </>}
 
-      <div className="mt-auto p-6 -mx-6">
+      <div className="mt-auto">
         <div className="relative">
           <Textarea placeholder="What would you like to create?" value={prompt} onChange={e => setPrompt(e.target.value)} onKeyDown={e => {
           if (e.key === "Enter" && !e.shiftKey) {
