@@ -636,12 +636,12 @@ export const AISidebar = ({
                                   {isBelowPrompt && (
                                     <Popover open={thresholdDropdownOpen === index} onOpenChange={(open) => setThresholdDropdownOpen(open ? index : null)}>
                                       <PopoverTrigger asChild>
-                                        <button onClick={e => e.stopPropagation()} className="flex items-center gap-1.5 text-muted-foreground hover:text-card-foreground transition-colors text-[10px] pl-6">
+                                        <button onClick={e => e.stopPropagation()} className="flex items-center gap-1.5 text-muted-foreground hover:text-card-foreground transition-colors text-[10px] pl-6 w-full">
                                           <span className="font-semibold">Modify Percent Threshold</span>
                                           <ChevronDown className={cn("h-3 w-3 transition-transform", thresholdDropdownOpen === index && "rotate-180")} />
                                         </button>
                                       </PopoverTrigger>
-                                      <PopoverContent className="w-auto p-2 bg-card border-border" align="start">
+                                      <PopoverContent className="w-[calc(100%-1.5rem)] p-2 bg-card border-border ml-6" align="start" sideOffset={2}>
                                         <div className="grid grid-cols-3 gap-1">
                                           {[90, 80, 70, 60, 50, 40, 30, 20, 10].map(threshold => (
                                             <button 
@@ -1044,12 +1044,12 @@ export const AISidebar = ({
                         {isBelowPrompt && (
                           <Popover open={thresholdDropdownOpen === index} onOpenChange={(open) => setThresholdDropdownOpen(open ? index : null)}>
                             <PopoverTrigger asChild>
-                              <button onClick={e => e.stopPropagation()} className="flex items-center gap-1.5 text-muted-foreground hover:text-card-foreground transition-colors text-[10px] pl-6">
+                              <button onClick={e => e.stopPropagation()} className="flex items-center gap-1.5 text-muted-foreground hover:text-card-foreground transition-colors text-[10px] pl-6 w-full">
                                 <span className="font-semibold">Modify Percent Threshold</span>
                                 <ChevronDown className={cn("h-3 w-3 transition-transform", thresholdDropdownOpen === index && "rotate-180")} />
                               </button>
                             </PopoverTrigger>
-                            <PopoverContent className="w-auto p-2 bg-card border-border" align="start">
+                            <PopoverContent className="w-[calc(100%-1.5rem)] p-2 bg-card border-border ml-6" align="start" sideOffset={2}>
                               <div className="grid grid-cols-3 gap-1">
                                 {[90, 80, 70, 60, 50, 40, 30, 20, 10].map(threshold => (
                                   <button 
