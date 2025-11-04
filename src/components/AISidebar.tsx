@@ -444,7 +444,7 @@ export const AISidebar = ({
 
               <Popover open={filtersOpen} onOpenChange={setFiltersOpen}>
                 <PopoverTrigger asChild>
-                  <Button variant="ghost" className="justify-start gap-2 text-[#AC5CCC] hover:text-[#AC5CCC] hover:bg-[#c69fdc]/10 transition-all text-xs font-medium h-8 px-2.5">
+                  <Button variant="ghost" className="justify-start gap-2 text-[#AC5CCC] hover:text-[#AC5CCC] hover:bg-[#c69fdc]/10 transition-all text-xs font-medium h-8 px-3">
                     <Plus className="h-4 w-4" />
                     <span>Add filters</span>
                   </Button>
