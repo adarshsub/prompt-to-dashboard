@@ -215,10 +215,10 @@ export const AISidebar = ({
                   </div> : <>
                     <div className="space-y-[4px]">
                       <div className="bg-[#D9F2FF] rounded-lg p-2.5 mr-4">
-                        <div className="font-semibold text-card-foreground text-sm mb-[1.3px]">
+                        <div className="font-semibold text-card-foreground text-sm mb-[0.78px]">
                           Students Below 70% in Math
                         </div>
-                        <div className={`grid grid-cols-2 gap-2 scale-y-[0.765] ${isDashboardCollapsed ? 'mb-[2.6px]' : 'mb-0'}`}>
+                        <div className={`grid grid-cols-2 gap-2 scale-y-[0.765] ${isDashboardCollapsed ? 'mb-[1.56px]' : 'mb-0'}`}>
                           <div className="bg-white rounded-lg h-full" />
                           <div className="space-y-2">
                             <div className="bg-white rounded-lg aspect-[4/3]" />
