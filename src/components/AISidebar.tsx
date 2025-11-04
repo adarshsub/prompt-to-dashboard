@@ -467,6 +467,8 @@ export const AISidebar = ({
                   </div>
                 </PopoverContent>
               </Popover>
+              
+              <div className="h-px bg-[#E2E6E9]" />
 
               {selectedSubjects.length > 0 && <>
                   <div className="flex gap-2 mt-4 pt-2 overflow-x-auto flex-nowrap pb-1">
