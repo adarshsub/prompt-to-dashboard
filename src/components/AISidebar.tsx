@@ -1,4 +1,4 @@
-import { X, Send, Loader2, Sparkles, ChevronDown, Plus, Minus, ChevronsLeft, ChevronsRight } from "lucide-react";
+import { X, Send, Loader2, Sparkles, ChevronDown, Plus, Minus, ChevronsLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -226,9 +226,9 @@ export const AISidebar = ({
                             
                           </div>
                         </div>
-                        {!isDashboardCollapsed && <Button variant="ghost" size="sm" onClick={onExpand} className="w-full justify-start gap-2 text-card-foreground bg-white/50 hover:bg-white/90 hover:text-[#2e2e37] h-8">
-                            <ChevronsRight className="h-4 w-4" />
-                            <span className="text-xs">Collapse Dashboard</span>
+                        {isDashboardCollapsed && <Button variant="ghost" size="sm" onClick={onExpand} className="w-full justify-start gap-2 text-card-foreground bg-white/50 hover:bg-white/90 hover:text-[#2e2e37] h-8">
+                            <ChevronsLeft className="h-4 w-4" />
+                            <span className="text-xs">Expand Dashboard</span>
                           </Button>}
                       </div>
                       <div className="text-xs text-muted-foreground text-left pl-4">
