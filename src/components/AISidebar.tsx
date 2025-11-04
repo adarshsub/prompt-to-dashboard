@@ -214,11 +214,11 @@ export const AISidebar = ({
                     Generating response...
                   </div> : <>
                     <div className="space-y-[4px]">
-                      <div className="bg-[#D9F2FF] rounded-lg p-2.5 mr-4">
-                        <div className="font-semibold text-card-foreground text-sm mb-[1.6px]">
+                      <div className="bg-[#D9F2FF] rounded-lg p-2 mr-4">
+                        <div className="font-semibold text-card-foreground text-[11.2px] mb-[0.62px]">
                           Students Below 70% in Math
                         </div>
-                        <div className={`grid grid-cols-2 gap-2 scale-y-[0.765] ${isDashboardCollapsed ? 'mb-[3.2px]' : 'mb-0'}`}>
+                        <div className={`grid grid-cols-2 gap-[6.4px] scale-y-[0.612] ${isDashboardCollapsed ? 'mb-[1.25px]' : 'mb-0'}`}>
                           <div className="bg-white rounded-lg h-full" />
                           <div className="space-y-2">
                             <div className="bg-white rounded-lg aspect-[4/3]" />
@@ -226,13 +226,17 @@ export const AISidebar = ({
                             
                           </div>
                         </div>
-                        {isDashboardCollapsed ? <Button variant="ghost" size="sm" onClick={onExpand} className="w-full justify-start gap-2 text-card-foreground bg-white/50 hover:bg-white/90 hover:text-[#2e2e37] h-8">
-                            <ChevronsLeft className="h-4 w-4" />
-                            <span className="text-xs">Expand Dashboard</span>
-                          </Button> : <Button variant="ghost" size="sm" onClick={onExpand} className="w-full justify-start gap-2 text-card-foreground bg-white/50 hover:bg-white/90 hover:text-[#2e2e37] h-8">
-                            <ChevronsLeft className="h-4 w-4 rotate-180" />
-                            <span className="text-xs">Collapse Dashboard</span>
-                          </Button>}
+                        {isDashboardCollapsed ? (
+                          <Button variant="ghost" size="sm" onClick={onExpand} className="w-full justify-start gap-2 text-card-foreground bg-white/50 hover:bg-white/90 hover:text-[#2e2e37] h-[25.6px]">
+                            <ChevronsLeft className="h-3.5 w-3.5" />
+                            <span className="text-[9.6px]">Expand Dashboard</span>
+                          </Button>
+                        ) : (
+                          <Button variant="ghost" size="sm" onClick={onExpand} className="w-full justify-start gap-2 text-card-foreground bg-white/50 hover:bg-white/90 hover:text-[#2e2e37] h-[25.6px]">
+                            <ChevronsLeft className="h-3.5 w-3.5 rotate-180" />
+                            <span className="text-[9.6px]">Collapse Dashboard</span>
+                          </Button>
+                        )}
                       </div>
                       <div className="text-xs text-muted-foreground text-left pl-4">
                         {submittedAt ? new Date(submittedAt.getTime() + 2000).toLocaleTimeString('en-US', {
@@ -455,7 +459,15 @@ export const AISidebar = ({
                   adjustedPrompt = adjustedPrompt.replace(`${promptSubject} class.`, `${promptSubject} classes.`).replace(`${promptSubject} class's`, `${promptSubject} classes'`).replace("does my", "do my").replace("score compare", "scores compare");
                 }
                 const parts = adjustedPrompt.split(promptSubject);
-                return;
+                return <button key={index} onClick={() => handlePromptClick(adjustedPrompt)} className={cn("w-full text-left p-3 rounded-lg border transition-colors text-xs flex items-center gap-2", prompt === adjustedPrompt ? "border-primary bg-primary/5" : "border-border bg-card hover:border-[#c69fdc] hover:bg-card/80")}>
+                          <Sparkles className="h-4 w-4 flex-shrink-0" color="#323232" />
+                          <span className="text-card-foreground leading-snug px-0.5">
+                            {parts.map((part, i) => <React.Fragment key={i}>
+                                {part}
+                                {i < parts.length - 1 && <strong>{displaySubject}</strong>}
+                              </React.Fragment>)}
+                          </span>
+                        </button>;
               })}
                   </div>}
                 </>}
