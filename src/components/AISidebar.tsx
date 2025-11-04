@@ -564,19 +564,46 @@ export const AISidebar = ({
                 // Store term text for appending
                 const termText = selectedTerms.length === 1 ? selectedTerms[0] : null;
                 
-                // Remove trailing period from adjustedPrompt before processing if term will be added
-                const basePrompt = termText ? adjustedPrompt.replace(/\.$/, '') : adjustedPrompt;
+                // Store grade level text for appending
+                let gradeLevelText = null;
+                let gradeLevelParts = [];
+                if (selectedGradeLevels.length > 0) {
+                  // Extract just the grade numbers (e.g., "9th" from "9th Grade")
+                  const gradeNumbers = selectedGradeLevels.map(level => level.replace(" Grade", ""));
+                  
+                  if (gradeNumbers.length === 1) {
+                    gradeLevelText = `for the ${gradeNumbers[0]} grade`;
+                    gradeLevelParts = [gradeNumbers[0]];
+                  } else if (gradeNumbers.length === 2) {
+                    gradeLevelText = `for the ${gradeNumbers[0]} and ${gradeNumbers[1]} grades`;
+                    gradeLevelParts = [gradeNumbers[0], gradeNumbers[1]];
+                  } else {
+                    const allButLast = gradeNumbers.slice(0, -1).join(", ");
+                    const last = gradeNumbers[gradeNumbers.length - 1];
+                    gradeLevelText = `for the ${allButLast}, and ${last} grades`;
+                    gradeLevelParts = gradeNumbers;
+                  }
+                }
+                
+                // Remove trailing period from adjustedPrompt before processing if term or grade will be added
+                const hasAppendedText = termText || gradeLevelText;
+                const basePrompt = hasAppendedText ? adjustedPrompt.replace(/\.$/, '') : adjustedPrompt;
                 const parts = basePrompt.split(promptSubject);
 
                 // Split the prompt to bold the percent when modified
                 const isModified = percentThreshold !== 70;
                 const percentText = `${percentThreshold}%`;
                 
-                // Build final prompt with term appended
-                let finalPromptForClick = adjustedPrompt;
+                // Build final prompt with term and grade level appended
+                let finalPromptForClick = adjustedPrompt.replace(/\.$/, '');
                 if (termText) {
-                  finalPromptForClick = adjustedPrompt.replace(/\.$/, '') + ` in ${termText}.`;
+                  finalPromptForClick += ` in ${termText}`;
                 }
+                if (gradeLevelText) {
+                  finalPromptForClick += ` ${gradeLevelText}`;
+                }
+                finalPromptForClick += '.';
+
                 
                 return <div key={index} className="relative">
                       <button onClick={() => handlePromptClick(finalPromptForClick)} className={cn("w-full text-left p-3 rounded-lg border transition-colors text-xs flex flex-col gap-2", prompt === finalPromptForClick ? "border-primary bg-primary/5" : "border-border bg-card hover:border-[#c69fdc] hover:bg-card/80")}>
@@ -594,7 +621,23 @@ export const AISidebar = ({
                                 {i < parts.length - 1 && <strong>{displaySubject}</strong>}
                               </React.Fragment>;
                         })}
-                            {termText ? <> in <strong>{termText}</strong>.</> : '.'}
+                            {termText && <> in <strong>{termText}</strong></>}
+                            {gradeLevelText && <> {(() => {
+                              // Split and bold grade numbers
+                              const words = gradeLevelText.split(' ');
+                              return words.map((word, idx) => {
+                                // Check if this word is a grade number (ends with 'th', 'st', 'nd', 'rd' or is a single letter)
+                                if (gradeLevelParts.some(grade => word === grade || word === grade + ',')) {
+                                  const hasComma = word.endsWith(',');
+                                  const cleanWord = hasComma ? word.slice(0, -1) : word;
+                                  return <React.Fragment key={idx}>
+                                    <strong>{cleanWord}</strong>{hasComma && ','}{' '}
+                                  </React.Fragment>;
+                                }
+                                return <React.Fragment key={idx}>{word}{' '}</React.Fragment>;
+                              });
+                            })()}</>}
+                            {'.'}
                           </span>
                         </div>
                         {isBelowPrompt && <button onClick={e => {
