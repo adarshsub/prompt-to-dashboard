@@ -474,7 +474,7 @@ export const AISidebar = ({
             e.preventDefault();
             handleSend();
           }
-        }} disabled={isLoading} className="pr-10 bg-card border-border text-card-foreground placeholder:text-muted-foreground resize-none h-[88px] min-h-[88px] max-h-[88px]" rows={4} />
+        }} disabled={isLoading} className="pr-10 bg-card border-border text-card-foreground placeholder:text-muted-foreground resize-none h-[88px] min-h-[88px] max-h-[88px] focus-visible:ring-0 focus-visible:ring-offset-0" rows={4} />
           <Button size="icon" onClick={handleSend} disabled={!prompt.trim() || isLoading} className="absolute right-1 bottom-1 h-8 w-8 bg-transparent hover:bg-muted text-muted-foreground hover:text-card-foreground disabled:opacity-50">
             {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
           </Button>
