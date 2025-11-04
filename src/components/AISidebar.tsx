@@ -63,8 +63,14 @@ export const AISidebar = ({
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [percentThreshold, setPercentThreshold] = useState(70);
   const [thresholdDropdownOpen, setThresholdDropdownOpen] = useState<number | null>(null);
+  const [isSubjectsMultiline, setIsSubjectsMultiline] = useState(false);
+  const [isTermsMultiline, setIsTermsMultiline] = useState(false);
+  const [isGradeLevelsMultiline, setIsGradeLevelsMultiline] = useState(false);
   const headingRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const subjectsPillsRef = useRef<HTMLDivElement>(null);
+  const termsPillsRef = useRef<HTMLDivElement>(null);
+  const gradeLevelsPillsRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (!submittedAt) return;
     if (!isLoading && scrollContainerRef.current) {
@@ -98,6 +104,23 @@ export const AISidebar = ({
       }, 0);
     }
   }, [showHistory, isLoading, userPrompt]);
+  
+  // Check if pills wrap to multiple lines
+  useEffect(() => {
+    const checkMultiline = (ref: React.RefObject<HTMLDivElement>, setter: (value: boolean) => void) => {
+      if (ref.current) {
+        const container = ref.current;
+        // Single line height is approximately 24px (h-6 badge) + some padding
+        const singleLineHeight = 32;
+        setter(container.scrollHeight > singleLineHeight);
+      }
+    };
+
+    checkMultiline(subjectsPillsRef, setIsSubjectsMultiline);
+    checkMultiline(termsPillsRef, setIsTermsMultiline);
+    checkMultiline(gradeLevelsPillsRef, setIsGradeLevelsMultiline);
+  }, [selectedSubjects, selectedTerms, selectedGradeLevels]);
+  
   const handleSubjectToggle = (subject: string) => {
     setSelectedSubjects(prev => {
       if (subject === "All") {
@@ -304,9 +327,9 @@ export const AISidebar = ({
               <div className="space-y-2">
                 <Popover open={subjectsOpen} onOpenChange={setSubjectsOpen}>
                   <PopoverTrigger asChild>
-                    <Button variant="outline" className={cn("w-full justify-between items-center bg-card border-border text-card-foreground hover:bg-white hover:border-[#c69fdc] transition-all min-h-10 py-1.5 text-sm h-auto", selectedSubjects.length > 0 ? "rounded-lg" : "rounded-full")}>
+                    <Button variant="outline" className={cn("w-full justify-between items-center bg-card border-border text-card-foreground hover:bg-white hover:border-[#c69fdc] transition-all min-h-10 py-1.5 text-sm h-auto", selectedSubjects.length > 0 && isSubjectsMultiline ? "rounded-lg" : "rounded-full")}>
 
-                      {selectedSubjects.length > 0 ? <div className="flex flex-wrap items-center gap-1 flex-1 mr-2 min-h-0">
+                      {selectedSubjects.length > 0 ? <div ref={subjectsPillsRef} className="flex flex-wrap items-center gap-1 flex-1 mr-2 min-h-0">
                           {(selectedSubjects.includes("All") ? ["All"] : selectedSubjects).map(subject => <Badge key={subject} variant="secondary" className="pl-2 pr-1 py-0.5 text-xs h-6" style={{
                       backgroundColor: '#EBF8FF',
                       color: '#00A6FF',
@@ -366,8 +389,8 @@ export const AISidebar = ({
               {activeFilters.includes("Terms") && <div className="space-y-2">
                 <Popover open={termsOpen} onOpenChange={setTermsOpen}>
                   <PopoverTrigger asChild>
-                    <Button variant="outline" className={cn("w-full justify-between items-center bg-card border-border text-card-foreground hover:bg-white hover:border-[#c69fdc] transition-all min-h-10 py-1.5 text-sm h-auto", selectedTerms.length > 0 ? "rounded-lg" : "rounded-full")}>
-                      {selectedTerms.length > 0 ? <div className="flex flex-wrap items-center gap-1 flex-1 mr-2 min-h-0">
+                    <Button variant="outline" className={cn("w-full justify-between items-center bg-card border-border text-card-foreground hover:bg-white hover:border-[#c69fdc] transition-all min-h-10 py-1.5 text-sm h-auto", selectedTerms.length > 0 && isTermsMultiline ? "rounded-lg" : "rounded-full")}>
+                      {selectedTerms.length > 0 ? <div ref={termsPillsRef} className="flex flex-wrap items-center gap-1 flex-1 mr-2 min-h-0">
                           {selectedTerms.map(term => <Badge key={term} variant="secondary" className="pl-2 pr-1 py-0.5 text-xs h-6" style={{
                       backgroundColor: '#EBF8FF',
                       color: '#00A6FF',
@@ -408,8 +431,8 @@ export const AISidebar = ({
               {activeFilters.includes("Grade Levels") && <div className="space-y-2">
                 <Popover open={gradeLevelsOpen} onOpenChange={setGradeLevelsOpen}>
                   <PopoverTrigger asChild>
-                    <Button variant="outline" className={cn("w-full justify-between items-center bg-card border-border text-card-foreground hover:bg-white hover:border-[#c69fdc] transition-all min-h-10 py-1.5 text-sm h-auto", selectedGradeLevels.length > 0 ? "rounded-lg" : "rounded-full")}>
-                      {selectedGradeLevels.length > 0 ? <div className="flex flex-wrap items-center gap-1 flex-1 mr-2 min-h-0">
+                    <Button variant="outline" className={cn("w-full justify-between items-center bg-card border-border text-card-foreground hover:bg-white hover:border-[#c69fdc] transition-all min-h-10 py-1.5 text-sm h-auto", selectedGradeLevels.length > 0 && isGradeLevelsMultiline ? "rounded-lg" : "rounded-full")}>
+                      {selectedGradeLevels.length > 0 ? <div ref={gradeLevelsPillsRef} className="flex flex-wrap items-center gap-1 flex-1 mr-2 min-h-0">
                           {selectedGradeLevels.map(level => <Badge key={level} variant="secondary" className="pl-2 pr-1 py-0.5 text-xs h-6" style={{
                       backgroundColor: '#EBF8FF',
                       color: '#00A6FF',
