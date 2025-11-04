@@ -464,15 +464,27 @@ export const AISidebar = ({
                   adjustedPrompt = adjustedPrompt.replace(`${promptSubject} class.`, `${promptSubject} classes.`).replace(`${promptSubject} class's`, `${promptSubject} classes'`).replace("does my", "do my").replace("score compare", "scores compare");
                 }
                 const parts = adjustedPrompt.split(promptSubject);
+                
+                // Split the prompt to bold the percent when modified
+                const isModified = percentThreshold !== 70;
+                const percentText = `${percentThreshold}%`;
+                
                 return <div key={index} className="relative">
                       <button onClick={() => handlePromptClick(adjustedPrompt)} className={cn("w-full text-left p-3 rounded-lg border transition-colors text-xs flex flex-col gap-2", prompt === adjustedPrompt ? "border-primary bg-primary/5" : "border-border bg-card hover:border-[#c69fdc] hover:bg-card/80")}>
                         <div className="flex items-center gap-2">
                           <Sparkles className="h-4 w-4 flex-shrink-0" color="#323232" />
                           <span className="text-card-foreground leading-snug px-0.5 flex-1">
-                            {parts.map((part, i) => <React.Fragment key={i}>
-                                {part}
+                            {parts.map((part, i) => {
+                              // Split by percent to bold it when modified
+                              const percentParts = part.split(percentText);
+                              return <React.Fragment key={i}>
+                                {percentParts.map((subPart, j) => <React.Fragment key={j}>
+                                  {subPart}
+                                  {j < percentParts.length - 1 && (isModified ? <strong>{percentText}</strong> : percentText)}
+                                </React.Fragment>)}
                                 {i < parts.length - 1 && <strong>{displaySubject}</strong>}
-                              </React.Fragment>)}
+                              </React.Fragment>;
+                            })}
                           </span>
                         </div>
                         {isBelowPrompt && <button onClick={e => {
