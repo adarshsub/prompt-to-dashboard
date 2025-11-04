@@ -219,7 +219,7 @@ export const AISidebar = ({
                   </div> : <>
                   <div className="space-y-[4px]">
                       <div className="bg-[#D9F2FF] rounded-lg p-2">
-                        <div className="font-semibold text-card-foreground text-xs mb-1">
+                        <div className="font-semibold text-card-foreground text-sm mb-1.5">
                           {dashboardTitle}
                         </div>
                         <div className={`grid grid-cols-2 gap-2 ${isDashboardCollapsed ? 'mb-1' : 'mb-1'}`}>
