@@ -223,10 +223,10 @@ export const AISidebar = ({
                           {dashboardTitle}
                         </div>
                         <div className={`grid grid-cols-2 gap-2 ${isDashboardCollapsed ? 'mb-1' : 'mb-1'}`}>
-                          <div className="bg-white rounded-lg h-full" />
+                          <div className="bg-white rounded-lg aspect-[4/3]" />
                           <div className="space-y-1.5">
-                            <div className="bg-white rounded-lg aspect-[4/3]" />
-                            <div className="bg-white rounded-lg aspect-square" />
+                            <div className="bg-white rounded-lg aspect-[4/2]" />
+                            <div className="bg-white rounded-lg aspect-[4/1.5]" />
                           </div>
                         </div>
                         {isDashboardCollapsed ? <Button variant="ghost" size="default" onClick={onExpand} className="w-full justify-center gap-2 text-card-foreground bg-white/70 hover:bg-white/90 hover:text-[#2e2e37] rounded-full px-6 h-9 mt-2">
