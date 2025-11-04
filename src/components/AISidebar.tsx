@@ -95,6 +95,7 @@ export const AISidebar = ({
   const [isSubjectsMultiline, setIsSubjectsMultiline] = useState(false);
   const [isTermsMultiline, setIsTermsMultiline] = useState(false);
   const [isGradeLevelsMultiline, setIsGradeLevelsMultiline] = useState(false);
+  const [showQuickActionsInChat, setShowQuickActionsInChat] = useState(false);
   const headingRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const subjectsPillsRef = useRef<HTMLDivElement>(null);
@@ -337,6 +338,248 @@ export const AISidebar = ({
                         </button>
                       </div>
                     </div>
+
+                    {/* Quick Actions CTA */}
+                    {!showQuickActionsInChat && (
+                      <Button
+                        onClick={() => setShowQuickActionsInChat(true)}
+                        variant="ghost"
+                        size="sm"
+                        className="justify-start gap-2 text-[#AC5CCC] hover:text-[#AC5CCC] hover:bg-[#c69fdc]/10 transition-all text-xs font-medium h-8 px-3 mb-4"
+                      >
+                        <Sparkles className="h-4 w-4" />
+                        <span>Quick Actions</span>
+                      </Button>
+                    )}
+
+                    {/* Quick Actions in Chat */}
+                    {showQuickActionsInChat && (
+                      <div className="space-y-3 mb-4 bg-muted/30 rounded-lg p-3">
+                        <div className="flex items-center justify-between">
+                          <h3 className="text-sm font-semibold text-card-foreground">
+                            Quick actions
+                          </h3>
+                          <Button
+                            onClick={() => setShowQuickActionsInChat(false)}
+                            variant="ghost"
+                            size="icon"
+                            className="h-6 w-6 text-muted-foreground hover:text-card-foreground"
+                          >
+                            <X className="h-3 w-3" />
+                          </Button>
+                        </div>
+                        <p className="text-xs text-muted-foreground leading-relaxed">Start by filtering for a template prompt or write your own prompt below.</p>
+
+                        <div className="space-y-[7.8px]">
+                          <div className="space-y-2">
+                            <Popover open={subjectsOpen} onOpenChange={setSubjectsOpen}>
+                              <PopoverTrigger asChild>
+                                <Button variant="outline" className={cn("w-full justify-between items-center bg-card border-border text-card-foreground hover:bg-white hover:border-[#c69fdc] transition-all min-h-10 py-1.5 text-sm h-auto", selectedSubjects.length > 0 && isSubjectsMultiline ? "rounded-lg" : "rounded-full")}>
+
+                                  {selectedSubjects.length > 0 ? <div ref={subjectsPillsRef} className="flex flex-wrap items-center gap-1 flex-1 mr-2 min-h-0">
+                                      {(selectedSubjects.includes("All") ? ["All"] : selectedSubjects).map(subject => <Badge key={subject} variant="secondary" className="pl-2 pr-1 py-0.5 text-xs h-6" style={{
+                                  backgroundColor: '#EBF8FF',
+                                  color: '#00A6FF',
+                                  borderColor: '#00A6FF',
+                                  borderWidth: '1px'
+                                }}>
+                                          {subject}
+                                          <button onClick={e => {
+                                    e.stopPropagation();
+                                    handleRemoveSubject(subject);
+                                  }} className="ml-1 hover:bg-[#00A6FF]/30 rounded-full p-0.5">
+                                            <X className="h-2.5 w-2.5" style={{
+                                      color: '#00A6FF'
+                                    }} />
+                                          </button>
+                                        </Badge>)}
+                                    </div> : <span style={{
+                                color: '#6F8090'
+                              }}>Subjects</span>}
+                                  <div className="self-center flex-shrink-0">
+                                    <ChevronDown className={cn("h-4 w-4 transition-transform text-[#2e2e37]", subjectsOpen && "rotate-180")} />
+                                  </div>
+                                </Button>
+                              </PopoverTrigger>
+                              <PopoverContent className="w-[232px] p-3 bg-card border-border" align="start">
+                                <div className="space-y-2">
+                                  {["All", "Math", "English", "Science", "History"].map(subject => <div key={subject} className="flex items-center space-x-2">
+                                      <Checkbox id={`chat-${subject}`} checked={selectedSubjects.includes("All") || selectedSubjects.includes(subject)} onCheckedChange={() => handleSubjectToggle(subject)} />
+                                      <label htmlFor={`chat-${subject}`} className="text-sm text-card-foreground cursor-pointer flex-1">
+                                        {subject}
+                                      </label>
+                                    </div>)}
+                                </div>
+                              </PopoverContent>
+                            </Popover>
+                          </div>
+
+                          <Popover open={filtersOpen} onOpenChange={setFiltersOpen}>
+                            <PopoverTrigger asChild>
+                              <Button variant="ghost" className="justify-center gap-2 text-[#AC5CCC] hover:text-[#AC5CCC] hover:bg-[#c69fdc]/10 transition-all text-xs font-medium h-8 px-3">
+                                <Plus className="h-4 w-4" />
+                                <span>More filters</span>
+                              </Button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-[232px] p-3 bg-card border-border" align="start">
+                              <div className="space-y-2">
+                                {["Terms", "Grade Levels"].map(filter => <div key={filter} className="flex items-center space-x-2">
+                                    <Checkbox id={`chat-${filter}`} checked={activeFilters.includes(filter)} onCheckedChange={() => handleFilterToggle(filter)} className="border-[#AC5CCC] data-[state=checked]:bg-[#AC5CCC] data-[state=checked]:border-[#AC5CCC]" />
+                                    <label htmlFor={`chat-${filter}`} className="text-sm text-card-foreground cursor-pointer flex-1">
+                                      {filter}
+                                    </label>
+                                  </div>)}
+                              </div>
+                            </PopoverContent>
+                          </Popover>
+
+                          {activeFilters.includes("Terms") && <div className="space-y-2">
+                            <Popover open={termsOpen} onOpenChange={setTermsOpen}>
+                              <PopoverTrigger asChild>
+                                <Button variant="outline" className={cn("w-full justify-between items-center bg-card border-border text-card-foreground hover:bg-white hover:border-[#c69fdc] transition-all min-h-10 py-1.5 text-sm h-auto", selectedTerms.length > 0 && isTermsMultiline ? "rounded-lg" : "rounded-full")}>
+                                  {selectedTerms.length > 0 ? <div ref={termsPillsRef} className="flex flex-wrap items-center gap-1 flex-1 mr-2 min-h-0">
+                                      {selectedTerms.map(term => <Badge key={term} variant="secondary" className="pl-2 pr-1 py-0.5 text-xs h-6" style={{
+                                  backgroundColor: '#EBF8FF',
+                                  color: '#00A6FF',
+                                  borderColor: '#00A6FF',
+                                  borderWidth: '1px'
+                                }}>
+                                          {term}
+                                          <button onClick={e => {
+                                    e.stopPropagation();
+                                    handleRemoveTerm(term);
+                                  }} className="ml-1 hover:bg-[#00A6FF]/30 rounded-full p-0.5">
+                                            <X className="h-2.5 w-2.5" style={{
+                                      color: '#00A6FF'
+                                    }} />
+                                          </button>
+                                        </Badge>)}
+                                    </div> : <span style={{
+                                color: '#6F8090'
+                              }}>Terms</span>}
+                                  <div className="self-center flex-shrink-0">
+                                    <ChevronDown className={cn("h-4 w-4 transition-transform text-[#2e2e37]", termsOpen && "rotate-180")} />
+                                  </div>
+                                </Button>
+                              </PopoverTrigger>
+                              <PopoverContent className="w-[232px] p-3 bg-card border-border" align="start">
+                                <div className="space-y-2">
+                                  {["Full Year 2025", "Fall 2025", "Spring 2025", "Full Year 2024", "Fall 2024", "Spring 2024", "Full Year 2023"].map(term => <div key={term} className="flex items-center space-x-2">
+                                      <Checkbox id={`chat-${term}`} checked={selectedTerms.includes(term)} onCheckedChange={() => handleTermToggle(term)} />
+                                      <label htmlFor={`chat-${term}`} className="text-sm text-card-foreground cursor-pointer flex-1">
+                                        {term}
+                                      </label>
+                                    </div>)}
+                                </div>
+                              </PopoverContent>
+                            </Popover>
+                          </div>}
+
+                          {activeFilters.includes("Grade Levels") && <div className="space-y-2">
+                            <Popover open={gradeLevelsOpen} onOpenChange={setGradeLevelsOpen}>
+                              <PopoverTrigger asChild>
+                                <Button variant="outline" className={cn("w-full justify-between items-center bg-card border-border text-card-foreground hover:bg-white hover:border-[#c69fdc] transition-all min-h-10 py-1.5 text-sm h-auto", selectedGradeLevels.length > 0 && isGradeLevelsMultiline ? "rounded-lg" : "rounded-full")}>
+                                  {selectedGradeLevels.length > 0 ? <div ref={gradeLevelsPillsRef} className="flex flex-wrap items-center gap-1 flex-1 mr-2 min-h-0">
+                                      {selectedGradeLevels.map(level => <Badge key={level} variant="secondary" className="pl-2 pr-1 py-0.5 text-xs h-6" style={{
+                                  backgroundColor: '#EBF8FF',
+                                  color: '#00A6FF',
+                                  borderColor: '#00A6FF',
+                                  borderWidth: '1px'
+                                }}>
+                                          {level}
+                                          <button onClick={e => {
+                                    e.stopPropagation();
+                                    handleRemoveGradeLevel(level);
+                                  }} className="ml-1 hover:bg-[#00A6FF]/30 rounded-full p-0.5">
+                                            <X className="h-2.5 w-2.5" style={{
+                                      color: '#00A6FF'
+                                    }} />
+                                          </button>
+                                        </Badge>)}
+                                    </div> : <span style={{
+                                color: '#6F8090'
+                              }}>Grade Levels</span>}
+                                  <div className="self-center flex-shrink-0">
+                                    <ChevronDown className={cn("h-4 w-4 transition-transform text-[#2e2e37]", gradeLevelsOpen && "rotate-180")} />
+                                  </div>
+                                </Button>
+                              </PopoverTrigger>
+                              <PopoverContent className="w-[232px] p-3 bg-card border-border" align="start">
+                                <div className="space-y-2">
+                                  {["9th Grade", "10th Grade", "11th Grade", "12th Grade"].map(level => <div key={level} className="flex items-center space-x-2">
+                                      <Checkbox id={`chat-${level}`} checked={selectedGradeLevels.includes(level)} onCheckedChange={() => handleGradeLevelToggle(level)} />
+                                      <label htmlFor={`chat-${level}`} className="text-sm text-card-foreground cursor-pointer flex-1">
+                                        {level}
+                                      </label>
+                                    </div>)}
+                                </div>
+                              </PopoverContent>
+                            </Popover>
+                          </div>}
+
+                          <div className="space-y-1.5">
+                            <Button variant={selectedCategory === "performance" ? "default" : "outline"} onClick={() => setSelectedCategory("performance")} className="w-full h-8 text-xs rounded-full">
+                              Performance
+                            </Button>
+                            <Button variant={selectedCategory === "engagement" ? "default" : "outline"} onClick={() => setSelectedCategory("engagement")} className="w-full h-8 text-xs rounded-full">
+                              Engagement
+                            </Button>
+                          </div>
+
+                          {selectedCategory && templatePrompts.length > 0 && <div className="space-y-2 mt-2">
+                            {templatePrompts.slice(0, 3).map((templatePrompt, index) => {
+                              const showMultipleSubjects = selectedSubjects.includes("All") || selectedSubjects.length > 1;
+                              const isGenericPrompt = selectedSubjects.length === 0;
+                              const promptSubject = isGenericPrompt ? "" : (templatePrompt.includes("Math") ? "Math" : templatePrompt.includes("English") ? "English" : templatePrompt.includes("Science") ? "Science" : "History");
+                              
+                              let displaySubject = promptSubject;
+                              if (!isGenericPrompt && showMultipleSubjects) {
+                                const activeSubjects = selectedSubjects.includes("All") ? ["Math", "English", "Science", "History"] : selectedSubjects.filter(s => s !== "All");
+                                if (activeSubjects.length === 2) {
+                                  displaySubject = activeSubjects.join(" and ");
+                                } else if (activeSubjects.length > 2) {
+                                  displaySubject = activeSubjects.slice(0, -1).join(", ") + ", and " + activeSubjects[activeSubjects.length - 1];
+                                }
+                              }
+
+                              const isBelowPrompt = templatePrompt.includes("below 70%");
+                              let adjustedPrompt = templatePrompt;
+                              if (isBelowPrompt) {
+                                adjustedPrompt = adjustedPrompt.replace("70%", `${percentThreshold}%`);
+                              }
+                              if (!isGenericPrompt && showMultipleSubjects) {
+                                adjustedPrompt = adjustedPrompt.replace(`${promptSubject} class`, `${promptSubject} classes`).replace(`${promptSubject} class's`, `${promptSubject} classes'`).replace("does my", "do my").replace("score compare", "scores compare");
+                              }
+                              
+                              const termText = selectedTerms.length === 1 ? selectedTerms[0] : null;
+                              let finalPromptForClick = adjustedPrompt;
+                              if (termText) {
+                                finalPromptForClick += ` in ${termText}`;
+                              }
+                              finalPromptForClick += '.';
+
+                              return <button
+                                key={index}
+                                onClick={() => handlePromptClick(finalPromptForClick)}
+                                className="w-full text-left p-3 rounded-lg border transition-colors text-xs flex items-center gap-2 border-border bg-card hover:border-[#c69fdc] hover:bg-card/80"
+                              >
+                                <Sparkles className="h-4 w-4 flex-shrink-0" color="#323232" />
+                                <span className="text-card-foreground leading-snug px-0.5 flex-1">
+                                  {adjustedPrompt.split(promptSubject).map((part, i, arr) => (
+                                    <React.Fragment key={i}>
+                                      {part}
+                                      {i < arr.length - 1 && !isGenericPrompt && <strong>{displaySubject}</strong>}
+                                    </React.Fragment>
+                                  ))}
+                                  {termText && <> in <strong>{termText}</strong></>}
+                                  .
+                                </span>
+                              </button>;
+                            })}
+                          </div>}
+                        </div>
+                      </div>
+                    )}
                   </>}
               </>}
           </div>
