@@ -468,7 +468,7 @@ export const AISidebar = ({
           </div>
         </>}
 
-      <div className="mt-auto pb-0">
+      <div className="mt-auto pb-6">
         <div className="relative">
           <Textarea placeholder="What would you like to create?" value={prompt} onChange={e => setPrompt(e.target.value)} onKeyDown={e => {
           if (e.key === "Enter" && !e.shiftKey) {
