@@ -192,7 +192,7 @@ export const AISidebar = ({
           <p className="text-xs text-[#AC5CCC] mb-3.5 leading-relaxed">Enter a question about the data you'd like to visualize. Our AI will generate appropriate charts and insights.</p>
           <div className="h-px bg-[#E2E6E9] mb-6" />
 
-          <div ref={scrollContainerRef} className="flex-1 overflow-y-auto mb-3.5 pr-2 space-y-4" style={{
+          <div ref={scrollContainerRef} className="flex-1 min-h-0 overflow-y-auto mb-3.5 pr-2 space-y-4" style={{
         scrollbarGutter: "stable"
       }}>
             {userPrompt && <>
@@ -274,7 +274,7 @@ export const AISidebar = ({
           <p className="text-xs text-[#AC5CCC] mb-3.5 leading-relaxed">Enter a question about the data you'd like to visualize. Our AI will generate appropriate charts and insights.</p>
           <div className="h-px bg-[#E2E6E9] mb-6" />
 
-          <div className={cn("flex-1 overflow-y-auto mb-3.5 pr-2", selectedSubjects.length > 0 && "max-h-[400px]")} style={{
+          <div className="flex-1 min-h-0 overflow-y-auto mb-3.5 pr-2" style={{
         scrollbarGutter: "stable"
       }}>
             <h3 className="text-sm font-semibold text-card-foreground mb-3">
