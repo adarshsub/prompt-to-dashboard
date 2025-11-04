@@ -6,26 +6,31 @@ import { Button } from "@/components/ui/button";
 import { Sparkles } from "lucide-react";
 
 const Index = () => {
-  const [userPrompt, setUserPrompt] = useState("");
-  const [dashboardTitle, setDashboardTitle] = useState("");
+  const [conversationHistory, setConversationHistory] = useState<Array<{
+    prompt: string;
+    title: string;
+    submittedAt: Date;
+  }>>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [showResults, setShowResults] = useState(false);
   const [isDashboardCollapsed, setIsDashboardCollapsed] = useState(false);
-  const [submittedAt, setSubmittedAt] = useState<Date | null>(null);
   const [isSidebarHidden, setIsSidebarHidden] = useState(false);
 
   const handleSubmit = (prompt: string) => {
-    setUserPrompt(prompt);
-    setDashboardTitle(generateDashboardTitle(prompt));
-    setSubmittedAt(new Date());
+    const newConversation = {
+      prompt,
+      title: generateDashboardTitle(prompt),
+      submittedAt: new Date()
+    };
+    
+    setConversationHistory(prev => [...prev, newConversation]);
     setIsLoading(true);
-    setShowResults(false);
+    setShowResults(true);
     setIsSidebarHidden(false);
 
     // Simulate AI processing
     setTimeout(() => {
       setIsLoading(false);
-      setShowResults(true);
       // Automatically expand dashboard view
       setIsDashboardCollapsed(false);
     }, 2000);
@@ -55,7 +60,10 @@ const Index = () => {
                   </div>
                 </div>
               ) : (
-                <DashboardView title={dashboardTitle} onCollapse={() => setIsDashboardCollapsed(true)} />
+                <DashboardView 
+                  title={conversationHistory.length > 0 ? conversationHistory[conversationHistory.length - 1].title : ""} 
+                  onCollapse={() => setIsDashboardCollapsed(true)} 
+                />
               )}
             </div>
 
@@ -72,11 +80,9 @@ const Index = () => {
                 onSubmit={handleSubmit}
                 isLoading={isLoading}
                 showHistory={true}
-                userPrompt={userPrompt}
-                dashboardTitle={dashboardTitle}
+                conversationHistory={conversationHistory}
                 isDashboardCollapsed={false}
                 onExpand={() => setIsDashboardCollapsed(true)}
-                submittedAt={submittedAt}
                 onClose={handleCloseSidebar}
               />
             )}
@@ -118,11 +124,9 @@ const Index = () => {
                 onSubmit={handleSubmit}
                 isLoading={isLoading}
                 showHistory={true}
-                userPrompt={userPrompt}
-                dashboardTitle={dashboardTitle}
+                conversationHistory={conversationHistory}
                 isDashboardCollapsed={true}
                 onExpand={() => setIsDashboardCollapsed(false)}
-                submittedAt={submittedAt}
                 onClose={handleCloseSidebar}
               />
             )}
@@ -153,7 +157,7 @@ const Index = () => {
               onSubmit={handleSubmit}
               isLoading={false}
               showHistory={false}
-              userPrompt={userPrompt}
+              conversationHistory={[]}
               onClose={handleCloseSidebar}
             />
           )}

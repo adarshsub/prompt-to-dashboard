@@ -12,11 +12,13 @@ interface AISidebarProps {
   onSubmit?: (prompt: string) => void;
   isLoading?: boolean;
   showHistory?: boolean;
-  userPrompt?: string;
-  dashboardTitle?: string;
+  conversationHistory: Array<{
+    prompt: string;
+    title: string;
+    submittedAt: Date;
+  }>;
   isDashboardCollapsed?: boolean;
   onExpand?: () => void;
-  submittedAt?: Date | null;
   onClose?: () => void;
 }
 const TEMPLATE_PROMPTS = {
@@ -72,11 +74,9 @@ export const AISidebar = ({
   onSubmit,
   isLoading = false,
   showHistory = false,
-  userPrompt,
-  dashboardTitle = "",
+  conversationHistory,
   isDashboardCollapsed = false,
   onExpand,
-  submittedAt,
   onClose
 }: AISidebarProps) => {
   const [prompt, setPrompt] = useState("");
@@ -103,7 +103,7 @@ export const AISidebar = ({
   const termsPillsRef = useRef<HTMLDivElement>(null);
   const gradeLevelsPillsRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    if (!submittedAt) return;
+    if (conversationHistory.length === 0) return;
     if (!isLoading && scrollContainerRef.current) {
       // Small delay to ensure content is rendered
       setTimeout(() => {
@@ -113,7 +113,7 @@ export const AISidebar = ({
         }
       }, 100);
     }
-  }, [submittedAt, isLoading]);
+  }, [conversationHistory.length, isLoading]);
 
   // Maintain scroll position at bottom when isDashboardCollapsed changes
   useEffect(() => {
@@ -134,7 +134,7 @@ export const AISidebar = ({
         }
       }, 0);
     }
-  }, [showHistory, isLoading, userPrompt]);
+  }, [showHistory, isLoading, conversationHistory]);
   
   // Check if pills wrap to multiple lines
   useEffect(() => {
@@ -285,83 +285,96 @@ export const AISidebar = ({
           <div ref={scrollContainerRef} className="flex-1 overflow-y-scroll mb-3.5 pr-2 space-y-4" style={{
         scrollbarGutter: "stable"
       }}>
-            {userPrompt && <>
+            {conversationHistory.map((conversation, index) => (
+              <React.Fragment key={index}>
                 <div className="space-y-[4px]">
                   <div className="bg-muted/50 rounded-lg p-3 text-sm text-card-foreground ml-4">
-                    {userPrompt}
+                    {conversation.prompt}
                   </div>
                   <div className="text-xs text-muted-foreground text-right">
-                    {submittedAt ? submittedAt.toLocaleTimeString('en-US', {
-                hour: '2-digit',
-                minute: '2-digit',
-                hour12: true
-              }) : '09:23 am'}
+                    {conversation.submittedAt.toLocaleTimeString('en-US', {
+                      hour: '2-digit',
+                      minute: '2-digit',
+                      hour12: true
+                    })}
                   </div>
                 </div>
                 
-                {isLoading ? <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                    Generating response...
-                  </div> : <>
-                  <div className="space-y-[4px]">
-                      <div className="bg-[#D9F2FF] rounded-lg p-2">
-                        <div className="font-semibold text-card-foreground text-sm mb-1.5 my-0 py-[6px]">
-                          {dashboardTitle}
-                        </div>
-                        <div className={`grid grid-cols-2 gap-2 ${isDashboardCollapsed ? 'mb-1' : 'mb-1'}`}>
-                          <div className="bg-white rounded-lg h-full" />
-                          <div className="space-y-1.5">
-                            <div className="bg-white rounded-lg aspect-[4/2]" />
-                            <div className="bg-white rounded-lg aspect-[4/1.5]" />
-                          </div>
-                        </div>
-                        {isDashboardCollapsed ? <Button variant="ghost" size="default" onClick={onExpand} className="w-full justify-center gap-2 text-card-foreground bg-white/70 hover:bg-white hover:text-[#2e2e37] rounded-full px-6 h-9 mt-2">
-                            <ChevronsLeft className="h-4 w-4" />
-                            <span className="text-xs">Expand Dashboard</span>
-                          </Button> : <Button variant="ghost" size="default" onClick={onExpand} className="w-full justify-center gap-2 text-card-foreground bg-white/70 hover:bg-white hover:text-[#2e2e37] rounded-full px-6 h-9 mt-2">
-                            <ChevronsLeft className="h-4 w-4 rotate-180" />
-                            <span className="text-xs">Collapse Dashboard</span>
-                          </Button>}
-                      </div>
-                      <div className="text-xs text-muted-foreground text-left pl-4">
-                        {submittedAt ? new Date(submittedAt.getTime() + 2000).toLocaleTimeString('en-US', {
-                  hour: '2-digit',
-                  minute: '2-digit',
-                  hour12: true
-                }) : '09:23 am'}
+                <div className="space-y-[4px]">
+                  <div className="bg-[#D9F2FF] rounded-lg p-2">
+                    <div className="font-semibold text-card-foreground text-sm mb-1.5 my-0 py-[6px]">
+                      {conversation.title}
+                    </div>
+                    <div className={`grid grid-cols-2 gap-2 ${isDashboardCollapsed ? 'mb-1' : 'mb-1'}`}>
+                      <div className="bg-white rounded-lg h-full" />
+                      <div className="space-y-1.5">
+                        <div className="bg-white rounded-lg aspect-[4/2]" />
+                        <div className="bg-white rounded-lg aspect-[4/1.5]" />
                       </div>
                     </div>
-                    <div className="mb-4">
-                      <h3 ref={headingRef} className="font-semibold text-card-foreground text-sm mb-2">
-                        Query Your Insights
-                      </h3>
-                      <p className="text-xs text-muted-foreground mb-3 leading-relaxed">
-                        Ask questions about the insights generated for your dashboard.
-                      </p>
-                      <div className="flex gap-2 overflow-x-auto flex-nowrap pb-1">
-                        <button onClick={() => handleInsightToggle("insight1", 1)} className={cn("flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-colors whitespace-nowrap flex-shrink-0 border", selectedInsights.includes("insight1") ? "bg-primary text-primary-foreground border-primary" : "bg-white text-black border-[#E2E6E9]")}>
-                          Insight 1
-                          <span className={cn("w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0", selectedInsights.includes("insight1") ? "bg-white/20" : "bg-[#E2E6E9]")}>
-                            {selectedInsights.includes("insight1") ? <Minus className="h-2.5 w-2.5" color="#FFFFFF" strokeWidth={2.5} /> : <Plus className="h-2.5 w-2.5" color="#FFFFFF" strokeWidth={2.5} />}
-                          </span>
-                        </button>
-                        <button onClick={() => handleInsightToggle("insight2", 2)} className={cn("flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-colors whitespace-nowrap flex-shrink-0 border", selectedInsights.includes("insight2") ? "bg-primary text-primary-foreground border-primary" : "bg-white text-black border-[#E2E6E9]")}>
-                          Insight 2
-                          <span className={cn("w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0", selectedInsights.includes("insight2") ? "bg-white/20" : "bg-[#E2E6E9]")}>
-                            {selectedInsights.includes("insight2") ? <Minus className="h-2.5 w-2.5" color="#FFFFFF" strokeWidth={2.5} /> : <Plus className="h-2.5 w-2.5" color="#FFFFFF" strokeWidth={2.5} />}
-                          </span>
-                        </button>
-                        <button onClick={() => handleInsightToggle("insight3", 3)} className={cn("flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-colors whitespace-nowrap flex-shrink-0 border", selectedInsights.includes("insight3") ? "bg-primary text-primary-foreground border-primary" : "bg-white text-black border-[#E2E6E9]")}>
-                          Insight 3
-                          <span className={cn("w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0", selectedInsights.includes("insight3") ? "bg-white/20" : "bg-[#E2E6E9]")}>
-                            {selectedInsights.includes("insight3") ? <Minus className="h-2.5 w-2.5" color="#FFFFFF" strokeWidth={2.5} /> : <Plus className="h-2.5 w-2.5" color="#FFFFFF" strokeWidth={2.5} />}
-                          </span>
-                        </button>
-                      </div>
-                    </div>
+                    {index === conversationHistory.length - 1 && (
+                      isDashboardCollapsed ? 
+                        <Button variant="ghost" size="default" onClick={onExpand} className="w-full justify-center gap-2 text-card-foreground bg-white/70 hover:bg-white hover:text-[#2e2e37] rounded-full px-6 h-9 mt-2">
+                          <ChevronsLeft className="h-4 w-4" />
+                          <span className="text-xs">Expand Dashboard</span>
+                        </Button> : 
+                        <Button variant="ghost" size="default" onClick={onExpand} className="w-full justify-center gap-2 text-card-foreground bg-white/70 hover:bg-white hover:text-[#2e2e37] rounded-full px-6 h-9 mt-2">
+                          <ChevronsLeft className="h-4 w-4 rotate-180" />
+                          <span className="text-xs">Collapse Dashboard</span>
+                        </Button>
+                    )}
+                  </div>
+                  <div className="text-xs text-muted-foreground text-left pl-4">
+                    {new Date(conversation.submittedAt.getTime() + 2000).toLocaleTimeString('en-US', {
+                      hour: '2-digit',
+                      minute: '2-digit',
+                      hour12: true
+                    })}
+                  </div>
+                </div>
+              </React.Fragment>
+            ))}
+            
+            {isLoading && (
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <Loader2 className="h-4 w-4 animate-spin" />
+                Generating response...
+              </div>
+            )}
+            
+            {conversationHistory.length > 0 && !isLoading && (
+              <>
+                <div className="mb-4">
+                  <h3 ref={headingRef} className="font-semibold text-card-foreground text-sm mb-2">
+                    Query Your Insights
+                  </h3>
+                  <p className="text-xs text-muted-foreground mb-3 leading-relaxed">
+                    Ask questions about the insights generated for your dashboard.
+                  </p>
+                  <div className="flex gap-2 overflow-x-auto flex-nowrap pb-1">
+                    <button onClick={() => handleInsightToggle("insight1", 1)} className={cn("flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-colors whitespace-nowrap flex-shrink-0 border", selectedInsights.includes("insight1") ? "bg-primary text-primary-foreground border-primary" : "bg-white text-black border-[#E2E6E9]")}>
+                      Insight 1
+                      <span className={cn("w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0", selectedInsights.includes("insight1") ? "bg-white/20" : "bg-[#E2E6E9]")}>
+                        {selectedInsights.includes("insight1") ? <Minus className="h-2.5 w-2.5" color="#FFFFFF" strokeWidth={2.5} /> : <Plus className="h-2.5 w-2.5" color="#FFFFFF" strokeWidth={2.5} />}
+                      </span>
+                    </button>
+                    <button onClick={() => handleInsightToggle("insight2", 2)} className={cn("flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-colors whitespace-nowrap flex-shrink-0 border", selectedInsights.includes("insight2") ? "bg-primary text-primary-foreground border-primary" : "bg-white text-black border-[#E2E6E9]")}>
+                      Insight 2
+                      <span className={cn("w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0", selectedInsights.includes("insight2") ? "bg-white/20" : "bg-[#E2E6E9]")}>
+                        {selectedInsights.includes("insight2") ? <Minus className="h-2.5 w-2.5" color="#FFFFFF" strokeWidth={2.5} /> : <Plus className="h-2.5 w-2.5" color="#FFFFFF" strokeWidth={2.5} />}
+                      </span>
+                    </button>
+                    <button onClick={() => handleInsightToggle("insight3", 3)} className={cn("flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-colors whitespace-nowrap flex-shrink-0 border", selectedInsights.includes("insight3") ? "bg-primary text-primary-foreground border-primary" : "bg-white text-black border-[#E2E6E9]")}>
+                      Insight 3
+                      <span className={cn("w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0", selectedInsights.includes("insight3") ? "bg-white/20" : "bg-[#E2E6E9]")}>
+                        {selectedInsights.includes("insight3") ? <Minus className="h-2.5 w-2.5" color="#FFFFFF" strokeWidth={2.5} /> : <Plus className="h-2.5 w-2.5" color="#FFFFFF" strokeWidth={2.5} />}
+                      </span>
+                    </button>
+                  </div>
+                </div>
 
-                    {/* Quick Actions in Chat */}
-                    {showQuickActionsInChat && (
+                {/* Quick Actions in Chat */}
+                {showQuickActionsInChat && (
                       <div ref={quickActionsRef} className="space-y-3 mb-4">
                         <h3 className="text-sm font-semibold text-card-foreground">
                           Quick actions
@@ -647,8 +660,8 @@ export const AISidebar = ({
                         </div>
                       </div>
                     )}
-                  </>}
-              </>}
+                  </>
+                )}
           </div>
         </> : <>
           <p className="text-xs text-[#AC5CCC] mb-3.5 leading-relaxed">Enter a question about the data you'd like to visualize. Our AI will generate appropriate charts and insights.</p>
