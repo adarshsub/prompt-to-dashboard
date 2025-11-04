@@ -1,4 +1,4 @@
-import { ChevronsRight, BarChart2 } from "lucide-react";
+import { ChevronsRight, BarChart2, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 
@@ -57,6 +57,7 @@ export const DashboardView = ({ title, onCollapse }: DashboardViewProps) => {
               key={index}
               className="flex items-start gap-4 py-4 px-6 bg-card rounded-lg border border-border"
             >
+              <Sparkles className="h-4 w-4 text-primary mt-0.5 shrink-0" />
               <div className="flex items-start gap-2 flex-1">
                 <div className="flex items-start gap-2 text-card-foreground">
                   <span className="font-semibold">{index + 1}.</span>
