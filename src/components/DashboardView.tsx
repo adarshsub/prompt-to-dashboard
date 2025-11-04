@@ -58,7 +58,7 @@ export const DashboardView = ({ title, onCollapse }: DashboardViewProps) => {
               className="flex items-center gap-3 py-4 px-6 bg-card rounded-lg border border-border"
             >
               <Sparkles className="h-4 w-4 text-black shrink-0" />
-              <span className="font-semibold text-card-foreground">{index + 1}.</span>
+              <span className="text-sm font-semibold text-card-foreground">{index + 1}.</span>
               <span className="text-sm leading-relaxed text-card-foreground flex-1">{insight}</span>
               <Button
                 variant="outline"
