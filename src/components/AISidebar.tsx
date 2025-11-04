@@ -97,6 +97,7 @@ export const AISidebar = ({
   const [isGradeLevelsMultiline, setIsGradeLevelsMultiline] = useState(false);
   const [showQuickActionsInChat, setShowQuickActionsInChat] = useState(false);
   const headingRef = useRef<HTMLDivElement>(null);
+  const quickActionsRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const subjectsPillsRef = useRef<HTMLDivElement>(null);
   const termsPillsRef = useRef<HTMLDivElement>(null);
@@ -150,6 +151,14 @@ export const AISidebar = ({
     checkMultiline(termsPillsRef, setIsTermsMultiline);
     checkMultiline(gradeLevelsPillsRef, setIsGradeLevelsMultiline);
   }, [selectedSubjects, selectedTerms, selectedGradeLevels]);
+  
+  // Auto-scroll to Quick Actions when opened
+  useEffect(() => {
+    if (showQuickActionsInChat && quickActionsRef.current && scrollContainerRef.current) {
+      // Scroll to the Quick Actions section
+      quickActionsRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, [showQuickActionsInChat]);
   
   const handleSubjectToggle = (subject: string) => {
     setSelectedSubjects(prev => {
@@ -341,20 +350,10 @@ export const AISidebar = ({
 
                     {/* Quick Actions in Chat */}
                     {showQuickActionsInChat && (
-                      <div className="space-y-3 mb-4">
-                        <div className="flex items-center justify-between">
-                          <h3 className="text-sm font-semibold text-card-foreground">
-                            Quick actions
-                          </h3>
-                          <Button
-                            onClick={() => setShowQuickActionsInChat(false)}
-                            variant="ghost"
-                            size="icon"
-                            className="h-6 w-6 text-muted-foreground hover:text-card-foreground"
-                          >
-                            <X className="h-3 w-3" />
-                          </Button>
-                        </div>
+                      <div ref={quickActionsRef} className="space-y-3 mb-4">
+                        <h3 className="text-sm font-semibold text-card-foreground">
+                          Quick actions
+                        </h3>
                         <p className="text-xs text-muted-foreground leading-relaxed">Start by filtering for a template prompt or write your own prompt below.</p>
 
                         <div className="space-y-[7.8px]">
@@ -1038,12 +1037,12 @@ export const AISidebar = ({
 
       <div className="mt-auto">
         <div className="relative">
-          {showHistory && !showQuickActionsInChat && (
+          {showHistory && (
             <Button
-              onClick={() => setShowQuickActionsInChat(true)}
+              onClick={() => setShowQuickActionsInChat(!showQuickActionsInChat)}
               variant="ghost"
               size="icon"
-              className="absolute left-1 bottom-1 h-8 w-8 bg-transparent hover:bg-muted text-muted-foreground hover:text-card-foreground z-10"
+              className={cn("absolute left-1 bottom-1 h-8 w-8 bg-transparent hover:bg-muted text-muted-foreground hover:text-card-foreground z-10 transition-colors", showQuickActionsInChat && "bg-primary/10 text-primary hover:bg-primary/20 hover:text-primary")}
             >
               <MessageSquarePlus className="h-4 w-4" />
             </Button>
