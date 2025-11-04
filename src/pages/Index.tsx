@@ -48,7 +48,7 @@ const Index = () => {
             </div>
             
             {/* Vertical divider */}
-            <div className="flex flex-col self-stretch pt-0.5 pb-6 shrink-0">
+            <div className="flex flex-col self-stretch py-6 shrink-0">
               <div className="w-px bg-border flex-1" />
             </div>
             

@@ -217,7 +217,7 @@ export const AISidebar = ({
                   </div> : <>
                   <div className="space-y-[4px]">
                       <div className="bg-[#D9F2FF] rounded-lg p-2">
-                        <div className="font-semibold text-card-foreground text-[11px] mb-1">
+                        <div className="font-semibold text-card-foreground text-xs mb-1">
                           {dashboardTitle}
                         </div>
                         <div className={`grid grid-cols-2 gap-2 ${isDashboardCollapsed ? 'mb-1' : 'mb-1'}`}>
@@ -228,12 +228,12 @@ export const AISidebar = ({
                           </div>
                         </div>
                         {isDashboardCollapsed ? (
-                          <Button variant="ghost" size="default" onClick={onExpand} className="flex mx-auto justify-center gap-2 text-card-foreground bg-white/70 hover:bg-white/90 hover:text-[#2e2e37] rounded-full px-6 h-9 mt-2">
+                          <Button variant="ghost" size="default" onClick={onExpand} className="w-full justify-center gap-2 text-card-foreground bg-white/70 hover:bg-white/90 hover:text-[#2e2e37] rounded-full px-6 h-9 mt-2">
                             <ChevronsLeft className="h-4 w-4" />
                             <span className="text-xs">Expand Dashboard</span>
                           </Button>
                         ) : (
-                          <Button variant="ghost" size="default" onClick={onExpand} className="flex mx-auto justify-center gap-2 text-card-foreground bg-white/70 hover:bg-white/90 hover:text-[#2e2e37] rounded-full px-6 h-9 mt-2">
+                          <Button variant="ghost" size="default" onClick={onExpand} className="w-full justify-center gap-2 text-card-foreground bg-white/70 hover:bg-white/90 hover:text-[#2e2e37] rounded-full px-6 h-9 mt-2">
                             <ChevronsLeft className="h-4 w-4 rotate-180" />
                             <span className="text-xs">Collapse Dashboard</span>
                           </Button>
