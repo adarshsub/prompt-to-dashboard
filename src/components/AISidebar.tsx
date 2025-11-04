@@ -442,13 +442,14 @@ export const AISidebar = ({
                 </div>
               )}
 
-              <Popover open={filtersOpen} onOpenChange={setFiltersOpen}>
-                <PopoverTrigger asChild>
-                  <Button variant="ghost" className="justify-start gap-2 text-[#AC5CCC] hover:text-[#AC5CCC] hover:bg-[#c69fdc]/10 transition-all text-xs font-medium h-8 px-3">
-                    <Plus className="h-4 w-4" />
-                    <span>Add filters</span>
-                  </Button>
-                </PopoverTrigger>
+              <div className="-mt-1">
+                <Popover open={filtersOpen} onOpenChange={setFiltersOpen}>
+                  <PopoverTrigger asChild>
+                    <Button variant="ghost" className="justify-start gap-2 text-[#AC5CCC] hover:text-[#AC5CCC] hover:bg-[#c69fdc]/10 transition-all text-xs font-medium h-8 px-3">
+                      <Plus className="h-4 w-4" />
+                      <span>Add filters</span>
+                    </Button>
+                  </PopoverTrigger>
                 <PopoverContent className="w-[232px] p-3 bg-card border-border" align="start">
                   <div className="space-y-2">
                     {["Terms", "Grade Levels"].map(filter => (
@@ -467,6 +468,7 @@ export const AISidebar = ({
                   </div>
                 </PopoverContent>
               </Popover>
+              </div>
 
               {selectedSubjects.length > 0 && <>
                   <div className="flex gap-2 mt-4 pt-2 overflow-x-auto flex-nowrap pb-1">
