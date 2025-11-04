@@ -46,12 +46,12 @@ export const DashboardView = ({ title, onCollapse }: DashboardViewProps) => {
         </div>
       </div>
 
-      <div className="px-6 pb-2 shrink-0">
-        <h3 className="text-sm font-semibold text-[#1B247E] bg-[#f7f7f7] py-1 px-6 -mx-6">Key Insights</h3>
+      <div className="pb-2 shrink-0">
+        <h3 className="text-sm font-semibold text-[#1B247E] bg-[#f7f7f7] py-1 px-6">Key Insights</h3>
       </div>
 
-      <div className="px-6 pb-6 overflow-y-auto max-h-[40%] shrink-0">
-        <div className="space-y-3">
+      <div className="pb-6 overflow-y-auto max-h-[40%] shrink-0">
+        <div className="space-y-3 px-6">
           {INSIGHTS.map((insight, index) => (
             <div
               key={index}
