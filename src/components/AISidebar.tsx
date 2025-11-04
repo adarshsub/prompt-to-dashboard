@@ -20,24 +20,51 @@ interface AISidebarProps {
 }
 const TEMPLATE_PROMPTS = {
   math: {
-    performance: ["Show me all students below 70% in Math class.", "Show me a breakdown of Math scores by homeroom.", "Which Math topics had the lowest mastery rates?", "How does my Math class's average score compare to the school's average?"],
-    engagement: ["Show student participation trends in Math.", "Which students need engagement support in Math?"]
+    performance: [
+      "Show me all students below 70% in Math class",
+      "Show me a breakdown of Math scores by homeroom",
+      "Show me the breakdown of students who did meet expectations, partially met expectations, or approached expectations in Math",
+      "Which Math topics had the lowest mastery rates",
+      "How does my Math class's average score compare to the school's average"
+    ],
+    engagement: ["Show student participation trends in Math", "Which students need engagement support in Math"]
   },
   english: {
-    performance: ["Show me all students below 70% in English class.", "How does my English class's average score compare to the school's average?"],
+    performance: [
+      "Show me all students below 70% in English class",
+      "Show me a breakdown of English scores by homeroom",
+      "Show me the breakdown of students who did meet expectations, partially met expectations, or approached expectations in English",
+      "How does my English class's average score compare to the school's average"
+    ],
     engagement: []
   },
   science: {
-    performance: ["Show me all students below 70% in Science class.", "How does my Science class's average score compare to the school's average?"],
+    performance: [
+      "Show me all students below 70% in Science class",
+      "Show me a breakdown of Science scores by homeroom",
+      "Show me the breakdown of students who did meet expectations, partially met expectations, or approached expectations in Science",
+      "How does my Science class's average score compare to the school's average"
+    ],
     engagement: []
   },
   history: {
-    performance: ["Show me all students below 70% in History class.", "How does my History class's average score compare to the school's average?"],
+    performance: [
+      "Show me all students below 70% in History class",
+      "Show me a breakdown of History scores by homeroom",
+      "Show me the breakdown of students who did meet expectations, partially met expectations, or approached expectations in History",
+      "How does my History class's average score compare to the school's average"
+    ],
     engagement: []
   },
   generic: {
-    performance: ["Show me all students below 70% in my classes.", "Show me a breakdown of scores by homeroom.", "Which topics had the lowest mastery rates?", "How do my classes' average scores compare to the school's average?"],
-    engagement: ["Show student participation trends in my classes.", "Which students need engagement support in my classes?"]
+    performance: [
+      "Show me all students below 70% in my classes",
+      "Show me a breakdown of scores by homeroom",
+      "Show me the breakdown of students who did meet expectations, partially met expectations, or approached expectations in my classes",
+      "Which topics had the lowest mastery rates",
+      "How do my classes' average scores compare to the school's average"
+    ],
+    engagement: ["Show student participation trends in my classes", "Which students need engagement support in my classes"]
   }
 };
 export const AISidebar = ({
@@ -598,7 +625,7 @@ export const AISidebar = ({
                   adjustedPrompt = adjustedPrompt.replace("70%", `${percentThreshold}%`);
                 }
                 if (!isGenericPrompt && showMultipleSubjects) {
-                  adjustedPrompt = adjustedPrompt.replace(`${promptSubject} class.`, `${promptSubject} classes.`).replace(`${promptSubject} class's`, `${promptSubject} classes'`).replace("does my", "do my").replace("score compare", "scores compare");
+                  adjustedPrompt = adjustedPrompt.replace(`${promptSubject} class`, `${promptSubject} classes`).replace(`${promptSubject} class's`, `${promptSubject} classes'`).replace("does my", "do my").replace("score compare", "scores compare");
                 }
                 
                 // Store term text for appending
@@ -625,17 +652,8 @@ export const AISidebar = ({
                   }
                 }
                 
-                // Remove trailing period from adjustedPrompt before processing if term or grade will be added
-                const hasAppendedText = termText || gradeLevelText;
-                const basePrompt = hasAppendedText ? adjustedPrompt.replace(/\.$/, '') : adjustedPrompt;
-                const parts = isGenericPrompt ? [basePrompt] : basePrompt.split(promptSubject);
-
-                // Split the prompt to bold the percent when modified
-                const isModified = percentThreshold !== 70;
-                const percentText = `${percentThreshold}%`;
-                
                 // Build final prompt with term and grade level appended
-                let finalPromptForClick = adjustedPrompt.replace(/\.$/, '');
+                let finalPromptForClick = adjustedPrompt;
                 if (termText) {
                   finalPromptForClick += ` in ${termText}`;
                 }
@@ -643,6 +661,16 @@ export const AISidebar = ({
                   finalPromptForClick += ` ${gradeLevelText}`;
                 }
                 finalPromptForClick += '.';
+                
+                // For display, split properly
+                const hasAppendedText = termText || gradeLevelText;
+                const basePrompt = adjustedPrompt;
+                const parts = isGenericPrompt ? [basePrompt] : basePrompt.split(promptSubject);
+
+                // Split the prompt to bold the percent when modified
+                const isModified = percentThreshold !== 70;
+                const percentText = `${percentThreshold}%`;
+
 
                 
                 return <div key={index} className="relative">
