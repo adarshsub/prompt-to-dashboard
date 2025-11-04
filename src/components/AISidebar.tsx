@@ -55,10 +55,8 @@ export const AISidebar = ({
   const [selectedInsights, setSelectedInsights] = useState<string[]>([]);
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
   const [filtersOpen, setFiltersOpen] = useState(false);
-  
   const headingRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-
   useEffect(() => {
     if (!submittedAt) return;
     if (!isLoading && scrollContainerRef.current) {
@@ -126,21 +124,16 @@ export const AISidebar = ({
   const handlePromptClick = (templatePrompt: string) => {
     setPrompt(templatePrompt);
   };
-  
   const handleInsightToggle = (insight: string, insightNumber: number) => {
     const wasSelected = selectedInsights.includes(insight);
-    
     if (wasSelected) {
       // Remove from selection
       setSelectedInsights(prev => prev.filter(i => i !== insight));
-      
+
       // Remove the corresponding text from prompt
       setPrompt(prev => {
         // Pattern to match "For Insight X, tell me ..." up to next "; " or end
-        const pattern = new RegExp(
-          `(^|; )For Insight ${insightNumber}, tell me[^;]*`,
-          'g'
-        );
+        const pattern = new RegExp(`(^|; )For Insight ${insightNumber}, tell me[^;]*`, 'g');
         let updated = prev.replace(pattern, '');
         // Clean up leading/trailing semicolons and extra spaces
         updated = updated.replace(/^;\s*/, '').replace(/;\s*$/, '').trim();
@@ -149,7 +142,7 @@ export const AISidebar = ({
     } else {
       // Add to selection
       setSelectedInsights(prev => [...prev, insight]);
-      
+
       // Append to prompt
       setPrompt(prev => {
         if (!prev.trim()) {
@@ -176,7 +169,7 @@ export const AISidebar = ({
       const historyPrompts = TEMPLATE_PROMPTS.history[selectedCategory] || [];
       return [...mathPrompts, ...englishPrompts, ...sciencePrompts, ...historyPrompts];
     }
-    
+
     // Combine prompts for all selected subjects
     const allPrompts = selectedSubjects.flatMap(subject => {
       const subjectKey = subject.toLowerCase();
@@ -208,7 +201,11 @@ export const AISidebar = ({
                     {userPrompt}
                   </div>
                   <div className="text-xs text-muted-foreground text-right">
-                    {submittedAt ? submittedAt.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }) : '09:23 am'}
+                    {submittedAt ? submittedAt.toLocaleTimeString('en-US', {
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: true
+              }) : '09:23 am'}
                   </div>
                 </div>
                 
@@ -229,20 +226,17 @@ export const AISidebar = ({
                             
                           </div>
                         </div>
-                        {isDashboardCollapsed && (
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={onExpand}
-                            className="w-full justify-start gap-2 text-card-foreground bg-white/50 hover:bg-white/90 hover:text-[#2e2e37] h-8"
-                          >
+                        {isDashboardCollapsed && <Button variant="ghost" size="sm" onClick={onExpand} className="w-full justify-start gap-2 text-card-foreground bg-white/50 hover:bg-white/90 hover:text-[#2e2e37] h-8">
                             <ChevronsLeft className="h-4 w-4" />
                             <span className="text-xs">Expand Dashboard</span>
-                          </Button>
-                        )}
+                          </Button>}
                       </div>
                       <div className="text-xs text-muted-foreground text-left pl-4">
-                        {submittedAt ? new Date(submittedAt.getTime() + 2000).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }) : '09:23 am'}
+                        {submittedAt ? new Date(submittedAt.getTime() + 2000).toLocaleTimeString('en-US', {
+                  hour: '2-digit',
+                  minute: '2-digit',
+                  hour12: true
+                }) : '09:23 am'}
                       </div>
                     </div>
                     <div className="mb-4">
@@ -253,64 +247,22 @@ export const AISidebar = ({
                         Ask questions about the insights generated for your dashboard.
                       </p>
                       <div className="flex gap-2 overflow-x-auto flex-nowrap pb-1">
-                        <button 
-                          onClick={() => handleInsightToggle("insight1", 1)}
-                          className={cn(
-                            "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-colors whitespace-nowrap flex-shrink-0 border",
-                            selectedInsights.includes("insight1")
-                              ? "bg-primary text-primary-foreground border-primary"
-                              : "bg-white text-black border-[#E2E6E9]"
-                          )}
-                        >
+                        <button onClick={() => handleInsightToggle("insight1", 1)} className={cn("flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-colors whitespace-nowrap flex-shrink-0 border", selectedInsights.includes("insight1") ? "bg-primary text-primary-foreground border-primary" : "bg-white text-black border-[#E2E6E9]")}>
                           Insight 1
-                          <span className={cn(
-                            "w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0",
-                            selectedInsights.includes("insight1") ? "bg-white/20" : "bg-[#E2E6E9]"
-                          )}>
-                            {selectedInsights.includes("insight1") 
-                              ? <Minus className="h-2.5 w-2.5" color="#FFFFFF" strokeWidth={2.5} />
-                              : <Plus className="h-2.5 w-2.5" color="#FFFFFF" strokeWidth={2.5} />
-                            }
+                          <span className={cn("w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0", selectedInsights.includes("insight1") ? "bg-white/20" : "bg-[#E2E6E9]")}>
+                            {selectedInsights.includes("insight1") ? <Minus className="h-2.5 w-2.5" color="#FFFFFF" strokeWidth={2.5} /> : <Plus className="h-2.5 w-2.5" color="#FFFFFF" strokeWidth={2.5} />}
                           </span>
                         </button>
-                        <button 
-                          onClick={() => handleInsightToggle("insight2", 2)}
-                          className={cn(
-                            "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-colors whitespace-nowrap flex-shrink-0 border",
-                            selectedInsights.includes("insight2")
-                              ? "bg-primary text-primary-foreground border-primary"
-                              : "bg-white text-black border-[#E2E6E9]"
-                          )}
-                        >
+                        <button onClick={() => handleInsightToggle("insight2", 2)} className={cn("flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-colors whitespace-nowrap flex-shrink-0 border", selectedInsights.includes("insight2") ? "bg-primary text-primary-foreground border-primary" : "bg-white text-black border-[#E2E6E9]")}>
                           Insight 2
-                          <span className={cn(
-                            "w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0",
-                            selectedInsights.includes("insight2") ? "bg-white/20" : "bg-[#E2E6E9]"
-                          )}>
-                            {selectedInsights.includes("insight2") 
-                              ? <Minus className="h-2.5 w-2.5" color="#FFFFFF" strokeWidth={2.5} />
-                              : <Plus className="h-2.5 w-2.5" color="#FFFFFF" strokeWidth={2.5} />
-                            }
+                          <span className={cn("w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0", selectedInsights.includes("insight2") ? "bg-white/20" : "bg-[#E2E6E9]")}>
+                            {selectedInsights.includes("insight2") ? <Minus className="h-2.5 w-2.5" color="#FFFFFF" strokeWidth={2.5} /> : <Plus className="h-2.5 w-2.5" color="#FFFFFF" strokeWidth={2.5} />}
                           </span>
                         </button>
-                        <button 
-                          onClick={() => handleInsightToggle("insight3", 3)}
-                          className={cn(
-                            "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-colors whitespace-nowrap flex-shrink-0 border",
-                            selectedInsights.includes("insight3")
-                              ? "bg-primary text-primary-foreground border-primary"
-                              : "bg-white text-black border-[#E2E6E9]"
-                          )}
-                        >
+                        <button onClick={() => handleInsightToggle("insight3", 3)} className={cn("flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-colors whitespace-nowrap flex-shrink-0 border", selectedInsights.includes("insight3") ? "bg-primary text-primary-foreground border-primary" : "bg-white text-black border-[#E2E6E9]")}>
                           Insight 3
-                          <span className={cn(
-                            "w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0",
-                            selectedInsights.includes("insight3") ? "bg-white/20" : "bg-[#E2E6E9]"
-                          )}>
-                            {selectedInsights.includes("insight3") 
-                              ? <Minus className="h-2.5 w-2.5" color="#FFFFFF" strokeWidth={2.5} />
-                              : <Plus className="h-2.5 w-2.5" color="#FFFFFF" strokeWidth={2.5} />
-                            }
+                          <span className={cn("w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0", selectedInsights.includes("insight3") ? "bg-white/20" : "bg-[#E2E6E9]")}>
+                            {selectedInsights.includes("insight3") ? <Minus className="h-2.5 w-2.5" color="#FFFFFF" strokeWidth={2.5} /> : <Plus className="h-2.5 w-2.5" color="#FFFFFF" strokeWidth={2.5} />}
                           </span>
                         </button>
                       </div>
@@ -328,9 +280,7 @@ export const AISidebar = ({
             <h3 className="text-sm font-semibold text-card-foreground mb-3">
               Quick actions
             </h3>
-            <p className="text-xs text-muted-foreground mb-4 leading-relaxed">
-              Start with a template prompt for inspiration or use your own prompt below.
-            </p>
+            <p className="text-xs text-muted-foreground mb-4 leading-relaxed">Start by filtering for a template prompt or write your own prompt below.</p>
 
             <div className="space-y-[7.8px]">
               <div className="space-y-2">
@@ -384,25 +334,17 @@ export const AISidebar = ({
                 </PopoverTrigger>
                 <PopoverContent className="w-[232px] p-3 bg-card border-border" align="start">
                   <div className="space-y-2">
-                    {["Terms", "Grade Levels"].map(filter => (
-                      <div key={filter} className="flex items-center space-x-2">
-                        <Checkbox 
-                          id={filter} 
-                          checked={activeFilters.includes(filter)} 
-                          onCheckedChange={() => handleFilterToggle(filter)}
-                          className="border-[#AC5CCC] data-[state=checked]:bg-[#AC5CCC] data-[state=checked]:border-[#AC5CCC]"
-                        />
+                    {["Terms", "Grade Levels"].map(filter => <div key={filter} className="flex items-center space-x-2">
+                        <Checkbox id={filter} checked={activeFilters.includes(filter)} onCheckedChange={() => handleFilterToggle(filter)} className="border-[#AC5CCC] data-[state=checked]:bg-[#AC5CCC] data-[state=checked]:border-[#AC5CCC]" />
                         <label htmlFor={filter} className="text-sm text-card-foreground cursor-pointer flex-1">
                           {filter}
                         </label>
-                      </div>
-                    ))}
+                      </div>)}
                   </div>
                 </PopoverContent>
               </Popover>
 
-              {activeFilters.includes("Terms") && (
-                <div className="space-y-2">
+              {activeFilters.includes("Terms") && <div className="space-y-2">
                   {selectedTerms.length > 0 && <div className="flex flex-wrap gap-1.5 mb-2">
                     {selectedTerms.map(term => <Badge key={term} variant="secondary" className="bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 pl-2.5 pr-1.5 py-1">
                         {term}
@@ -432,11 +374,9 @@ export const AISidebar = ({
                     </div>
                   </PopoverContent>
                 </Popover>
-                </div>
-              )}
+                </div>}
 
-              {activeFilters.includes("Grade Levels") && (
-                <div className="space-y-2">
+              {activeFilters.includes("Grade Levels") && <div className="space-y-2">
                 {selectedGradeLevels.length > 0 && <div className="flex flex-wrap gap-1.5 mb-2">
                     {selectedGradeLevels.map(level => <Badge key={level} variant="secondary" className="bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 pl-2.5 pr-1.5 py-1">
                         {level}
@@ -466,8 +406,7 @@ export const AISidebar = ({
                     </div>
                   </PopoverContent>
                 </Popover>
-                </div>
-              )}
+                </div>}
 
 
               {selectedSubjects.length > 0 && <>
@@ -491,18 +430,13 @@ export const AISidebar = ({
                 const showMultipleSubjects = selectedSubjects.includes("All") || selectedSubjects.length > 1;
 
                 // Detect which subject is in this specific prompt
-                const promptSubject = templatePrompt.includes("Math") ? "Math" 
-                  : templatePrompt.includes("English") ? "English"
-                  : templatePrompt.includes("Science") ? "Science"
-                  : "History";
-                
+                const promptSubject = templatePrompt.includes("Math") ? "Math" : templatePrompt.includes("English") ? "English" : templatePrompt.includes("Science") ? "Science" : "History";
+
                 // Build display subject text
                 let displaySubject = promptSubject;
                 if (showMultipleSubjects) {
-                  const activeSubjects = selectedSubjects.includes("All") 
-                    ? ["Math", "English", "Science", "History"]
-                    : selectedSubjects.filter(s => s !== "All");
-                  
+                  const activeSubjects = selectedSubjects.includes("All") ? ["Math", "English", "Science", "History"] : selectedSubjects.filter(s => s !== "All");
+
                   // Format with commas and "and"
                   if (activeSubjects.length === 2) {
                     displaySubject = activeSubjects.join(" and ");
@@ -510,17 +444,12 @@ export const AISidebar = ({
                     displaySubject = activeSubjects.slice(0, -1).join(", ") + ", and " + activeSubjects[activeSubjects.length - 1];
                   }
                 }
-                
+
                 // Adjust grammar for multiple subjects
                 let adjustedPrompt = templatePrompt;
                 if (showMultipleSubjects) {
-                  adjustedPrompt = adjustedPrompt
-                    .replace(`${promptSubject} class.`, `${promptSubject} classes.`)
-                    .replace(`${promptSubject} class's`, `${promptSubject} classes'`)
-                    .replace("does my", "do my")
-                    .replace("score compare", "scores compare");
+                  adjustedPrompt = adjustedPrompt.replace(`${promptSubject} class.`, `${promptSubject} classes.`).replace(`${promptSubject} class's`, `${promptSubject} classes'`).replace("does my", "do my").replace("score compare", "scores compare");
                 }
-                
                 const parts = adjustedPrompt.split(promptSubject);
                 return <button key={index} onClick={() => handlePromptClick(adjustedPrompt)} className={cn("w-full text-left p-3 rounded-lg border transition-colors text-xs flex items-center gap-2", prompt === adjustedPrompt ? "border-primary bg-primary/5" : "border-border bg-card hover:border-[#c69fdc] hover:bg-card/80")}>
                           <BarChart3 className="h-4 w-4 flex-shrink-0" color="#323232" />
