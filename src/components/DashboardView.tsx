@@ -24,7 +24,7 @@ export const DashboardView = ({ title, onCollapse }: DashboardViewProps) => {
             variant="ghost"
             size="icon"
             onClick={onCollapse}
-            className="h-8 w-8 text-[#797985] hover:text-white hover:bg-primary/20 transition-all rounded-lg"
+            className="h-8 w-8 text-[#797985] hover:text-white hover:bg-primary/40 transition-all rounded-lg"
           >
             <ChevronsRight className="h-6 w-6" />
           </Button>
