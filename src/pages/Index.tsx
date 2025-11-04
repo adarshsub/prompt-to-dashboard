@@ -1,9 +1,11 @@
 import { AISidebar } from "@/components/AISidebar";
 import { DashboardView } from "@/components/DashboardView";
 import { useState } from "react";
+import { generateDashboardTitle } from "@/lib/promptUtils";
 
 const Index = () => {
   const [userPrompt, setUserPrompt] = useState("");
+  const [dashboardTitle, setDashboardTitle] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [showResults, setShowResults] = useState(false);
   const [isDashboardCollapsed, setIsDashboardCollapsed] = useState(false);
@@ -11,6 +13,7 @@ const Index = () => {
 
   const handleSubmit = (prompt: string) => {
     setUserPrompt(prompt);
+    setDashboardTitle(generateDashboardTitle(prompt));
     setSubmittedAt(new Date());
     setIsLoading(true);
     setShowResults(false);
@@ -38,7 +41,7 @@ const Index = () => {
                 </div>
               ) : (
                 <DashboardView 
-                  title="Students Below 70% in Math" 
+                  title={dashboardTitle} 
                   onCollapse={() => setIsDashboardCollapsed(true)}
                 />
               )}
@@ -53,6 +56,7 @@ const Index = () => {
               isLoading={isLoading}
               showHistory={true}
               userPrompt={userPrompt}
+              dashboardTitle={dashboardTitle}
               isDashboardCollapsed={false}
               onExpand={() => setIsDashboardCollapsed(true)}
               submittedAt={submittedAt}
@@ -73,6 +77,7 @@ const Index = () => {
               isLoading={isLoading}
               showHistory={true}
               userPrompt={userPrompt}
+              dashboardTitle={dashboardTitle}
               isDashboardCollapsed={true}
               onExpand={() => setIsDashboardCollapsed(false)}
               submittedAt={submittedAt}

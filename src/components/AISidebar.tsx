@@ -13,6 +13,7 @@ interface AISidebarProps {
   isLoading?: boolean;
   showHistory?: boolean;
   userPrompt?: string;
+  dashboardTitle?: string;
   isDashboardCollapsed?: boolean;
   onExpand?: () => void;
   submittedAt?: Date | null;
@@ -40,6 +41,7 @@ export const AISidebar = ({
   isLoading = false,
   showHistory = false,
   userPrompt,
+  dashboardTitle = "",
   isDashboardCollapsed = false,
   onExpand,
   submittedAt
@@ -213,10 +215,10 @@ export const AISidebar = ({
                     <Loader2 className="h-4 w-4 animate-spin" />
                     Generating response...
                   </div> : <>
-                    <div className="space-y-[4px]">
+                  <div className="space-y-[4px]">
                       <div className="bg-[#D9F2FF] rounded-lg p-2 mr-4">
                         <div className="font-semibold text-card-foreground text-[11.2px] mb-[0.62px]">
-                          Students Below 70% in Math
+                          {dashboardTitle}
                         </div>
                         <div className={`grid grid-cols-2 gap-[6.4px] scale-y-[0.612] ${isDashboardCollapsed ? 'mb-[1.25px]' : 'mb-0'}`}>
                           <div className="bg-white rounded-lg h-full" />
