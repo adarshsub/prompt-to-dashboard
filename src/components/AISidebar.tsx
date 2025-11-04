@@ -488,7 +488,7 @@ export const AISidebar = ({
                             }}
                             className="flex items-center gap-1.5 text-muted-foreground hover:text-card-foreground transition-colors text-[10px] pl-6"
                           >
-                            <span>Modify Percent Threshold</span>
+                            <span className="font-semibold">Modify Percent Threshold</span>
                             <ChevronDown className={cn("h-3 w-3 transition-transform", thresholdDropdownOpen === index && "rotate-180")} />
                           </button>
                         )}
