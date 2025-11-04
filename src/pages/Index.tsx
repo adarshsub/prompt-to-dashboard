@@ -54,6 +54,7 @@ const Index = () => {
               showHistory={true}
               userPrompt={userPrompt}
               isDashboardCollapsed={false}
+              onExpand={() => setIsDashboardCollapsed(true)}
               submittedAt={submittedAt}
             />
           </div>
