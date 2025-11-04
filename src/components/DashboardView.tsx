@@ -17,7 +17,7 @@ export const DashboardView = ({ title, onCollapse }: DashboardViewProps) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   return (
-    <div className="flex-1 flex flex-col overflow-hidden min-w-0 ring-4 ring-blue-500">
+    <div className="flex-1 flex flex-col overflow-hidden min-w-0">
       <div className="flex items-center justify-between p-6 pb-4">
         <div className="flex items-center gap-3">
           <Button
