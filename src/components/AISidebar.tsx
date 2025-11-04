@@ -304,7 +304,7 @@ export const AISidebar = ({
               <div className="space-y-2">
                 <Popover open={subjectsOpen} onOpenChange={setSubjectsOpen}>
                   <PopoverTrigger asChild>
-                    <Button variant="outline" className="w-full justify-between items-center bg-card border-border text-card-foreground hover:bg-white hover:border-[#c69fdc] transition-all min-h-10 py-1.5 rounded-full text-sm h-auto">
+                    <Button variant="outline" className={cn("w-full justify-between items-center bg-card border-border text-card-foreground hover:bg-white hover:border-[#c69fdc] transition-all min-h-10 py-1.5 text-sm h-auto", selectedSubjects.length > 0 ? "rounded-lg" : "rounded-full")}>
 
                       {selectedSubjects.length > 0 ? <div className="flex flex-wrap items-center gap-1 flex-1 mr-2 min-h-0">
                           {(selectedSubjects.includes("All") ? ["All"] : selectedSubjects).map(subject => <Badge key={subject} variant="secondary" className="pl-2 pr-1 py-0.5 text-xs h-6" style={{
@@ -366,7 +366,7 @@ export const AISidebar = ({
               {activeFilters.includes("Terms") && <div className="space-y-2">
                 <Popover open={termsOpen} onOpenChange={setTermsOpen}>
                   <PopoverTrigger asChild>
-                    <Button variant="outline" className="w-full justify-between items-center bg-card border-border text-card-foreground hover:bg-white hover:border-[#c69fdc] transition-all min-h-10 py-1.5 rounded-full text-sm h-auto">
+                    <Button variant="outline" className={cn("w-full justify-between items-center bg-card border-border text-card-foreground hover:bg-white hover:border-[#c69fdc] transition-all min-h-10 py-1.5 text-sm h-auto", selectedTerms.length > 0 ? "rounded-lg" : "rounded-full")}>
                       {selectedTerms.length > 0 ? <div className="flex flex-wrap items-center gap-1 flex-1 mr-2 min-h-0">
                           {selectedTerms.map(term => <Badge key={term} variant="secondary" className="pl-2 pr-1 py-0.5 text-xs h-6" style={{
                       backgroundColor: '#EBF8FF',
@@ -408,7 +408,7 @@ export const AISidebar = ({
               {activeFilters.includes("Grade Levels") && <div className="space-y-2">
                 <Popover open={gradeLevelsOpen} onOpenChange={setGradeLevelsOpen}>
                   <PopoverTrigger asChild>
-                    <Button variant="outline" className="w-full justify-between items-center bg-card border-border text-card-foreground hover:bg-white hover:border-[#c69fdc] transition-all min-h-10 py-1.5 rounded-full text-sm h-auto">
+                    <Button variant="outline" className={cn("w-full justify-between items-center bg-card border-border text-card-foreground hover:bg-white hover:border-[#c69fdc] transition-all min-h-10 py-1.5 text-sm h-auto", selectedGradeLevels.length > 0 ? "rounded-lg" : "rounded-full")}>
                       {selectedGradeLevels.length > 0 ? <div className="flex flex-wrap items-center gap-1 flex-1 mr-2 min-h-0">
                           {selectedGradeLevels.map(level => <Badge key={level} variant="secondary" className="pl-2 pr-1 py-0.5 text-xs h-6" style={{
                       backgroundColor: '#EBF8FF',
@@ -638,20 +638,20 @@ export const AISidebar = ({
                                 {i < parts.length - 1 && !isGenericPrompt && <strong>{displaySubject}</strong>}
                               </React.Fragment>;
                         })}
-                            {termText && <> in <strong>{termText}</strong></>}
-                            {gradeLevelText && <>{(() => {
-                              // Split and bold grade numbers
+                             {termText && <> in <strong>{termText}</strong></>}
+                            {gradeLevelText && <> {(() => {
+                              // Split and bold grade numbers - remove trailing space before period
                               const words = gradeLevelText.split(' ');
                               return words.map((word, idx) => {
-                                // Check if this word is a grade number (ends with 'th', 'st', 'nd', 'rd' or is a single letter)
+                                // Check if this word is a grade number
                                 if (gradeLevelParts.some(grade => word === grade || word === grade + ',')) {
                                   const hasComma = word.endsWith(',');
                                   const cleanWord = hasComma ? word.slice(0, -1) : word;
                                   return <React.Fragment key={idx}>
-                                    <strong>{cleanWord}</strong>{hasComma && ','}{' '}
+                                    <strong>{cleanWord}</strong>{hasComma && ','}{idx < words.length - 1 && ' '}
                                   </React.Fragment>;
                                 }
-                                return <React.Fragment key={idx}>{word}{' '}</React.Fragment>;
+                                return <React.Fragment key={idx}>{word}{idx < words.length - 1 && ' '}</React.Fragment>;
                               });
                             })()}</>}
                             .
