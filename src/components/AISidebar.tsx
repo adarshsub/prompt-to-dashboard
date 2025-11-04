@@ -160,6 +160,18 @@ export const AISidebar = ({
     }
   }, [showQuickActionsInChat]);
   
+  // Auto-scroll when filters change in Quick Actions
+  useEffect(() => {
+    if (showQuickActionsInChat && quickActionsRef.current && scrollContainerRef.current) {
+      // Small delay to allow content to render
+      setTimeout(() => {
+        if (quickActionsRef.current) {
+          quickActionsRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 100);
+    }
+  }, [selectedSubjects, selectedTerms, selectedGradeLevels, activeFilters, selectedCategory, showQuickActionsInChat]);
+  
   const handleSubjectToggle = (subject: string) => {
     setSelectedSubjects(prev => {
       if (subject === "All") {
