@@ -185,7 +185,7 @@ export const AISidebar = ({
         <h2 className="text-2xl font-semibold bg-gradient-purple bg-clip-text text-transparent">
           Create with AI
         </h2>
-        <Button variant="ghost" size="icon" className="h-6 w-6 -mt-1 -mr-2 text-muted-foreground hover:text-white hover:bg-[#c69fdc]/75 transition-all">
+        <Button variant="ghost" size="icon" className="h-6 w-6 -mt-1 -mr-2 text-muted-foreground hover:text-white hover:bg-primary/20 transition-all">
           <X className="h-4 w-4" />
         </Button>
       </div>
@@ -216,11 +216,11 @@ export const AISidebar = ({
                     Generating response...
                   </div> : <>
                   <div className="space-y-[4px]">
-                      <div className="bg-[#D9F2FF] rounded-lg p-2 mr-4">
-                        <div className="font-semibold text-card-foreground text-xs mb-0.5">
+                      <div className="bg-[#D9F2FF] rounded-lg p-2">
+                        <div className="font-semibold text-card-foreground text-[11px] mb-1">
                           {dashboardTitle}
                         </div>
-                        <div className={`grid grid-cols-2 gap-1.5 ${isDashboardCollapsed ? 'mb-0.5' : 'mb-0.5'}`}>
+                        <div className={`grid grid-cols-2 gap-2 ${isDashboardCollapsed ? 'mb-1' : 'mb-1'}`}>
                           <div className="bg-white rounded-lg h-full" />
                           <div className="space-y-1.5">
                             <div className="bg-white rounded-lg aspect-[4/3]" />
@@ -228,14 +228,14 @@ export const AISidebar = ({
                           </div>
                         </div>
                         {isDashboardCollapsed ? (
-                          <Button variant="ghost" size="lg" onClick={onExpand} className="flex mx-auto justify-center gap-2 text-card-foreground bg-white/70 hover:bg-white/90 hover:text-[#2e2e37] rounded-full px-6">
+                          <Button variant="ghost" size="default" onClick={onExpand} className="flex mx-auto justify-center gap-2 text-card-foreground bg-white/70 hover:bg-white/90 hover:text-[#2e2e37] rounded-full px-6 h-9 mt-2">
                             <ChevronsLeft className="h-4 w-4" />
-                            <span className="text-sm">Expand Dashboard</span>
+                            <span className="text-xs">Expand Dashboard</span>
                           </Button>
                         ) : (
-                          <Button variant="ghost" size="lg" onClick={onExpand} className="flex mx-auto justify-center gap-2 text-card-foreground bg-white/70 hover:bg-white/90 hover:text-[#2e2e37] rounded-full px-6">
+                          <Button variant="ghost" size="default" onClick={onExpand} className="flex mx-auto justify-center gap-2 text-card-foreground bg-white/70 hover:bg-white/90 hover:text-[#2e2e37] rounded-full px-6 h-9 mt-2">
                             <ChevronsLeft className="h-4 w-4 rotate-180" />
-                            <span className="text-sm">Collapse Dashboard</span>
+                            <span className="text-xs">Collapse Dashboard</span>
                           </Button>
                         )}
                       </div>

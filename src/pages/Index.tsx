@@ -48,7 +48,9 @@ const Index = () => {
             </div>
             
             {/* Vertical divider */}
-            <div className="w-px bg-border shrink-0" />
+            <div className="flex flex-col self-stretch pt-0.5 pb-6 shrink-0">
+              <div className="w-px bg-border flex-1" />
+            </div>
             
             {/* Sidebar - same position throughout */}
             <AISidebar
