@@ -55,15 +55,15 @@ export const DashboardView = ({ title, onCollapse }: DashboardViewProps) => {
           {INSIGHTS.map((insight, index) => (
             <div
               key={index}
-              className="flex items-center gap-3 py-4 px-6 bg-card rounded-lg border border-border"
+              className="flex items-center gap-2.5 py-4 px-6 bg-card rounded-lg border border-border"
             >
-              <Sparkles className="h-4 w-4 text-black shrink-0" />
-              <span className="font-semibold text-card-foreground">{index + 1}.</span>
-              <span className="text-sm leading-relaxed text-card-foreground flex-1">{insight}</span>
+              <Sparkles className="h-5 w-5 text-black shrink-0" />
+              <span className="text-sm font-semibold text-card-foreground">{index + 1}.</span>
+              <span className="text-base leading-relaxed text-card-foreground flex-1">{insight}</span>
               <Button
                 variant="outline"
                 size="sm"
-                className="border-primary text-primary hover:bg-primary/10 hover:text-primary shrink-0 bg-white rounded-[5px] text-xs h-8 px-3"
+                className="border-primary text-primary hover:bg-primary/10 hover:text-primary shrink-0 bg-white rounded-[5px] text-sm h-8 px-3"
               >
                 Generate Intervention
               </Button>
