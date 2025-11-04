@@ -601,7 +601,7 @@ export const AISidebar = ({
                               const isModified = percentThreshold !== 70;
                               const percentText = `${percentThreshold}%`;
 
-                              return <div key={index} className="relative">
+                              return <div key={index}>
                                 <button onClick={() => handlePromptClick(finalPromptForClick)} className={cn("w-full text-left p-3 rounded-lg border transition-colors text-xs flex flex-col gap-2", prompt === finalPromptForClick ? "border-primary bg-primary/5" : "border-border bg-card hover:border-[#c69fdc] hover:bg-card/80")}>
                                   <div className="flex items-center gap-2">
                                     <Sparkles className="h-4 w-4 flex-shrink-0" color="#323232" />
@@ -633,26 +633,34 @@ export const AISidebar = ({
                                       .
                                     </span>
                                   </div>
-                                  {isBelowPrompt && <button onClick={e => {
-                                    e.stopPropagation();
-                                    setThresholdDropdownOpen(thresholdDropdownOpen === index ? null : index);
-                                  }} className="flex items-center gap-1.5 text-muted-foreground hover:text-card-foreground transition-colors text-[10px] pl-6">
-                                    <span className="font-semibold">Modify Percent Threshold</span>
-                                    <ChevronDown className={cn("h-3 w-3 transition-transform", thresholdDropdownOpen === index && "rotate-180")} />
-                                  </button>}
+                                  {isBelowPrompt && (
+                                    <Popover open={thresholdDropdownOpen === index} onOpenChange={(open) => setThresholdDropdownOpen(open ? index : null)}>
+                                      <PopoverTrigger asChild>
+                                        <button onClick={e => e.stopPropagation()} className="flex items-center gap-1.5 text-muted-foreground hover:text-card-foreground transition-colors text-[10px] pl-6">
+                                          <span className="font-semibold">Modify Percent Threshold</span>
+                                          <ChevronDown className={cn("h-3 w-3 transition-transform", thresholdDropdownOpen === index && "rotate-180")} />
+                                        </button>
+                                      </PopoverTrigger>
+                                      <PopoverContent className="w-auto p-2 bg-card border-border" align="start">
+                                        <div className="grid grid-cols-3 gap-1">
+                                          {[90, 80, 70, 60, 50, 40, 30, 20, 10].map(threshold => (
+                                            <button 
+                                              key={threshold} 
+                                              onClick={(e) => {
+                                                e.stopPropagation();
+                                                setPercentThreshold(threshold);
+                                                setThresholdDropdownOpen(null);
+                                              }} 
+                                              className={cn("px-2 py-1.5 text-xs rounded transition-colors", percentThreshold === threshold ? "bg-primary text-primary-foreground" : "bg-muted hover:bg-muted/80 text-card-foreground")}
+                                            >
+                                              {threshold}%
+                                            </button>
+                                          ))}
+                                        </div>
+                                      </PopoverContent>
+                                    </Popover>
+                                  )}
                                 </button>
-                                
-                                {isBelowPrompt && thresholdDropdownOpen === index && <div className="absolute left-0 right-0 top-full mt-1 p-2 border border-border rounded-lg bg-card z-[9999] shadow-lg">
-                                  <div className="grid grid-cols-3 gap-1">
-                                    {[90, 80, 70, 60, 50, 40, 30, 20, 10].map(threshold => <button key={threshold} onClick={e => {
-                                      e.stopPropagation();
-                                      setPercentThreshold(threshold);
-                                      setThresholdDropdownOpen(null);
-                                    }} className={cn("px-2 py-1.5 text-xs rounded transition-colors", percentThreshold === threshold ? "bg-primary text-primary-foreground" : "bg-muted hover:bg-muted/80 text-card-foreground")}>
-                                      {threshold}%
-                                    </button>)}
-                                  </div>
-                                </div>}
                               </div>;
                             })}
                           </div>}
@@ -998,7 +1006,7 @@ export const AISidebar = ({
 
 
                 
-                return <div key={index} className="relative">
+                return <div key={index}>
                       <button onClick={() => handlePromptClick(finalPromptForClick)} className={cn("w-full text-left p-3 rounded-lg border transition-colors text-xs flex flex-col gap-2", prompt === finalPromptForClick ? "border-primary bg-primary/5" : "border-border bg-card hover:border-[#c69fdc] hover:bg-card/80")}>
                         <div className="flex items-center gap-2">
                           <Sparkles className="h-4 w-4 flex-shrink-0" color="#323232" />
@@ -1033,27 +1041,34 @@ export const AISidebar = ({
                             .
                           </span>
                         </div>
-                        {isBelowPrompt && <button onClick={e => {
-                      e.stopPropagation();
-                      setThresholdDropdownOpen(thresholdDropdownOpen === index ? null : index);
-                    }} className="flex items-center gap-1.5 text-muted-foreground hover:text-card-foreground transition-colors text-[10px] pl-6">
-                            <span className="font-semibold">Modify Percent Threshold</span>
-                            <ChevronDown className={cn("h-3 w-3 transition-transform", thresholdDropdownOpen === index && "rotate-180")} />
-                          </button>}
+                        {isBelowPrompt && (
+                          <Popover open={thresholdDropdownOpen === index} onOpenChange={(open) => setThresholdDropdownOpen(open ? index : null)}>
+                            <PopoverTrigger asChild>
+                              <button onClick={e => e.stopPropagation()} className="flex items-center gap-1.5 text-muted-foreground hover:text-card-foreground transition-colors text-[10px] pl-6">
+                                <span className="font-semibold">Modify Percent Threshold</span>
+                                <ChevronDown className={cn("h-3 w-3 transition-transform", thresholdDropdownOpen === index && "rotate-180")} />
+                              </button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-auto p-2 bg-card border-border" align="start">
+                              <div className="grid grid-cols-3 gap-1">
+                                {[90, 80, 70, 60, 50, 40, 30, 20, 10].map(threshold => (
+                                  <button 
+                                    key={threshold} 
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      setPercentThreshold(threshold);
+                                      setThresholdDropdownOpen(null);
+                                    }} 
+                                    className={cn("px-2 py-1.5 text-xs rounded transition-colors", percentThreshold === threshold ? "bg-primary text-primary-foreground" : "bg-muted hover:bg-muted/80 text-card-foreground")}
+                                  >
+                                    {threshold}%
+                                  </button>
+                                ))}
+                              </div>
+                            </PopoverContent>
+                          </Popover>
+                        )}
                       </button>
-                      
-                      {isBelowPrompt && thresholdDropdownOpen === index && <div className="absolute left-0 right-0 top-full mt-1 p-2 border border-border rounded-lg bg-card z-[9999] shadow-lg">
-                          
-                          <div className="grid grid-cols-3 gap-1">
-                            {[90, 80, 70, 60, 50, 40, 30, 20, 10].map(threshold => <button key={threshold} onClick={e => {
-                        e.stopPropagation();
-                        setPercentThreshold(threshold);
-                        setThresholdDropdownOpen(null);
-                      }} className={cn("px-2 py-1.5 text-xs rounded transition-colors", percentThreshold === threshold ? "bg-primary text-primary-foreground" : "bg-muted hover:bg-muted/80 text-card-foreground")}>
-                                {threshold}%
-                              </button>)}
-                          </div>
-                        </div>}
                     </div>;
               })}
                   </div>}
