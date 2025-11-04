@@ -468,12 +468,8 @@ export const AISidebar = ({
                 </PopoverContent>
               </Popover>
 
-              {selectedSubjects.length > 0 && (
-                <div className="h-px bg-[#E2E6E9]" />
-              )}
-
               {selectedSubjects.length > 0 && <>
-                  <div className="flex gap-2 mt-2 pt-2 overflow-x-auto flex-nowrap pb-1">
+                  <div className="flex gap-2 mt-4 pt-2 overflow-x-auto flex-nowrap pb-1">
                     <button onClick={() => setSelectedCategory(prev => prev === "performance" ? null : "performance")} className={cn("flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-colors whitespace-nowrap flex-shrink-0 border", selectedCategory === "performance" ? "bg-primary text-primary-foreground border-primary" : "bg-white text-black border-[#E2E6E9]")}>
                       Performance
                       <span className={cn("w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0", selectedCategory === "performance" ? "bg-white/20" : "bg-[#E2E6E9]")}>
