@@ -1,4 +1,4 @@
-import { X, Send, Loader2, Sparkles, ChevronDown, Plus, Minus, ChevronsLeft } from "lucide-react";
+import { X, Send, Loader2, Sparkles, ChevronDown, Plus, Minus, ChevronsLeft, MessageSquarePlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -339,22 +339,9 @@ export const AISidebar = ({
                       </div>
                     </div>
 
-                    {/* Quick Actions CTA */}
-                    {!showQuickActionsInChat && (
-                      <Button
-                        onClick={() => setShowQuickActionsInChat(true)}
-                        variant="ghost"
-                        size="sm"
-                        className="justify-start gap-2 text-[#AC5CCC] hover:text-[#AC5CCC] hover:bg-[#c69fdc]/10 transition-all text-xs font-medium h-8 px-3 mb-4"
-                      >
-                        <Sparkles className="h-4 w-4" />
-                        <span>Quick Actions</span>
-                      </Button>
-                    )}
-
                     {/* Quick Actions in Chat */}
                     {showQuickActionsInChat && (
-                      <div className="space-y-3 mb-4 bg-muted/30 rounded-lg p-3">
+                      <div className="space-y-3 mb-4">
                         <div className="flex items-center justify-between">
                           <h3 className="text-sm font-semibold text-card-foreground">
                             Quick actions
@@ -527,7 +514,7 @@ export const AISidebar = ({
                           </div>
 
                           {selectedCategory && templatePrompts.length > 0 && <div className="space-y-2 mt-2">
-                            {templatePrompts.slice(0, 3).map((templatePrompt, index) => {
+                            {templatePrompts.map((templatePrompt, index) => {
                               const showMultipleSubjects = selectedSubjects.includes("All") || selectedSubjects.length > 1;
                               const isGenericPrompt = selectedSubjects.length === 0;
                               const promptSubject = isGenericPrompt ? "" : (templatePrompt.includes("Math") ? "Math" : templatePrompt.includes("English") ? "English" : templatePrompt.includes("Science") ? "Science" : "History");
@@ -552,29 +539,90 @@ export const AISidebar = ({
                               }
                               
                               const termText = selectedTerms.length === 1 ? selectedTerms[0] : null;
+                              let gradeLevelText = null;
+                              let gradeLevelParts = [];
+                              if (selectedGradeLevels.length > 0) {
+                                const gradeNumbers = selectedGradeLevels.map(level => level.replace(" Grade", ""));
+                                if (gradeNumbers.length === 1) {
+                                  gradeLevelText = `for the ${gradeNumbers[0]} grade`;
+                                  gradeLevelParts = [gradeNumbers[0]];
+                                } else if (gradeNumbers.length === 2) {
+                                  gradeLevelText = `for the ${gradeNumbers[0]} and ${gradeNumbers[1]} grades`;
+                                  gradeLevelParts = [gradeNumbers[0], gradeNumbers[1]];
+                                } else {
+                                  const allButLast = gradeNumbers.slice(0, -1).join(", ");
+                                  const last = gradeNumbers[gradeNumbers.length - 1];
+                                  gradeLevelText = `for the ${allButLast}, and ${last} grades`;
+                                  gradeLevelParts = gradeNumbers;
+                                }
+                              }
+                              
                               let finalPromptForClick = adjustedPrompt;
                               if (termText) {
                                 finalPromptForClick += ` in ${termText}`;
                               }
+                              if (gradeLevelText) {
+                                finalPromptForClick += ` ${gradeLevelText}`;
+                              }
                               finalPromptForClick += '.';
 
-                              return <button
-                                key={index}
-                                onClick={() => handlePromptClick(finalPromptForClick)}
-                                className="w-full text-left p-3 rounded-lg border transition-colors text-xs flex items-center gap-2 border-border bg-card hover:border-[#c69fdc] hover:bg-card/80"
-                              >
-                                <Sparkles className="h-4 w-4 flex-shrink-0" color="#323232" />
-                                <span className="text-card-foreground leading-snug px-0.5 flex-1">
-                                  {adjustedPrompt.split(promptSubject).map((part, i, arr) => (
-                                    <React.Fragment key={i}>
-                                      {part}
-                                      {i < arr.length - 1 && !isGenericPrompt && <strong>{displaySubject}</strong>}
-                                    </React.Fragment>
-                                  ))}
-                                  {termText && <> in <strong>{termText}</strong></>}
-                                  .
-                                </span>
-                              </button>;
+                              const parts = isGenericPrompt ? [adjustedPrompt] : adjustedPrompt.split(promptSubject);
+                              const isModified = percentThreshold !== 70;
+                              const percentText = `${percentThreshold}%`;
+
+                              return <div key={index} className="relative">
+                                <button onClick={() => handlePromptClick(finalPromptForClick)} className={cn("w-full text-left p-3 rounded-lg border transition-colors text-xs flex flex-col gap-2", prompt === finalPromptForClick ? "border-primary bg-primary/5" : "border-border bg-card hover:border-[#c69fdc] hover:bg-card/80")}>
+                                  <div className="flex items-center gap-2">
+                                    <Sparkles className="h-4 w-4 flex-shrink-0" color="#323232" />
+                                    <span className="text-card-foreground leading-snug px-0.5 flex-1">
+                                      {parts.map((part, i) => {
+                                        const percentParts = part.split(percentText);
+                                        return <React.Fragment key={i}>
+                                          {percentParts.map((subPart, j) => <React.Fragment key={j}>
+                                            {subPart}
+                                            {j < percentParts.length - 1 && (isModified ? <strong>{percentText}</strong> : percentText)}
+                                          </React.Fragment>)}
+                                          {i < parts.length - 1 && !isGenericPrompt && <strong>{displaySubject}</strong>}
+                                        </React.Fragment>;
+                                      })}
+                                      {termText && <> in <strong>{termText}</strong></>}
+                                      {gradeLevelText && <> {(() => {
+                                        const words = gradeLevelText.split(' ');
+                                        return words.map((word, idx) => {
+                                          if (gradeLevelParts.some(grade => word === grade || word === grade + ',')) {
+                                            const hasComma = word.endsWith(',');
+                                            const cleanWord = hasComma ? word.slice(0, -1) : word;
+                                            return <React.Fragment key={idx}>
+                                              <strong>{cleanWord}</strong>{hasComma && ','}{idx < words.length - 1 && ' '}
+                                            </React.Fragment>;
+                                          }
+                                          return <React.Fragment key={idx}>{word}{idx < words.length - 1 && ' '}</React.Fragment>;
+                                        });
+                                      })()}</>}
+                                      .
+                                    </span>
+                                  </div>
+                                  {isBelowPrompt && <button onClick={e => {
+                                    e.stopPropagation();
+                                    setThresholdDropdownOpen(thresholdDropdownOpen === index ? null : index);
+                                  }} className="flex items-center gap-1.5 text-muted-foreground hover:text-card-foreground transition-colors text-[10px] pl-6">
+                                    <span className="font-semibold">Modify Percent Threshold</span>
+                                    <ChevronDown className={cn("h-3 w-3 transition-transform", thresholdDropdownOpen === index && "rotate-180")} />
+                                  </button>}
+                                </button>
+                                
+                                {isBelowPrompt && thresholdDropdownOpen === index && <div className="absolute left-0 right-0 top-full mt-1 p-2 border border-border rounded-lg bg-card z-50 shadow-lg">
+                                  <div className="grid grid-cols-3 gap-1">
+                                    {[90, 80, 70, 60, 50, 40, 30, 20, 10].map(threshold => <button key={threshold} onClick={e => {
+                                      e.stopPropagation();
+                                      setPercentThreshold(threshold);
+                                      setThresholdDropdownOpen(null);
+                                    }} className={cn("px-2 py-1.5 text-xs rounded transition-colors", percentThreshold === threshold ? "bg-primary text-primary-foreground" : "bg-muted hover:bg-muted/80 text-card-foreground")}>
+                                      {threshold}%
+                                    </button>)}
+                                  </div>
+                                </div>}
+                              </div>;
                             })}
                           </div>}
                         </div>
@@ -984,12 +1032,22 @@ export const AISidebar = ({
 
       <div className="mt-auto">
         <div className="relative">
+          {showHistory && !showQuickActionsInChat && (
+            <Button
+              onClick={() => setShowQuickActionsInChat(true)}
+              variant="ghost"
+              size="icon"
+              className="absolute left-1 bottom-1 h-8 w-8 bg-transparent hover:bg-muted text-muted-foreground hover:text-card-foreground z-10"
+            >
+              <MessageSquarePlus className="h-4 w-4" />
+            </Button>
+          )}
           <Textarea placeholder="What would you like to create?" value={prompt} onChange={e => setPrompt(e.target.value)} onKeyDown={e => {
           if (e.key === "Enter" && !e.shiftKey) {
             e.preventDefault();
             handleSend();
           }
-        }} disabled={isLoading} className="pr-10 bg-card border-border text-card-foreground placeholder:text-muted-foreground resize-none h-[88px] min-h-[88px] max-h-[88px] focus-visible:ring-0 focus-visible:ring-offset-0 focus:border-[#c69fdc]" rows={4} />
+        }} disabled={isLoading} className={cn("pr-10 bg-card border-border text-card-foreground placeholder:text-muted-foreground resize-none h-[88px] min-h-[88px] max-h-[88px] focus-visible:ring-0 focus-visible:ring-offset-0 focus:border-[#c69fdc]", showHistory && !showQuickActionsInChat && "pl-10")} rows={4} />
           <Button size="icon" onClick={handleSend} disabled={!prompt.trim() || isLoading} className="absolute right-1 bottom-1 h-8 w-8 bg-transparent hover:bg-muted text-muted-foreground hover:text-card-foreground disabled:opacity-50">
             {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
           </Button>
