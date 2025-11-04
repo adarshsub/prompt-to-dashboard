@@ -6,11 +6,13 @@ import { Button } from "@/components/ui/button";
 import { Sparkles } from "lucide-react";
 
 const Index = () => {
-  const [conversationHistory, setConversationHistory] = useState<Array<{
-    prompt: string;
-    title: string;
-    submittedAt: Date;
-  }>>([]);
+  const [conversationHistory, setConversationHistory] = useState<
+    Array<{
+      prompt: string;
+      title: string;
+      submittedAt: Date;
+    }>
+  >([]);
   const [isLoading, setIsLoading] = useState(false);
   const [showResults, setShowResults] = useState(false);
   const [isDashboardCollapsed, setIsDashboardCollapsed] = useState(false);
@@ -20,10 +22,10 @@ const Index = () => {
     const newConversation = {
       prompt,
       title: generateDashboardTitle(prompt),
-      submittedAt: new Date()
+      submittedAt: new Date(),
     };
-    
-    setConversationHistory(prev => [...prev, newConversation]);
+
+    setConversationHistory((prev) => [...prev, newConversation]);
     setIsLoading(true);
     setShowResults(true);
     setIsSidebarHidden(false);
@@ -60,9 +62,11 @@ const Index = () => {
                   </div>
                 </div>
               ) : (
-                <DashboardView 
-                  title={conversationHistory.length > 0 ? conversationHistory[conversationHistory.length - 1].title : ""} 
-                  onCollapse={() => setIsDashboardCollapsed(true)} 
+                <DashboardView
+                  title={
+                    conversationHistory.length > 0 ? conversationHistory[conversationHistory.length - 1].title : ""
+                  }
+                  onCollapse={() => setIsDashboardCollapsed(true)}
                 />
               )}
             </div>
@@ -145,7 +149,7 @@ const Index = () => {
                 className="absolute top-8 right-8 bg-gradient-purple text-white hover:opacity-90 transition-opacity"
                 size="sm"
               >
-                <Sparkles className="h-4 w-4 mr-2" />
+                <Sparkles className="h-4 w-4" />
                 Create with AI
               </Button>
             )}
