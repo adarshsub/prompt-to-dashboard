@@ -214,11 +214,11 @@ export const AISidebar = ({
                     Generating response...
                   </div> : <>
                     <div className="space-y-[4px]">
-                      <div className="bg-[#D9F2FF] rounded-lg p-2.5 mr-4">
-                        <div className="font-semibold text-card-foreground text-sm mb-[0.78px]">
+                      <div className="bg-[#D9F2FF] rounded-lg p-2 mr-4">
+                        <div className="font-semibold text-card-foreground text-[11.2px] mb-[0.62px]">
                           Students Below 70% in Math
                         </div>
-                        <div className={`grid grid-cols-2 gap-2 scale-y-[0.765] ${isDashboardCollapsed ? 'mb-[1.56px]' : 'mb-0'}`}>
+                        <div className={`grid grid-cols-2 gap-[6.4px] scale-y-[0.612] ${isDashboardCollapsed ? 'mb-[1.25px]' : 'mb-0'}`}>
                           <div className="bg-white rounded-lg h-full" />
                           <div className="space-y-2">
                             <div className="bg-white rounded-lg aspect-[4/3]" />
@@ -227,14 +227,14 @@ export const AISidebar = ({
                           </div>
                         </div>
                         {isDashboardCollapsed ? (
-                          <Button variant="ghost" size="sm" onClick={onExpand} className="w-full justify-start gap-2 text-card-foreground bg-white/50 hover:bg-white/90 hover:text-[#2e2e37] h-8">
-                            <ChevronsLeft className="h-4 w-4" />
-                            <span className="text-xs">Expand Dashboard</span>
+                          <Button variant="ghost" size="sm" onClick={onExpand} className="w-full justify-start gap-2 text-card-foreground bg-white/50 hover:bg-white/90 hover:text-[#2e2e37] h-[25.6px]">
+                            <ChevronsLeft className="h-3.5 w-3.5" />
+                            <span className="text-[9.6px]">Expand Dashboard</span>
                           </Button>
                         ) : (
-                          <Button variant="ghost" size="sm" onClick={onExpand} className="w-full justify-start gap-2 text-card-foreground bg-white/50 hover:bg-white/90 hover:text-[#2e2e37] h-8">
-                            <ChevronsLeft className="h-4 w-4 rotate-180" />
-                            <span className="text-xs">Collapse Dashboard</span>
+                          <Button variant="ghost" size="sm" onClick={onExpand} className="w-full justify-start gap-2 text-card-foreground bg-white/50 hover:bg-white/90 hover:text-[#2e2e37] h-[25.6px]">
+                            <ChevronsLeft className="h-3.5 w-3.5 rotate-180" />
+                            <span className="text-[9.6px]">Collapse Dashboard</span>
                           </Button>
                         )}
                       </div>
