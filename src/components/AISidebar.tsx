@@ -219,7 +219,7 @@ export const AISidebar = ({
                   </div> : <>
                   <div className="space-y-[4px]">
                       <div className="bg-[#D9F2FF] rounded-lg p-2">
-                        <div className="font-semibold text-card-foreground text-sm mb-1.5">
+                        <div className="font-semibold text-card-foreground text-sm mb-1.5 my-0 py-[6px]">
                           {dashboardTitle}
                         </div>
                         <div className={`grid grid-cols-2 gap-2 ${isDashboardCollapsed ? 'mb-1' : 'mb-1'}`}>
@@ -232,7 +232,7 @@ export const AISidebar = ({
                         {isDashboardCollapsed ? <Button variant="ghost" size="default" onClick={onExpand} className="w-full justify-center gap-2 text-card-foreground bg-white/70 hover:bg-white/90 hover:text-[#2e2e37] rounded-full px-6 h-9 mt-2">
                             <ChevronsLeft className="h-4 w-4" />
                             <span className="text-xs">Expand Dashboard</span>
-                          </Button> : <Button variant="ghost" size="default" onClick={onExpand} className="w-full justify-center gap-2 text-card-foreground bg-white/70 hover:bg-white/90 hover:text-[#2e2e37] rounded-full px-6 h-9 mt-2">
+                          </Button> : <Button variant="ghost" size="default" onClick={onExpand} className="w-full justify-center gap-2 text-card-foreground bg-white/70 hover:bg-white/90 hover:text-[#2e2e37] rounded-full px-6 h-9 mt-2 py-0 my-[10px]">
                             <ChevronsLeft className="h-4 w-4 rotate-180" />
                             <span className="text-xs">Collapse Dashboard</span>
                           </Button>}
@@ -464,27 +464,26 @@ export const AISidebar = ({
                   adjustedPrompt = adjustedPrompt.replace(`${promptSubject} class.`, `${promptSubject} classes.`).replace(`${promptSubject} class's`, `${promptSubject} classes'`).replace("does my", "do my").replace("score compare", "scores compare");
                 }
                 const parts = adjustedPrompt.split(promptSubject);
-                
+
                 // Split the prompt to bold the percent when modified
                 const isModified = percentThreshold !== 70;
                 const percentText = `${percentThreshold}%`;
-                
                 return <div key={index} className="relative">
                       <button onClick={() => handlePromptClick(adjustedPrompt)} className={cn("w-full text-left p-3 rounded-lg border transition-colors text-xs flex flex-col gap-2", prompt === adjustedPrompt ? "border-primary bg-primary/5" : "border-border bg-card hover:border-[#c69fdc] hover:bg-card/80")}>
                         <div className="flex items-center gap-2">
                           <Sparkles className="h-4 w-4 flex-shrink-0" color="#323232" />
                           <span className="text-card-foreground leading-snug px-0.5 flex-1">
                             {parts.map((part, i) => {
-                              // Split by percent to bold it when modified
-                              const percentParts = part.split(percentText);
-                              return <React.Fragment key={i}>
+                          // Split by percent to bold it when modified
+                          const percentParts = part.split(percentText);
+                          return <React.Fragment key={i}>
                                 {percentParts.map((subPart, j) => <React.Fragment key={j}>
                                   {subPart}
                                   {j < percentParts.length - 1 && (isModified ? <strong>{percentText}</strong> : percentText)}
                                 </React.Fragment>)}
                                 {i < parts.length - 1 && <strong>{displaySubject}</strong>}
                               </React.Fragment>;
-                            })}
+                        })}
                           </span>
                         </div>
                         {isBelowPrompt && <button onClick={e => {
