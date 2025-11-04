@@ -382,7 +382,7 @@ export const AISidebar = ({
                   </PopoverTrigger>
                   <PopoverContent className="w-[232px] p-3 bg-card border-border" align="start">
                     <div className="space-y-2">
-                      {["Fall 2025", "Spring 2025", "Fall 2024", "Spring 2024", "Full Year 2025", "Full Year 2024", "Full Year 2023"].map(term => <div key={term} className="flex items-center space-x-2">
+                      {["Full Year 2025", "Fall 2025", "Spring 2025", "Full Year 2024", "Fall 2024", "Spring 2024", "Full Year 2023"].map(term => <div key={term} className="flex items-center space-x-2">
                           <Checkbox id={term} checked={selectedTerms.includes(term)} onCheckedChange={() => handleTermToggle(term)} />
                           <label htmlFor={term} className="text-sm text-card-foreground cursor-pointer flex-1">
                             {term}
@@ -477,7 +477,7 @@ export const AISidebar = ({
                       <span className="text-card-foreground leading-snug px-0.5 flex-1">
                         Show me the average {(() => {
                           const activeSubjects = selectedSubjects.includes("All") ? ["Math", "English", "Science", "History"] : selectedSubjects.filter(s => s !== "All");
-                          const subjectDisplay = activeSubjects.length === 1 ? <strong>{activeSubjects[0].toUpperCase()}</strong> : activeSubjects.length === 2 ? <><strong>{activeSubjects[0].toUpperCase()}</strong> and <strong>{activeSubjects[1].toUpperCase()}</strong></> : <>{activeSubjects.slice(0, -1).map((s, i) => <React.Fragment key={s}><strong>{s.toUpperCase()}</strong>{i < activeSubjects.length - 2 ? ", " : ""}</React.Fragment>)}, and <strong>{activeSubjects[activeSubjects.length - 1].toUpperCase()}</strong></>;
+                          const subjectDisplay = activeSubjects.length === 1 ? <strong>{activeSubjects[0]}</strong> : activeSubjects.length === 2 ? <><strong>{activeSubjects[0]}</strong> and <strong>{activeSubjects[1]}</strong></> : <>{activeSubjects.slice(0, -1).map((s, i) => <React.Fragment key={s}><strong>{s}</strong>{i < activeSubjects.length - 2 ? ", " : ""}</React.Fragment>)}, and <strong>{activeSubjects[activeSubjects.length - 1]}</strong></>;
                           return subjectDisplay;
                         })()} score for {selectedTerms.length === 2 ? (
                           <><strong>{selectedTerms[0]}</strong> vs <strong>{selectedTerms[1]}</strong>.</>
@@ -514,7 +514,7 @@ export const AISidebar = ({
                       <span className="text-card-foreground leading-snug px-0.5 flex-1">
                         Show me the average {(() => {
                           const activeSubjects = selectedSubjects.includes("All") ? ["Math", "English", "Science", "History"] : selectedSubjects.filter(s => s !== "All");
-                          const subjectDisplay = activeSubjects.length === 1 ? <strong>{activeSubjects[0].toUpperCase()}</strong> : activeSubjects.length === 2 ? <><strong>{activeSubjects[0].toUpperCase()}</strong> and <strong>{activeSubjects[1].toUpperCase()}</strong></> : <>{activeSubjects.slice(0, -1).map((s, i) => <React.Fragment key={s}><strong>{s.toUpperCase()}</strong>{i < activeSubjects.length - 2 ? ", " : ""}</React.Fragment>)}, and <strong>{activeSubjects[activeSubjects.length - 1].toUpperCase()}</strong></>;
+                          const subjectDisplay = activeSubjects.length === 1 ? <strong>{activeSubjects[0]}</strong> : activeSubjects.length === 2 ? <><strong>{activeSubjects[0]}</strong> and <strong>{activeSubjects[1]}</strong></> : <>{activeSubjects.slice(0, -1).map((s, i) => <React.Fragment key={s}><strong>{s}</strong>{i < activeSubjects.length - 2 ? ", " : ""}</React.Fragment>)}, and <strong>{activeSubjects[activeSubjects.length - 1]}</strong></>;
                           return subjectDisplay;
                         })()} score between {selectedTerms.length === 2 ? (
                           <><strong>{selectedTerms[0]}</strong> and <strong>{selectedTerms[1]}</strong>.</>
@@ -564,7 +564,9 @@ export const AISidebar = ({
                 // Store term text for appending
                 const termText = selectedTerms.length === 1 ? selectedTerms[0] : null;
                 
-                const parts = adjustedPrompt.split(promptSubject);
+                // Remove trailing period from adjustedPrompt before processing if term will be added
+                const basePrompt = termText ? adjustedPrompt.replace(/\.$/, '') : adjustedPrompt;
+                const parts = basePrompt.split(promptSubject);
 
                 // Split the prompt to bold the percent when modified
                 const isModified = percentThreshold !== 70;
@@ -592,7 +594,7 @@ export const AISidebar = ({
                                 {i < parts.length - 1 && <strong>{displaySubject}</strong>}
                               </React.Fragment>;
                         })}
-                            {termText && <> in <strong>{termText}</strong>.</>}
+                            {termText ? <> in <strong>{termText}</strong>.</> : '.'}
                           </span>
                         </div>
                         {isBelowPrompt && <button onClick={e => {
