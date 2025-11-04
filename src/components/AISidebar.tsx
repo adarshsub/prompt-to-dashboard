@@ -437,38 +437,6 @@ export const AISidebar = ({
 
 
               {selectedSubjects.length > 0 && <>
-                  {selectedTerms.length > 1 && <div className="mt-4 pt-2">
-                    <button 
-                      onClick={() => {
-                        let comparisonPrompt = "Show me the average math score for ";
-                        if (selectedTerms.length === 2) {
-                          comparisonPrompt += `${selectedTerms[0]} vs ${selectedTerms[1]}.`;
-                        } else if (selectedTerms.length === 3) {
-                          comparisonPrompt += `${selectedTerms[0]} vs ${selectedTerms[1]} vs ${selectedTerms[2]}.`;
-                        } else if (selectedTerms.length === 4) {
-                          comparisonPrompt += `${selectedTerms[0]}-${selectedTerms[1]} vs ${selectedTerms[2]}-${selectedTerms[3]}.`;
-                        } else {
-                          // For 5+ terms, show first two pairs
-                          comparisonPrompt += `${selectedTerms[0]}-${selectedTerms[1]} vs ${selectedTerms[2]}-${selectedTerms[3]}.`;
-                        }
-                        handlePromptClick(comparisonPrompt);
-                      }}
-                      className={cn("w-full text-left p-3 rounded-lg border transition-colors text-xs flex items-center gap-2", "border-border bg-card hover:border-[#c69fdc] hover:bg-card/80")}
-                    >
-                      <Sparkles className="h-4 w-4 flex-shrink-0" color="#323232" />
-                      <span className="text-card-foreground leading-snug px-0.5 flex-1">
-                        Show me the average math score for {selectedTerms.length === 2 ? (
-                          <>{selectedTerms[0]} vs {selectedTerms[1]}.</>
-                        ) : selectedTerms.length === 3 ? (
-                          <>{selectedTerms[0]} vs {selectedTerms[1]} vs {selectedTerms[2]}.</>
-                        ) : selectedTerms.length === 4 ? (
-                          <>{selectedTerms[0]}-{selectedTerms[1]} vs {selectedTerms[2]}-{selectedTerms[3]}.</>
-                        ) : (
-                          <>{selectedTerms[0]}-{selectedTerms[1]} vs {selectedTerms[2]}-{selectedTerms[3]}.</>
-                        )}
-                      </span>
-                    </button>
-                  </div>}
                   
                   <div className="flex gap-2 mt-4 pt-2 overflow-x-auto flex-nowrap pb-1">
                     <button onClick={() => setSelectedCategory(prev => prev === "performance" ? null : "performance")} className={cn("flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-colors whitespace-nowrap flex-shrink-0 border", selectedCategory === "performance" ? "bg-primary text-primary-foreground border-primary" : "bg-white text-black border-[#E2E6E9]")}>
@@ -484,6 +452,82 @@ export const AISidebar = ({
                       </span>
                     </button>
                   </div>
+
+                  {selectedTerms.length > 1 && <div className="mt-2 space-y-2">
+                    <button 
+                      onClick={() => {
+                        const activeSubjects = selectedSubjects.includes("All") ? ["Math", "English", "Science", "History"] : selectedSubjects.filter(s => s !== "All");
+                        const subjectText = activeSubjects.length === 1 ? activeSubjects[0] : activeSubjects.length === 2 ? activeSubjects.join(" and ") : activeSubjects.slice(0, -1).join(", ") + ", and " + activeSubjects[activeSubjects.length - 1];
+                        
+                        let comparisonPrompt = `Show me the average ${subjectText.toLowerCase()} score for `;
+                        if (selectedTerms.length === 2) {
+                          comparisonPrompt += `${selectedTerms[0]} vs ${selectedTerms[1]}.`;
+                        } else if (selectedTerms.length === 3) {
+                          comparisonPrompt += `${selectedTerms[0]}-${selectedTerms[1]} vs ${selectedTerms[1]}-${selectedTerms[2]}.`;
+                        } else if (selectedTerms.length === 4) {
+                          comparisonPrompt += `${selectedTerms[0]}-${selectedTerms[1]} vs ${selectedTerms[2]}-${selectedTerms[3]}.`;
+                        } else {
+                          comparisonPrompt += `${selectedTerms[0]}-${selectedTerms[1]} vs ${selectedTerms[2]}-${selectedTerms[3]}.`;
+                        }
+                        handlePromptClick(comparisonPrompt);
+                      }}
+                      className={cn("w-full text-left p-3 rounded-lg border transition-colors text-xs flex items-center gap-2", "border-border bg-card hover:border-[#c69fdc] hover:bg-card/80")}
+                    >
+                      <Sparkles className="h-4 w-4 flex-shrink-0" color="#323232" />
+                      <span className="text-card-foreground leading-snug px-0.5 flex-1">
+                        Show me the average {(() => {
+                          const activeSubjects = selectedSubjects.includes("All") ? ["Math", "English", "Science", "History"] : selectedSubjects.filter(s => s !== "All");
+                          const subjectDisplay = activeSubjects.length === 1 ? <strong>{activeSubjects[0].toUpperCase()}</strong> : activeSubjects.length === 2 ? <><strong>{activeSubjects[0].toUpperCase()}</strong> and <strong>{activeSubjects[1].toUpperCase()}</strong></> : <>{activeSubjects.slice(0, -1).map((s, i) => <React.Fragment key={s}><strong>{s.toUpperCase()}</strong>{i < activeSubjects.length - 2 ? ", " : ""}</React.Fragment>)}, and <strong>{activeSubjects[activeSubjects.length - 1].toUpperCase()}</strong></>;
+                          return subjectDisplay;
+                        })()} score for {selectedTerms.length === 2 ? (
+                          <><strong>{selectedTerms[0]}</strong> vs <strong>{selectedTerms[1]}</strong>.</>
+                        ) : selectedTerms.length === 3 ? (
+                          <><strong>{selectedTerms[0]}-{selectedTerms[1]}</strong> vs <strong>{selectedTerms[1]}-{selectedTerms[2]}</strong>.</>
+                        ) : selectedTerms.length === 4 ? (
+                          <><strong>{selectedTerms[0]}-{selectedTerms[1]}</strong> vs <strong>{selectedTerms[2]}-{selectedTerms[3]}</strong>.</>
+                        ) : (
+                          <><strong>{selectedTerms[0]}-{selectedTerms[1]}</strong> vs <strong>{selectedTerms[2]}-{selectedTerms[3]}</strong>.</>
+                        )}
+                      </span>
+                    </button>
+
+                    <button 
+                      onClick={() => {
+                        const activeSubjects = selectedSubjects.includes("All") ? ["Math", "English", "Science", "History"] : selectedSubjects.filter(s => s !== "All");
+                        const subjectText = activeSubjects.length === 1 ? activeSubjects[0] : activeSubjects.length === 2 ? activeSubjects.join(" and ") : activeSubjects.slice(0, -1).join(", ") + ", and " + activeSubjects[activeSubjects.length - 1];
+                        
+                        let comparisonPrompt = `Show me the average ${subjectText.toLowerCase()} score between `;
+                        if (selectedTerms.length === 2) {
+                          comparisonPrompt += `${selectedTerms[0]} and ${selectedTerms[1]}.`;
+                        } else if (selectedTerms.length === 3) {
+                          comparisonPrompt += `${selectedTerms[0]}-${selectedTerms[1]} and ${selectedTerms[1]}-${selectedTerms[2]}.`;
+                        } else if (selectedTerms.length === 4) {
+                          comparisonPrompt += `${selectedTerms[0]}-${selectedTerms[1]} and ${selectedTerms[2]}-${selectedTerms[3]}.`;
+                        } else {
+                          comparisonPrompt += `${selectedTerms[0]}-${selectedTerms[1]} and ${selectedTerms[2]}-${selectedTerms[3]}.`;
+                        }
+                        handlePromptClick(comparisonPrompt);
+                      }}
+                      className={cn("w-full text-left p-3 rounded-lg border transition-colors text-xs flex items-center gap-2", "border-border bg-card hover:border-[#c69fdc] hover:bg-card/80")}
+                    >
+                      <Sparkles className="h-4 w-4 flex-shrink-0" color="#323232" />
+                      <span className="text-card-foreground leading-snug px-0.5 flex-1">
+                        Show me the average {(() => {
+                          const activeSubjects = selectedSubjects.includes("All") ? ["Math", "English", "Science", "History"] : selectedSubjects.filter(s => s !== "All");
+                          const subjectDisplay = activeSubjects.length === 1 ? <strong>{activeSubjects[0].toUpperCase()}</strong> : activeSubjects.length === 2 ? <><strong>{activeSubjects[0].toUpperCase()}</strong> and <strong>{activeSubjects[1].toUpperCase()}</strong></> : <>{activeSubjects.slice(0, -1).map((s, i) => <React.Fragment key={s}><strong>{s.toUpperCase()}</strong>{i < activeSubjects.length - 2 ? ", " : ""}</React.Fragment>)}, and <strong>{activeSubjects[activeSubjects.length - 1].toUpperCase()}</strong></>;
+                          return subjectDisplay;
+                        })()} score between {selectedTerms.length === 2 ? (
+                          <><strong>{selectedTerms[0]}</strong> and <strong>{selectedTerms[1]}</strong>.</>
+                        ) : selectedTerms.length === 3 ? (
+                          <><strong>{selectedTerms[0]}-{selectedTerms[1]}</strong> and <strong>{selectedTerms[1]}-{selectedTerms[2]}</strong>.</>
+                        ) : selectedTerms.length === 4 ? (
+                          <><strong>{selectedTerms[0]}-{selectedTerms[1]}</strong> and <strong>{selectedTerms[2]}-{selectedTerms[3]}</strong>.</>
+                        ) : (
+                          <><strong>{selectedTerms[0]}-{selectedTerms[1]}</strong> and <strong>{selectedTerms[2]}-{selectedTerms[3]}</strong>.</>
+                        )}
+                      </span>
+                    </button>
+                  </div>}
 
                   {selectedCategory && <div className="space-y-2 mt-2">
                     {templatePrompts.map((templatePrompt, index) => {
@@ -517,18 +561,23 @@ export const AISidebar = ({
                   adjustedPrompt = adjustedPrompt.replace(`${promptSubject} class.`, `${promptSubject} classes.`).replace(`${promptSubject} class's`, `${promptSubject} classes'`).replace("does my", "do my").replace("score compare", "scores compare");
                 }
                 
-                // Append term information if selected
-                if (selectedTerms.length === 1) {
-                  adjustedPrompt = adjustedPrompt.replace(/\.$/, '') + ` in ${selectedTerms[0]}.`;
-                }
+                // Store term text for appending
+                const termText = selectedTerms.length === 1 ? selectedTerms[0] : null;
                 
                 const parts = adjustedPrompt.split(promptSubject);
 
                 // Split the prompt to bold the percent when modified
                 const isModified = percentThreshold !== 70;
                 const percentText = `${percentThreshold}%`;
+                
+                // Build final prompt with term appended
+                let finalPromptForClick = adjustedPrompt;
+                if (termText) {
+                  finalPromptForClick = adjustedPrompt.replace(/\.$/, '') + ` in ${termText}.`;
+                }
+                
                 return <div key={index} className="relative">
-                      <button onClick={() => handlePromptClick(adjustedPrompt)} className={cn("w-full text-left p-3 rounded-lg border transition-colors text-xs flex flex-col gap-2", prompt === adjustedPrompt ? "border-primary bg-primary/5" : "border-border bg-card hover:border-[#c69fdc] hover:bg-card/80")}>
+                      <button onClick={() => handlePromptClick(finalPromptForClick)} className={cn("w-full text-left p-3 rounded-lg border transition-colors text-xs flex flex-col gap-2", prompt === finalPromptForClick ? "border-primary bg-primary/5" : "border-border bg-card hover:border-[#c69fdc] hover:bg-card/80")}>
                         <div className="flex items-center gap-2">
                           <Sparkles className="h-4 w-4 flex-shrink-0" color="#323232" />
                           <span className="text-card-foreground leading-snug px-0.5 flex-1">
@@ -543,6 +592,7 @@ export const AISidebar = ({
                                 {i < parts.length - 1 && <strong>{displaySubject}</strong>}
                               </React.Fragment>;
                         })}
+                            {termText && <> in <strong>{termText}</strong>.</>}
                           </span>
                         </div>
                         {isBelowPrompt && <button onClick={e => {
