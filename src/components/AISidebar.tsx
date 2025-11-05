@@ -737,7 +737,7 @@ export const AISidebar = ({
                     <span>More filters</span>
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-[232px] p-3 bg-card border-border" align="start">
+                <PopoverContent className="w-auto p-3 bg-card border-border" align="start">
                   <div className="space-y-2">
                     {["Terms", "Grade Levels"].map(filter => <div key={filter} className="flex items-center space-x-2">
                         <Checkbox id={filter} checked={activeFilters.includes(filter)} onCheckedChange={() => handleFilterToggle(filter)} className="border-[#AC5CCC] data-[state=checked]:bg-[#AC5CCC] data-[state=checked]:border-[#AC5CCC]" />
