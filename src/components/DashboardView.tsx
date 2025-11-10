@@ -50,7 +50,7 @@ export const DashboardView = ({ title, onCollapse, charts = [], insights = [], o
             {mainGridCharts.map((chart, index) => (
               <div 
                 key={index}
-                className={`min-h-[320px] ${chart.data.length > 4 ? 'md:col-span-2' : ''}`}
+                className={`min-h-[280px] ${chart.data.length > 4 ? 'md:col-span-2' : ''}`}
               >
                 <ChartRenderer
                   chart={chart}
@@ -71,7 +71,7 @@ export const DashboardView = ({ title, onCollapse, charts = [], insights = [], o
       {shouldRenderSecondChartBesideInsights ? (
         <div className="px-6 pb-6 pt-4 shrink-0 flex gap-4 min-h-0 overflow-hidden" style={{ height: '40%' }}>
           <div className="w-1/2 shrink-0 overflow-y-auto">
-            <div className="min-h-[320px]">
+            <div className="min-h-[280px]">
               <ChartRenderer
                 chart={sideChart!}
                 onAskQuestion={(q) => onAskQuestion?.(q)}
