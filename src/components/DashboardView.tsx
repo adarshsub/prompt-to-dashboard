@@ -13,6 +13,14 @@ interface DashboardViewProps {
 }
 
 export const DashboardView = ({ title, onCollapse, charts = [], insights = [], onAskQuestion }: DashboardViewProps) => {
+  // Check if first chart takes full width and we have a second chart
+  const firstChartFullWidth = charts.length > 0 && charts[0].data.length > 4;
+  const hasSecondChart = charts.length > 1;
+  const shouldRenderSecondChartBesideInsights = firstChartFullWidth && hasSecondChart;
+  
+  // Filter charts for main grid
+  const mainGridCharts = shouldRenderSecondChartBesideInsights ? [charts[0], ...charts.slice(2)] : charts;
+  const sideChart = shouldRenderSecondChartBesideInsights ? charts[1] : null;
 
   return (
     <div className="flex-1 flex flex-col overflow-hidden min-w-0">
@@ -22,16 +30,16 @@ export const DashboardView = ({ title, onCollapse, charts = [], insights = [], o
             variant="ghost"
             size="icon"
             onClick={onCollapse}
-            className="h-8 w-8 text-[#797985] hover:text-white hover:bg-[#9b87f5]/40 transition-all rounded-lg"
+            className="h-8 w-8 text-[#797985] hover:text-white hover:bg-[#b794f6]/40 transition-all rounded-lg"
           >
             <ChevronsRight className="h-6 w-6" />
           </Button>
-          <div className="flex items-center gap-2 pb-1 border-b-2 border-[#9b87f5]">
-            <BarChart2 className="h-5 w-5 text-[#9b87f5]" />
+          <div className="flex items-center gap-2 pb-1 border-b-2 border-[#b794f6]">
+            <BarChart2 className="h-5 w-5 text-[#b794f6]" />
             <span className="font-semibold text-card-foreground">{title}</span>
           </div>
         </div>
-        <Button className="bg-[#9b87f5] hover:bg-[#9b87f5]/90 text-primary-foreground px-6 h-9 rounded-[6px]">
+        <Button className="bg-[#b794f6] hover:bg-[#b794f6]/90 text-primary-foreground px-6 h-9 rounded-[6px]">
           Save
         </Button>
       </div>
@@ -39,7 +47,7 @@ export const DashboardView = ({ title, onCollapse, charts = [], insights = [], o
       <div className="flex-1 px-6 overflow-y-auto" style={{ maxHeight: '60%' }}>
         {charts.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 auto-rows-fr">
-            {charts.map((chart, index) => (
+            {mainGridCharts.map((chart, index) => (
               <div 
                 key={index}
                 className={`min-h-[320px] ${chart.data.length > 4 ? 'md:col-span-2' : ''}`}
@@ -60,20 +68,30 @@ export const DashboardView = ({ title, onCollapse, charts = [], insights = [], o
         )}
       </div>
 
-      <div className="px-6 pb-2 pt-8 shrink-0">
-        <h3 className="text-sm font-semibold text-[#1B247E] bg-[#f7f7f7] py-1 px-6 -mx-6">Key Insights</h3>
-      </div>
-
-      <div className="px-6 pb-6 overflow-y-auto shrink-0" style={{ maxHeight: '30%' }}>
-        <div className="space-y-3">
-          {insights.map((insight, index) => (
-            <InsightCard
-              key={insight.id}
-              insight={insight}
-              index={index}
+      <div className={`px-6 pb-2 pt-8 shrink-0 ${shouldRenderSecondChartBesideInsights ? 'flex items-start gap-4' : ''}`}>
+        {shouldRenderSecondChartBesideInsights && sideChart && (
+          <div className="w-1/3 min-h-[320px] shrink-0">
+            <ChartRenderer
+              chart={sideChart}
               onAskQuestion={(q) => onAskQuestion?.(q)}
             />
-          ))}
+          </div>
+        )}
+        <div className="flex-1">
+          <h3 className="text-sm font-semibold text-[#1B247E] bg-[#f7f7f7] py-1 px-6 -mx-6">Key Insights</h3>
+          
+          <div className="pt-4 overflow-y-auto shrink-0" style={{ maxHeight: '30%' }}>
+            <div className="space-y-3">
+              {insights.map((insight, index) => (
+                <InsightCard
+                  key={insight.id}
+                  insight={insight}
+                  index={index}
+                  onAskQuestion={(q) => onAskQuestion?.(q)}
+                />
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </div>
