@@ -22,16 +22,16 @@ export const DashboardView = ({ title, onCollapse, charts = [], insights = [], o
             variant="ghost"
             size="icon"
             onClick={onCollapse}
-            className="h-8 w-8 text-[#797985] hover:text-white hover:bg-primary/40 transition-all rounded-lg"
+            className="h-8 w-8 text-[#797985] hover:text-white hover:bg-[#9b87f5]/40 transition-all rounded-lg"
           >
             <ChevronsRight className="h-6 w-6" />
           </Button>
-          <div className="flex items-center gap-2 pb-1 border-b-2 border-primary">
-            <BarChart2 className="h-5 w-5 text-primary" />
+          <div className="flex items-center gap-2 pb-1 border-b-2 border-[#9b87f5]">
+            <BarChart2 className="h-5 w-5 text-[#9b87f5]" />
             <span className="font-semibold text-card-foreground">{title}</span>
           </div>
         </div>
-        <Button className="bg-primary hover:bg-primary/90 text-primary-foreground px-6 h-9 rounded-[6px]">
+        <Button className="bg-[#9b87f5] hover:bg-[#9b87f5]/90 text-primary-foreground px-6 h-9 rounded-[6px]">
           Save
         </Button>
       </div>

@@ -83,12 +83,13 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
                   borderRadius: "6px"
                 }}
                 formatter={(value: any) => [`${value}%`, 'Score']}
+                cursor={{ fill: 'transparent' }}
               />
               <Bar 
                 dataKey="value" 
                 fill={CHART_COLORS.primary} 
                 maxBarSize={40}
-                className="transition-opacity"
+                activeBar={{ fill: CHART_COLORS.primary, opacity: 0.7 }}
                 style={{ cursor: 'pointer' }}
               />
             </BarChart>
@@ -129,7 +130,7 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
                 cx="50%"
                 cy="50%"
                 labelLine={false}
-                label={(entry) => entry.name}
+                label={(entry) => entry.value > 0 ? entry.name : null}
                 outerRadius={80}
                 fill={CHART_COLORS.primary}
                 dataKey="value"
