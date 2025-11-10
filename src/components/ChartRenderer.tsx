@@ -75,14 +75,16 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
                 textAnchor="end"
                 height={60}
               />
-              <YAxis stroke={CHART_COLORS.secondary} tick={{ fontSize: 12 }} />
+              <YAxis stroke={CHART_COLORS.secondary} tick={{ fontSize: 12 }} tickFormatter={(v: number) => `${v}%`} />
               <Tooltip 
                 contentStyle={{ 
                   backgroundColor: "white", 
                   border: `1px solid ${CHART_COLORS.neutral}`,
                   borderRadius: "6px",
-                  padding: "8px 12px"
+                  padding: "6px 8px"
                 }}
+                labelStyle={{ marginBottom: 0 }}
+                itemStyle={{ padding: 0 }}
                 formatter={(value: any) => [`${value}%`, 'Score']}
                 cursor={{ fill: 'transparent' }}
               />
@@ -109,7 +111,7 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
                 textAnchor="end"
                 height={60}
               />
-              <YAxis stroke={CHART_COLORS.secondary} tick={{ fontSize: 12 }} />
+              <YAxis stroke={CHART_COLORS.secondary} tick={{ fontSize: 12 }} tickFormatter={(v: number) => `${v}%`} />
               <Tooltip 
                 contentStyle={{ 
                   backgroundColor: "white", 
@@ -117,6 +119,8 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
                   borderRadius: "6px",
                   padding: "8px 12px"
                 }}
+                labelStyle={{ marginBottom: 0 }}
+                itemStyle={{ padding: 0 }}
                 formatter={(value: any) => [`${value}%`, 'Score']}
               />
               <Line type="monotone" dataKey="value" stroke={CHART_COLORS.primary} strokeWidth={2} dot={{ fill: CHART_COLORS.primary }} />
@@ -134,6 +138,7 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
                 labelLine={false}
                 label={(entry) => entry.value > 0 ? entry.name : null}
                 outerRadius="70%"
+                innerRadius="45%"
                 fill={CHART_COLORS.primary}
                 dataKey="value"
               >
@@ -151,6 +156,8 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
                   borderRadius: "6px",
                   padding: "8px 12px"
                 }}
+                labelStyle={{ marginBottom: 0 }}
+                itemStyle={{ padding: 0 }}
                 formatter={(value: any, name: any, props: any) => {
                   const label = props.payload.name;
                   if (label.includes('%')) {
@@ -175,7 +182,7 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
                 textAnchor="end"
                 height={60}
               />
-              <YAxis stroke={CHART_COLORS.secondary} tick={{ fontSize: 12 }} />
+              <YAxis stroke={CHART_COLORS.secondary} tick={{ fontSize: 12 }} tickFormatter={(v: number) => `${v}%`} />
               <Tooltip 
                 contentStyle={{ 
                   backgroundColor: "white", 
