@@ -40,18 +40,31 @@ const Index = () => {
     setIsSidebarHidden(false);
 
     try {
+      console.log("Submitting prompt:", prompt);
+      
       // Call n8n webhook with the question
       const response = await sendToN8N(prompt);
+      
+      console.log("Received n8n response:", response);
       
       // Extract charts and insights from n8n response
       const charts = response.charts || [];
       const insights = response.insights || [];
 
+      console.log("Extracted - Charts:", charts.length, "Insights:", insights.length);
+
+      // If no data returned, show warning but still display empty dashboard
+      if (charts.length === 0 && insights.length === 0) {
+        console.warn("No charts or insights returned from n8n");
+        toast.error("No data returned from n8n. Please check your webhook configuration.");
+      }
+
       setCurrentCharts(charts);
       setCurrentInsights(insights);
 
-      // Post insights back to n8n
+      // Post insights back to n8n if we have any
       if (insights.length > 0) {
+        console.log("Posting insights back to n8n");
         await postInsightsToN8N(insights);
       }
 
@@ -65,7 +78,7 @@ const Index = () => {
       setIsDashboardCollapsed(false);
     } catch (error) {
       console.error("Error processing request:", error);
-      toast.error("Failed to generate dashboard. Please try again.");
+      toast.error(`Failed to generate dashboard: ${error instanceof Error ? error.message : 'Unknown error'}`);
       
       // Remove the failed conversation
       setConversationHistory((prev) => prev.slice(0, -1));
