@@ -36,15 +36,19 @@ export const DashboardView = ({ title, onCollapse, charts = [], insights = [], o
         </Button>
       </div>
 
-      <div className="flex-1 px-6 overflow-y-auto">
+      <div className="flex-1 px-6 overflow-y-auto max-h-[50vh]">
         {charts.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 h-full">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 auto-rows-fr">
             {charts.map((chart, index) => (
-              <ChartRenderer
+              <div 
                 key={index}
-                chart={chart}
-                onAskQuestion={(q) => onAskQuestion?.(q)}
-              />
+                className={`min-h-[300px] ${chart.data.length > 4 ? 'md:col-span-2' : ''}`}
+              >
+                <ChartRenderer
+                  chart={chart}
+                  onAskQuestion={(q) => onAskQuestion?.(q)}
+                />
+              </div>
             ))}
           </div>
         ) : (
@@ -56,7 +60,7 @@ export const DashboardView = ({ title, onCollapse, charts = [], insights = [], o
         )}
       </div>
 
-      <div className="px-6 pb-2 shrink-0">
+      <div className="px-6 pb-2 pt-6 shrink-0">
         <h3 className="text-sm font-semibold text-[#1B247E] bg-[#f7f7f7] py-1 px-6 -mx-6">Key Insights</h3>
       </div>
 

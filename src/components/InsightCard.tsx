@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Input } from "@/components/ui/input";
 import { Insight } from "@/types/dashboard";
+import { formatInsightText } from "@/lib/insightUtils";
 
 interface InsightCardProps {
   insight: Insight;
@@ -23,17 +24,22 @@ export const InsightCard = ({ insight, index, onAskQuestion }: InsightCardProps)
     }
   };
 
+  const formattedText = formatInsightText(insight.text);
+
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
-        <div className="flex items-center gap-3 py-4 px-6 bg-card rounded-lg border border-border cursor-pointer hover:ring-2 hover:ring-primary transition-all">
+        <div 
+          className="flex items-center gap-3 py-4 px-6 bg-card rounded-lg border border-border cursor-pointer hover:border-[#CD9DE0] transition-all"
+          onClick={() => setIsOpen(true)}
+        >
           <Sparkles className="h-4 w-4 text-black shrink-0" />
           <span className="text-sm font-semibold text-card-foreground">{index + 1}.</span>
-          <span className="text-sm leading-relaxed text-card-foreground flex-1">{insight.text}</span>
+          <span className="text-sm leading-relaxed text-card-foreground flex-1">{formattedText}</span>
           <Button
             variant="outline"
             size="sm"
-            className="border-primary text-primary hover:bg-primary/10 hover:text-primary shrink-0 bg-white rounded-[5px] text-xs h-8 px-3"
+            className="border-primary text-primary hover:bg-primary/10 hover:text-primary hover:border-primary shrink-0 bg-white rounded-[5px] text-xs h-8 px-3"
             onClick={(e) => {
               e.stopPropagation();
               // Handle intervention generation
@@ -52,7 +58,7 @@ export const InsightCard = ({ insight, index, onAskQuestion }: InsightCardProps)
               onChange={(e) => setQuestion(e.target.value)}
               placeholder="Enter your question..."
               onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
-              className="flex-1"
+              className="flex-1 bg-white"
             />
             <Button onClick={handleSubmit} size="icon" className="shrink-0">
               <Send className="h-4 w-4" />

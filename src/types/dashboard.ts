@@ -1,7 +1,10 @@
 export interface ChartData {
   type: 'bar' | 'line' | 'pie' | 'area';
   data: any[];
-  config?: any;
+  config?: {
+    title?: string;
+    [key: string]: any;
+  };
 }
 
 export interface Insight {
