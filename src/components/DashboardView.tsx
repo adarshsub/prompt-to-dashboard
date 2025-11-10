@@ -30,16 +30,16 @@ export const DashboardView = ({ title, onCollapse, charts = [], insights = [], o
             variant="ghost"
             size="icon"
             onClick={onCollapse}
-            className="h-8 w-8 text-[#797985] hover:text-white hover:bg-[#b794f6]/40 transition-all rounded-lg"
+            className="h-8 w-8 text-[#797985] hover:text-white hover:bg-primary/40 transition-all rounded-lg"
           >
             <ChevronsRight className="h-6 w-6" />
           </Button>
-          <div className="flex items-center gap-2 pb-1 border-b-2 border-[#b794f6]">
-            <BarChart2 className="h-5 w-5 text-[#b794f6]" />
+          <div className="flex items-center gap-2 pb-1 border-b-2 border-primary">
+            <BarChart2 className="h-5 w-5 text-primary" />
             <span className="font-semibold text-card-foreground">{title}</span>
           </div>
         </div>
-        <Button className="bg-[#b794f6] hover:bg-[#b794f6]/90 text-primary-foreground px-6 h-9 rounded-[6px]">
+        <Button className="bg-primary hover:bg-primary/90 text-primary-foreground px-6 h-9 rounded-[6px]">
           Save
         </Button>
       </div>
@@ -69,12 +69,14 @@ export const DashboardView = ({ title, onCollapse, charts = [], insights = [], o
       </div>
 
       {shouldRenderSecondChartBesideInsights ? (
-        <div className="px-6 pb-6 pt-4 shrink-0 flex gap-4 min-h-0" style={{ height: '40%' }}>
-          <div className="w-1/2 min-h-[320px] shrink-0">
-            <ChartRenderer
-              chart={sideChart!}
-              onAskQuestion={(q) => onAskQuestion?.(q)}
-            />
+        <div className="px-6 pb-6 pt-4 shrink-0 flex gap-4 min-h-0 overflow-hidden" style={{ height: '40%' }}>
+          <div className="w-1/2 shrink-0 overflow-y-auto">
+            <div className="min-h-[320px]">
+              <ChartRenderer
+                chart={sideChart!}
+                onAskQuestion={(q) => onAskQuestion?.(q)}
+              />
+            </div>
           </div>
           <div className="flex-1 flex flex-col min-h-0">
             <h3 className="text-sm font-semibold text-[#1B247E] bg-[#f7f7f7] py-1 px-6 mb-4">Key Insights</h3>

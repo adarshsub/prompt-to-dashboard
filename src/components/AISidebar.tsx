@@ -278,7 +278,7 @@ export const AISidebar = ({
         <h2 className="text-2xl font-semibold bg-gradient-purple bg-clip-text text-transparent">
           Create with AI
         </h2>
-        <Button variant="ghost" size="icon" className="h-6 w-6 -mt-1 -mr-2 text-muted-foreground hover:text-white hover:bg-[#b794f6]/40 transition-all" onClick={onClose}>
+        <Button variant="ghost" size="icon" className="h-6 w-6 -mt-1 -mr-2 text-muted-foreground hover:text-white hover:bg-primary/40 transition-all" onClick={onClose}>
           <X className="h-4 w-4" />
         </Button>
       </div>
