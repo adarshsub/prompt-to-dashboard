@@ -16,7 +16,7 @@ interface MiniChartProps {
   chart: ChartData;
 }
 
-const COLORS = ["hsl(286, 50%, 58%)", "hsl(240, 5%, 50%)", "hsl(240, 10%, 90%)"];
+const COLORS = ["hsl(200, 100%, 50%)", "hsl(240, 5%, 50%)", "hsl(240, 10%, 90%)"];
 
 export const MiniChart = ({ chart }: MiniChartProps) => {
   const renderChart = () => {
@@ -25,7 +25,7 @@ export const MiniChart = ({ chart }: MiniChartProps) => {
         return (
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={chart.data}>
-              <Bar dataKey="value" fill="hsl(286, 50%, 58%)" />
+              <Bar dataKey="value" fill="hsl(200, 100%, 50%)" />
             </BarChart>
           </ResponsiveContainer>
         );
@@ -33,7 +33,7 @@ export const MiniChart = ({ chart }: MiniChartProps) => {
         return (
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={chart.data}>
-              <Line type="monotone" dataKey="value" stroke="hsl(286, 50%, 58%)" strokeWidth={1} dot={false} />
+              <Line type="monotone" dataKey="value" stroke="hsl(200, 100%, 50%)" strokeWidth={1} dot={false} />
             </LineChart>
           </ResponsiveContainer>
         );
@@ -46,7 +46,7 @@ export const MiniChart = ({ chart }: MiniChartProps) => {
                 cx="50%"
                 cy="50%"
                 outerRadius={20}
-                fill="hsl(286, 50%, 58%)"
+                fill="hsl(200, 100%, 50%)"
                 dataKey="value"
               >
                 {chart.data.map((entry, index) => (
@@ -60,7 +60,7 @@ export const MiniChart = ({ chart }: MiniChartProps) => {
         return (
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={chart.data}>
-              <Area type="monotone" dataKey="value" stroke="hsl(286, 50%, 58%)" fill="hsl(286, 50%, 58%)" fillOpacity={0.3} />
+              <Area type="monotone" dataKey="value" stroke="hsl(200, 100%, 50%)" fill="hsl(200, 100%, 50%)" fillOpacity={0.3} />
             </AreaChart>
           </ResponsiveContainer>
         );

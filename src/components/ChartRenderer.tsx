@@ -28,9 +28,9 @@ interface ChartRendererProps {
   onAskQuestion: (question: string) => void;
 }
 
-// Use design system colors: muted-foreground for grays, primary for blues
+// Use design system colors: blue accent, grays for secondary
 const CHART_COLORS = {
-  primary: "hsl(286, 50%, 58%)", // Primary from design system
+  primary: "hsl(200, 100%, 50%)", // Blue accent (#00A6FF)
   secondary: "hsl(240, 5%, 50%)", // Muted-foreground from design system
   positive: "hsl(142, 76%, 36%)", // Green
   negative: "hsl(0, 84%, 60%)", // Red
@@ -75,15 +75,22 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
                 textAnchor="end"
                 height={60}
               />
-              <YAxis stroke={CHART_COLORS.secondary} tick={{ fontSize: 12 }} />
+              <YAxis stroke={CHART_COLORS.secondary} tick={{ fontSize: 12 }} label={{ value: 'Score (%)', angle: -90, position: 'insideLeft' }} />
               <Tooltip 
                 contentStyle={{ 
                   backgroundColor: "white", 
                   border: `1px solid ${CHART_COLORS.neutral}`,
                   borderRadius: "6px"
-                }} 
+                }}
+                formatter={(value: any) => [`${value}%`, 'Score']}
               />
-              <Bar dataKey="value" fill={CHART_COLORS.primary} />
+              <Bar 
+                dataKey="value" 
+                fill={CHART_COLORS.primary} 
+                maxBarSize={40}
+                className="transition-opacity"
+                style={{ cursor: 'pointer' }}
+              />
             </BarChart>
           </ResponsiveContainer>
         );
@@ -100,13 +107,14 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
                 textAnchor="end"
                 height={60}
               />
-              <YAxis stroke={CHART_COLORS.secondary} tick={{ fontSize: 12 }} />
+              <YAxis stroke={CHART_COLORS.secondary} tick={{ fontSize: 12 }} label={{ value: 'Score (%)', angle: -90, position: 'insideLeft' }} />
               <Tooltip 
                 contentStyle={{ 
                   backgroundColor: "white", 
                   border: `1px solid ${CHART_COLORS.neutral}`,
                   borderRadius: "6px"
-                }} 
+                }}
+                formatter={(value: any) => [`${value}%`, 'Score']}
               />
               <Line type="monotone" dataKey="value" stroke={CHART_COLORS.primary} strokeWidth={2} dot={{ fill: CHART_COLORS.primary }} />
             </LineChart>
@@ -138,7 +146,14 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
                   backgroundColor: "white", 
                   border: `1px solid ${CHART_COLORS.neutral}`,
                   borderRadius: "6px"
-                }} 
+                }}
+                formatter={(value: any, name: any, props: any) => {
+                  const label = props.payload.name;
+                  if (label.includes('%')) {
+                    return [`${value} students`, label];
+                  }
+                  return [value, name];
+                }}
               />
             </PieChart>
           </ResponsiveContainer>
@@ -156,13 +171,14 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
                 textAnchor="end"
                 height={60}
               />
-              <YAxis stroke={CHART_COLORS.secondary} tick={{ fontSize: 12 }} />
+              <YAxis stroke={CHART_COLORS.secondary} tick={{ fontSize: 12 }} label={{ value: 'Score (%)', angle: -90, position: 'insideLeft' }} />
               <Tooltip 
                 contentStyle={{ 
                   backgroundColor: "white", 
                   border: `1px solid ${CHART_COLORS.neutral}`,
                   borderRadius: "6px"
-                }} 
+                }}
+                formatter={(value: any) => [`${value}%`, 'Score']}
               />
               <Area 
                 type="monotone" 
@@ -182,7 +198,7 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
-        <div className="cursor-pointer hover:border-[#CD9DE0] rounded-lg transition-all p-4 bg-card border border-border h-full">
+        <div className="cursor-pointer hover:border-[#CD9DE0] rounded-lg transition-all p-4 bg-card border border-border h-full group">
           {chartTitle && (
             <h3 className="text-sm font-semibold text-card-foreground mb-3 text-center">{chartTitle}</h3>
           )}

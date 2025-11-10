@@ -16,12 +16,12 @@ const generateMockData = (question: string) => {
       {
         type: "bar",
         data: [
-          { name: "John Doe", value: 65 },
-          { name: "Jane Smith", value: 68 },
-          { name: "Bob Johnson", value: 62 },
-          { name: "Alice Williams", value: 69 },
-          { name: "Mike Brown", value: 58 },
-          { name: "Sarah Davis", value: 64 },
+          { name: "John\nDoe", value: 65 },
+          { name: "Jane\nSmith", value: 68 },
+          { name: "Bob\nJohnson", value: 62 },
+          { name: "Alice\nWilliams", value: 69 },
+          { name: "Mike\nBrown", value: 58 },
+          { name: "Sarah\nDavis", value: 64 },
         ],
         config: {
           title: "Students Below 70% in Math",
@@ -30,10 +30,9 @@ const generateMockData = (question: string) => {
       {
         type: "pie",
         data: [
-          { name: "90-100%", value: 12 },
-          { name: "80-89%", value: 15 },
-          { name: "70-79%", value: 8 },
-          { name: "Below 70%", value: 6 },
+          { name: "Above 70%", value: 35 },
+          { name: "60-70%", value: 6 },
+          { name: "50-60%", value: 0 },
         ],
         config: {
           title: "Score Distribution",

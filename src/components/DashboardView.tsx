@@ -36,7 +36,7 @@ export const DashboardView = ({ title, onCollapse, charts = [], insights = [], o
         </Button>
       </div>
 
-      <div className="flex-1 px-6 overflow-y-auto">
+      <div className="flex-1 px-6 overflow-y-auto" style={{ maxHeight: '60%' }}>
         {charts.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 auto-rows-fr">
             {charts.map((chart, index) => (
@@ -60,11 +60,11 @@ export const DashboardView = ({ title, onCollapse, charts = [], insights = [], o
         )}
       </div>
 
-      <div className="px-6 pb-2 pt-6 shrink-0">
+      <div className="px-6 pb-2 pt-8 shrink-0">
         <h3 className="text-sm font-semibold text-[#1B247E] bg-[#f7f7f7] py-1 px-6 -mx-6">Key Insights</h3>
       </div>
 
-      <div className="px-6 pb-6 overflow-y-auto max-h-[40%] shrink-0">
+      <div className="px-6 pb-6 overflow-y-auto shrink-0" style={{ maxHeight: '30%' }}>
         <div className="space-y-3">
           {insights.map((insight, index) => (
             <InsightCard
