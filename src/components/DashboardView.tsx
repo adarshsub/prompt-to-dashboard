@@ -36,13 +36,13 @@ export const DashboardView = ({ title, onCollapse, charts = [], insights = [], o
         </Button>
       </div>
 
-      <div className="flex-1 px-6 overflow-y-auto max-h-[50vh]">
+      <div className="flex-1 px-6 overflow-y-auto">
         {charts.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 auto-rows-fr">
             {charts.map((chart, index) => (
               <div 
                 key={index}
-                className={`min-h-[300px] ${chart.data.length > 4 ? 'md:col-span-2' : ''}`}
+                className={`min-h-[320px] ${chart.data.length > 4 ? 'md:col-span-2' : ''}`}
               >
                 <ChartRenderer
                   chart={chart}

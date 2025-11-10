@@ -16,40 +16,38 @@ const generateMockData = (question: string) => {
       {
         type: "bar",
         data: [
-          { name: "John Doe", score: 65 },
-          { name: "Jane Smith", score: 68 },
-          { name: "Bob Johnson", score: 62 },
-          { name: "Alice Williams", score: 69 },
+          { name: "John Doe", value: 65 },
+          { name: "Jane Smith", value: 68 },
+          { name: "Bob Johnson", value: 62 },
+          { name: "Alice Williams", value: 69 },
+          { name: "Mike Brown", value: 58 },
+          { name: "Sarah Davis", value: 64 },
         ],
         config: {
           title: "Students Below 70% in Math",
-          xKey: "name",
-          yKey: "score",
-          color: "#ef4444",
         },
       },
       {
         type: "pie",
         data: [
-          { category: "Below 70%", value: 4 },
-          { category: "70-80%", value: 8 },
-          { category: "Above 80%", value: 12 },
+          { name: "90-100%", value: 12 },
+          { name: "80-89%", value: 15 },
+          { name: "70-79%", value: 8 },
+          { name: "Below 70%", value: 6 },
         ],
         config: {
           title: "Score Distribution",
-          nameKey: "category",
-          valueKey: "value",
         },
       },
     ],
     insights: [
       {
         id: "insight-1",
-        text: "4 students scored below 70% in Math class, requiring immediate intervention",
+        text: "Six students scored below 70% in Math class, requiring immediate intervention",
       },
       {
         id: "insight-2",
-        text: "Average score for students below threshold is 66%, indicating they are close to passing",
+        text: "Average score for students below threshold is 64%, indicating they need additional support",
       },
       {
         id: "insight-3",

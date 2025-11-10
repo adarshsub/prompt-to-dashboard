@@ -15,9 +15,12 @@ export const formatInsightText = (text: string): string => {
 
   // Replace standalone numbers 0-9 with words
   // Matches numbers that are either at start, end, or surrounded by word boundaries
-  return text.replace(/\b(\d)\b/g, (match) => {
+  let formatted = text.replace(/\b(\d)\b/g, (match) => {
     return numberWords[match] || match;
   });
+  
+  // Capitalize first letter
+  return formatted.charAt(0).toUpperCase() + formatted.slice(1);
 };
 
 // Utility to convert chart data names to title case

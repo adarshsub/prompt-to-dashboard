@@ -28,13 +28,13 @@ interface ChartRendererProps {
   onAskQuestion: (question: string) => void;
 }
 
-// Blue/gray color scheme with green for positive, red for negative
+// Use design system colors: muted-foreground for grays, primary for blues
 const CHART_COLORS = {
-  primary: "hsl(210, 100%, 50%)", // Blue
-  secondary: "hsl(210, 15%, 65%)", // Gray-blue
+  primary: "hsl(286, 50%, 58%)", // Primary from design system
+  secondary: "hsl(240, 5%, 50%)", // Muted-foreground from design system
   positive: "hsl(142, 76%, 36%)", // Green
   negative: "hsl(0, 84%, 60%)", // Red
-  neutral: "hsl(210, 20%, 70%)", // Light gray
+  neutral: "hsl(240, 10%, 90%)", // Muted from design system
 };
 
 export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
@@ -184,7 +184,7 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
       <PopoverTrigger asChild>
         <div className="cursor-pointer hover:border-[#CD9DE0] rounded-lg transition-all p-4 bg-card border border-border h-full">
           {chartTitle && (
-            <h3 className="text-sm font-semibold text-card-foreground mb-3">{chartTitle}</h3>
+            <h3 className="text-sm font-semibold text-card-foreground mb-3 text-center">{chartTitle}</h3>
           )}
           <div className="h-[calc(100%-2rem)]">
             {renderChart()}
