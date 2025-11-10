@@ -8,6 +8,8 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { useState, useRef, useEffect } from "react";
 import * as React from "react";
 import { cn } from "@/lib/utils";
+import { MiniChart } from "@/components/MiniChart";
+import { ChartData } from "@/types/dashboard";
 interface AISidebarProps {
   onSubmit?: (prompt: string) => void;
   isLoading?: boolean;
@@ -17,6 +19,8 @@ interface AISidebarProps {
     title: string;
     submittedAt: Date;
     isLoaded: boolean;
+    charts?: ChartData[];
+    insights?: any[];
   }>;
   isDashboardCollapsed?: boolean;
   onExpand?: () => void;
@@ -308,11 +312,35 @@ export const AISidebar = ({
                         {conversation.title}
                       </div>
                       <div className={`grid grid-cols-2 gap-2 ${isDashboardCollapsed ? 'mb-1' : 'mb-1'}`}>
-                        <div className="bg-white rounded-lg h-full" />
-                        <div className="space-y-1.5">
-                          <div className="bg-white rounded-lg aspect-[4/2]" />
-                          <div className="bg-white rounded-lg aspect-[4/1.5]" />
-                        </div>
+                        {conversation.charts && conversation.charts.length > 0 ? (
+                          <>
+                            {conversation.charts[0] && (
+                              <div className="bg-white rounded-lg h-full overflow-hidden">
+                                <MiniChart chart={conversation.charts[0]} />
+                              </div>
+                            )}
+                            <div className="space-y-1.5">
+                              {conversation.charts[1] && (
+                                <div className="bg-white rounded-lg aspect-[4/2] overflow-hidden">
+                                  <MiniChart chart={conversation.charts[1]} />
+                                </div>
+                              )}
+                              {conversation.charts[2] && (
+                                <div className="bg-white rounded-lg aspect-[4/1.5] overflow-hidden">
+                                  <MiniChart chart={conversation.charts[2]} />
+                                </div>
+                              )}
+                            </div>
+                          </>
+                        ) : (
+                          <>
+                            <div className="bg-white rounded-lg h-full" />
+                            <div className="space-y-1.5">
+                              <div className="bg-white rounded-lg aspect-[4/2]" />
+                              <div className="bg-white rounded-lg aspect-[4/1.5]" />
+                            </div>
+                          </>
+                        )}
                       </div>
                       {index === conversationHistory.length - 1 && (
                         isDashboardCollapsed ? 
@@ -347,35 +375,6 @@ export const AISidebar = ({
             
             {conversationHistory.length > 0 && !isLoading && (
               <>
-                <div className="mb-4">
-                  <h3 ref={headingRef} className="font-semibold text-card-foreground text-sm mb-2">
-                    Query Your Insights
-                  </h3>
-                  <p className="text-xs text-muted-foreground mb-3 leading-relaxed">
-                    Ask questions about the insights generated for your dashboard.
-                  </p>
-                  <div className="flex gap-2 overflow-x-auto flex-nowrap pb-1">
-                    <button onClick={() => handleInsightToggle("insight1", 1)} className={cn("flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-colors whitespace-nowrap flex-shrink-0 border", selectedInsights.includes("insight1") ? "bg-primary text-primary-foreground border-primary" : "bg-white text-black border-[#E2E6E9]")}>
-                      Insight 1
-                      <span className={cn("w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0", selectedInsights.includes("insight1") ? "bg-white/20" : "bg-[#E2E6E9]")}>
-                        {selectedInsights.includes("insight1") ? <Minus className="h-2.5 w-2.5" color="#FFFFFF" strokeWidth={2.5} /> : <Plus className="h-2.5 w-2.5" color="#FFFFFF" strokeWidth={2.5} />}
-                      </span>
-                    </button>
-                    <button onClick={() => handleInsightToggle("insight2", 2)} className={cn("flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-colors whitespace-nowrap flex-shrink-0 border", selectedInsights.includes("insight2") ? "bg-primary text-primary-foreground border-primary" : "bg-white text-black border-[#E2E6E9]")}>
-                      Insight 2
-                      <span className={cn("w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0", selectedInsights.includes("insight2") ? "bg-white/20" : "bg-[#E2E6E9]")}>
-                        {selectedInsights.includes("insight2") ? <Minus className="h-2.5 w-2.5" color="#FFFFFF" strokeWidth={2.5} /> : <Plus className="h-2.5 w-2.5" color="#FFFFFF" strokeWidth={2.5} />}
-                      </span>
-                    </button>
-                    <button onClick={() => handleInsightToggle("insight3", 3)} className={cn("flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-colors whitespace-nowrap flex-shrink-0 border", selectedInsights.includes("insight3") ? "bg-primary text-primary-foreground border-primary" : "bg-white text-black border-[#E2E6E9]")}>
-                      Insight 3
-                      <span className={cn("w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0", selectedInsights.includes("insight3") ? "bg-white/20" : "bg-[#E2E6E9]")}>
-                        {selectedInsights.includes("insight3") ? <Minus className="h-2.5 w-2.5" color="#FFFFFF" strokeWidth={2.5} /> : <Plus className="h-2.5 w-2.5" color="#FFFFFF" strokeWidth={2.5} />}
-                      </span>
-                    </button>
-                  </div>
-                </div>
-
                 {/* Quick Actions in Chat */}
                 {showQuickActionsInChat && (
                       <div ref={quickActionsRef} className="space-y-3 mb-4">

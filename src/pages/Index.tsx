@@ -4,6 +4,9 @@ import { useState } from "react";
 import { generateDashboardTitle } from "@/lib/promptUtils";
 import { Button } from "@/components/ui/button";
 import { Sparkles } from "lucide-react";
+import { sendToN8N, postInsightsToN8N } from "@/lib/n8nApi";
+import { ChartData, Insight } from "@/types/dashboard";
+import { toast } from "sonner";
 
 const Index = () => {
   const [conversationHistory, setConversationHistory] = useState<
@@ -12,14 +15,18 @@ const Index = () => {
       title: string;
       submittedAt: Date;
       isLoaded: boolean;
+      charts?: ChartData[];
+      insights?: Insight[];
     }>
   >([]);
   const [isLoading, setIsLoading] = useState(false);
   const [showResults, setShowResults] = useState(false);
   const [isDashboardCollapsed, setIsDashboardCollapsed] = useState(false);
   const [isSidebarHidden, setIsSidebarHidden] = useState(false);
+  const [currentCharts, setCurrentCharts] = useState<ChartData[]>([]);
+  const [currentInsights, setCurrentInsights] = useState<Insight[]>([]);
 
-  const handleSubmit = (prompt: string) => {
+  const handleSubmit = async (prompt: string) => {
     const newConversation = {
       prompt,
       title: generateDashboardTitle(prompt),
@@ -32,18 +39,40 @@ const Index = () => {
     setShowResults(true);
     setIsSidebarHidden(false);
 
-    // Simulate AI processing
-    setTimeout(() => {
-      setIsLoading(false);
-      // Mark the conversation as loaded
+    try {
+      // Call n8n webhook with the question
+      const response = await sendToN8N(prompt);
+      
+      // Extract charts and insights from n8n response
+      const charts = response.charts || [];
+      const insights = response.insights || [];
+
+      setCurrentCharts(charts);
+      setCurrentInsights(insights);
+
+      // Post insights back to n8n
+      if (insights.length > 0) {
+        await postInsightsToN8N(insights);
+      }
+
+      // Mark the conversation as loaded with the data
       setConversationHistory((prev) =>
         prev.map((conv, idx) =>
-          idx === prev.length - 1 ? { ...conv, isLoaded: true } : conv
+          idx === prev.length - 1 ? { ...conv, isLoaded: true, charts, insights } : conv
         )
       );
-      // Automatically expand dashboard view
+      
       setIsDashboardCollapsed(false);
-    }, 2000);
+    } catch (error) {
+      console.error("Error processing request:", error);
+      toast.error("Failed to generate dashboard. Please try again.");
+      
+      // Remove the failed conversation
+      setConversationHistory((prev) => prev.slice(0, -1));
+      setShowResults(false);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleCloseSidebar = () => {
@@ -74,7 +103,10 @@ const Index = () => {
                   title={
                     conversationHistory.length > 0 ? conversationHistory[conversationHistory.length - 1].title : ""
                   }
+                  charts={currentCharts}
+                  insights={currentInsights}
                   onCollapse={() => setIsDashboardCollapsed(true)}
+                  onAskQuestion={handleSubmit}
                 />
               )}
             </div>

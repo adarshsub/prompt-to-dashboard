@@ -1,20 +1,18 @@
-import { ChevronsRight, BarChart2, Sparkles } from "lucide-react";
+import { ChevronsRight, BarChart2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { ChartData, Insight } from "@/types/dashboard";
+import { ChartRenderer } from "@/components/ChartRenderer";
+import { InsightCard } from "@/components/InsightCard";
 
 interface DashboardViewProps {
   title: string;
   onCollapse?: () => void;
+  charts?: ChartData[];
+  insights?: Insight[];
+  onAskQuestion?: (question: string) => void;
 }
 
-const INSIGHTS = [
-  "Lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor",
-  "Lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor",
-  "Lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor",
-];
-
-export const DashboardView = ({ title, onCollapse }: DashboardViewProps) => {
-  const [isCollapsed, setIsCollapsed] = useState(false);
+export const DashboardView = ({ title, onCollapse, charts = [], insights = [], onAskQuestion }: DashboardViewProps) => {
 
   return (
     <div className="flex-1 flex flex-col overflow-hidden min-w-0">
@@ -38,12 +36,24 @@ export const DashboardView = ({ title, onCollapse }: DashboardViewProps) => {
         </Button>
       </div>
 
-      <div className="flex-1 flex items-center justify-center px-6 overflow-y-auto">
-        <div className="text-center">
-          <h2 className="text-2xl font-medium text-muted-foreground">
-            Output of Visualizations
-          </h2>
-        </div>
+      <div className="flex-1 px-6 overflow-y-auto">
+        {charts.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 h-full">
+            {charts.map((chart, index) => (
+              <ChartRenderer
+                key={index}
+                chart={chart}
+                onAskQuestion={(q) => onAskQuestion?.(q)}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="flex items-center justify-center h-full">
+            <h2 className="text-2xl font-medium text-muted-foreground">
+              Output of Visualizations
+            </h2>
+          </div>
+        )}
       </div>
 
       <div className="px-6 pb-2 shrink-0">
@@ -52,22 +62,13 @@ export const DashboardView = ({ title, onCollapse }: DashboardViewProps) => {
 
       <div className="px-6 pb-6 overflow-y-auto max-h-[40%] shrink-0">
         <div className="space-y-3">
-          {INSIGHTS.map((insight, index) => (
-            <div
-              key={index}
-              className="flex items-center gap-3 py-4 px-6 bg-card rounded-lg border border-border"
-            >
-              <Sparkles className="h-4 w-4 text-black shrink-0" />
-              <span className="text-sm font-semibold text-card-foreground">{index + 1}.</span>
-              <span className="text-sm leading-relaxed text-card-foreground flex-1">{insight}</span>
-              <Button
-                variant="outline"
-                size="sm"
-                className="border-primary text-primary hover:bg-primary/10 hover:text-primary shrink-0 bg-white rounded-[5px] text-xs h-8 px-3"
-              >
-                Generate Intervention
-              </Button>
-            </div>
+          {insights.map((insight, index) => (
+            <InsightCard
+              key={insight.id}
+              insight={insight}
+              index={index}
+              onAskQuestion={(q) => onAskQuestion?.(q)}
+            />
           ))}
         </div>
       </div>
