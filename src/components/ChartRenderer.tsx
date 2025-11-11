@@ -72,7 +72,7 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
       case "bar":
         return (
           <ResponsiveContainer width="100%" height={CHART_HEIGHTS.bar}>
-            <BarChart data={chart.data} margin={{ top: 10, right: 10, left: 0, bottom: 20 }}>
+            <BarChart data={chart.data} margin={{ top: 10, right: 10, left: 0, bottom: 30 }}>
               <CartesianGrid strokeDasharray="3 3" stroke={CHART_COLORS.neutral} opacity={0.3} />
               <XAxis 
                 dataKey="name" 
@@ -80,7 +80,7 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
                 tick={{ fontSize: 11 }}
                 angle={-15}
                 textAnchor="end"
-                height={60}
+                height={70}
               />
               <YAxis stroke={CHART_COLORS.secondary} tick={{ fontSize: 12 }} tickFormatter={(v: number) => `${v}%`} />
               <Tooltip 

@@ -35,7 +35,7 @@ export const InsightCard = ({ insight, index, onAskQuestion }: InsightCardProps)
         >
           <Sparkles className="h-4 w-4 text-black shrink-0" />
           <span className="text-sm font-semibold text-card-foreground">{index + 1}.</span>
-          <span className="text-sm leading-relaxed text-card-foreground flex-1">{formattedText}</span>
+          <span className="text-xs leading-relaxed text-card-foreground flex-1">{formattedText}</span>
           <Button
             variant="outline"
             size="sm"
