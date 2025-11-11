@@ -137,8 +137,8 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
                 cy="50%"
                 labelLine={false}
                 label={(entry) => entry.value > 0 ? entry.name : null}
-                outerRadius="70%"
-                innerRadius="45%"
+                outerRadius={80}
+                innerRadius={50}
                 fill={CHART_COLORS.primary}
                 dataKey="value"
               >
