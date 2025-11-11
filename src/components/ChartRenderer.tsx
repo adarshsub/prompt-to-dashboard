@@ -37,6 +37,13 @@ const CHART_COLORS = {
   neutral: "hsl(240, 10%, 90%)", // Muted from design system
 };
 
+const CHART_HEIGHTS: Record<ChartData["type"], number> = {
+  bar: 260,
+  line: 260,
+  pie: 320,
+  area: 260,
+} as const;
+
 export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [question, setQuestion] = useState("");
@@ -64,7 +71,7 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
     switch (chart.type) {
       case "bar":
         return (
-          <ResponsiveContainer width="100%" height="100%">
+          <ResponsiveContainer width="100%" height={CHART_HEIGHT}>
             <BarChart data={chart.data} margin={{ top: 10, right: 10, left: 0, bottom: 20 }}>
               <CartesianGrid strokeDasharray="3 3" stroke={CHART_COLORS.neutral} opacity={0.3} />
               <XAxis 
@@ -100,7 +107,7 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
         );
       case "line":
         return (
-          <ResponsiveContainer width="100%" height="100%">
+          <ResponsiveContainer width="100%" height={CHART_HEIGHT}>
             <LineChart data={chart.data} margin={{ top: 10, right: 10, left: 0, bottom: 20 }}>
               <CartesianGrid strokeDasharray="3 3" stroke={CHART_COLORS.neutral} opacity={0.3} />
               <XAxis 
@@ -129,16 +136,16 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
         );
       case "pie":
         return (
-          <ResponsiveContainer width="100%" height="100%">
-            <PieChart>
+          <ResponsiveContainer width="100%" height={CHART_HEIGHT}>
+            <PieChart margin={{ top: 16, right: 24, bottom: 16, left: 40 }}>
               <Pie
                 data={chart.data}
                 cx="50%"
                 cy="50%"
                 labelLine={false}
                 label={(entry) => entry.value > 0 ? entry.name : null}
-                outerRadius={80}
-                innerRadius={50}
+                outerRadius={110}
+                innerRadius={70}
                 fill={CHART_COLORS.primary}
                 dataKey="value"
               >
@@ -171,7 +178,7 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
         );
       case "area":
         return (
-          <ResponsiveContainer width="100%" height="100%">
+          <ResponsiveContainer width="100%" height={CHART_HEIGHT}>
             <AreaChart data={chart.data} margin={{ top: 10, right: 10, left: 0, bottom: 20 }}>
               <CartesianGrid strokeDasharray="3 3" stroke={CHART_COLORS.neutral} opacity={0.3} />
               <XAxis 
@@ -214,7 +221,7 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
           {chartTitle && (
             <h3 className="text-sm font-semibold text-card-foreground mb-3 text-center">{chartTitle}</h3>
           )}
-          <div className="h-[calc(100%-2rem)]">
+          <div style={{ height: CHART_HEIGHT }}>
             {renderChart()}
           </div>
         </div>
