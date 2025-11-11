@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Sparkles, Send } from "lucide-react";
+import { Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Input } from "@/components/ui/input";
@@ -33,7 +33,7 @@ export const InsightCard = ({ insight, index, onAskQuestion }: InsightCardProps)
           className="flex items-center gap-3 py-4 px-6 bg-card rounded-lg border border-border cursor-pointer hover:border-[#CD9DE0] transition-all"
           onClick={() => setIsOpen(true)}
         >
-          <Sparkles className="h-4 w-4 text-black shrink-0" />
+          
           <span className="text-sm font-semibold text-card-foreground">{index + 1}.</span>
           <span className="text-xs leading-relaxed text-card-foreground flex-1">{formattedText}</span>
           <Button
