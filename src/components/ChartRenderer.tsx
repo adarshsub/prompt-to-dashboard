@@ -71,7 +71,7 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
     switch (chart.type) {
       case "bar":
         return (
-          <ResponsiveContainer width="100%" height={CHART_HEIGHT}>
+          <ResponsiveContainer width="100%" height={CHART_HEIGHTS.bar}>
             <BarChart data={chart.data} margin={{ top: 10, right: 10, left: 0, bottom: 20 }}>
               <CartesianGrid strokeDasharray="3 3" stroke={CHART_COLORS.neutral} opacity={0.3} />
               <XAxis 
@@ -107,7 +107,7 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
         );
       case "line":
         return (
-          <ResponsiveContainer width="100%" height={CHART_HEIGHT}>
+          <ResponsiveContainer width="100%" height={CHART_HEIGHTS.line}>
             <LineChart data={chart.data} margin={{ top: 10, right: 10, left: 0, bottom: 20 }}>
               <CartesianGrid strokeDasharray="3 3" stroke={CHART_COLORS.neutral} opacity={0.3} />
               <XAxis 
@@ -136,7 +136,7 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
         );
       case "pie":
         return (
-          <ResponsiveContainer width="100%" height={CHART_HEIGHT}>
+          <ResponsiveContainer width="100%" height={CHART_HEIGHTS.pie}>
             <PieChart margin={{ top: 16, right: 24, bottom: 16, left: 40 }}>
               <Pie
                 data={chart.data}
@@ -178,7 +178,7 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
         );
       case "area":
         return (
-          <ResponsiveContainer width="100%" height={CHART_HEIGHT}>
+          <ResponsiveContainer width="100%" height={CHART_HEIGHTS.area}>
             <AreaChart data={chart.data} margin={{ top: 10, right: 10, left: 0, bottom: 20 }}>
               <CartesianGrid strokeDasharray="3 3" stroke={CHART_COLORS.neutral} opacity={0.3} />
               <XAxis 
@@ -221,7 +221,7 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
           {chartTitle && (
             <h3 className="text-sm font-semibold text-card-foreground mb-3 text-center">{chartTitle}</h3>
           )}
-          <div style={{ height: CHART_HEIGHT }}>
+          <div style={{ height: CHART_HEIGHTS[chart.type] }}>
             {renderChart()}
           </div>
         </div>
