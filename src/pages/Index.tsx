@@ -1,6 +1,6 @@
 import { AISidebar } from "@/components/AISidebar";
 import { DashboardView } from "@/components/DashboardView";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { generateDashboardTitle } from "@/lib/promptUtils";
 import { Button } from "@/components/ui/button";
 import { Sparkles } from "lucide-react";
