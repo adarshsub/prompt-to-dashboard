@@ -47,6 +47,7 @@ const CHART_HEIGHTS: Record<ChartData["type"], number> = {
 export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [question, setQuestion] = useState("");
+  const [popoverPos, setPopoverPos] = useState<{ x: number; y: number } | null>(null);
 
   const handleSubmit = () => {
     if (question.trim()) {

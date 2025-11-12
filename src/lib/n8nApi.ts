@@ -1,10 +1,9 @@
-const N8N_PROXY_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/n8n-proxy`;
+const N8N_WEBHOOK_URL = "https://adarshsub.app.n8n.cloud/webhook-test/471937b8-6427-48cc-a322-f6e0aff58d8a";
 
 export async function sendToN8N(question: string) {
   try {
-    console.log("Sending question via edge function proxy:", question);
-    
-    const response = await fetch(N8N_PROXY_URL, {
+    console.log("Sending question to n8n webhook:", question);
+    const response = await fetch(N8N_WEBHOOK_URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -12,29 +11,28 @@ export async function sendToN8N(question: string) {
       body: JSON.stringify({ question }),
     });
 
-    console.log("Proxy response status:", response.status);
+    console.log("n8n response status:", response.status);
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error("Proxy error:", errorText);
-      throw new Error(`Edge function failed: ${response.status}`);
+      console.error("n8n error:", errorText);
+      throw new Error(`n8n webhook failed: ${response.status}`);
     }
 
     const data = await response.json();
-    console.log("Proxy response data:", data);
+    console.log("n8n response data:", data);
 
     return data;
   } catch (error) {
-    console.error("Error calling edge function proxy:", error);
+    console.error("Error calling n8n webhook:", error);
     throw error;
   }
 }
 
 export async function postInsightsToN8N(insights: any[]) {
   try {
-    console.log("Posting insights via edge function proxy");
-    
-    const response = await fetch(N8N_PROXY_URL, {
+    console.log("Posting insights to n8n webhook");
+    const response = await fetch(N8N_WEBHOOK_URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -49,7 +47,6 @@ export async function postInsightsToN8N(insights: any[]) {
     return await response.json();
   } catch (error) {
     console.error("Error posting insights:", error);
-    // Don't throw - insights posting is non-critical
     return { success: false };
   }
 }
