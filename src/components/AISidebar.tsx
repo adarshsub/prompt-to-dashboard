@@ -39,10 +39,10 @@ const TEMPLATE_PROMPTS = {
   },
   english: {
     performance: [
-      "Show me all students below 70% in ELA class",
-      "Show me a breakdown of ELA scores by homeroom",
-      "Show me the breakdown of students who did meet expectations, partially met expectations, or approached expectations in ELA",
-      "How does my ELA class's average score compare to the school's average"
+      "Show me all students below 70% in English class",
+      "Show me a breakdown of English scores by homeroom",
+      "Show me the breakdown of students who did meet expectations, partially met expectations, or approached expectations in English",
+      "How does my English class's average score compare to the school's average"
     ],
     engagement: []
   },
@@ -396,7 +396,7 @@ export const AISidebar = ({
                                   borderColor: '#00A6FF',
                                   borderWidth: '1px'
                                 }}>
-                                          {subject === "English" ? "ELA" : subject}
+                                          {subject}
                                           <button onClick={e => {
                                     e.stopPropagation();
                                     handleRemoveSubject(subject);
@@ -416,17 +416,12 @@ export const AISidebar = ({
                               </PopoverTrigger>
                               <PopoverContent className="w-[232px] p-3 bg-card border-border" align="start">
                                 <div className="space-y-2">
-                                  {(["All", "Math", "English", "Science", "History"]).map(subject => {
-                                      const label = subject === "English" ? "ELA" : subject;
-                                      return (
-                                        <div key={subject} className="flex items-center space-x-2">
-                                          <Checkbox id={`chat-${subject}`} checked={selectedSubjects.includes("All") || selectedSubjects.includes(subject)} onCheckedChange={() => handleSubjectToggle(subject)} />
-                                          <label htmlFor={`chat-${subject}`} className="text-sm text-card-foreground cursor-pointer flex-1">
-                                            {label}
-                                          </label>
-                                        </div>
-                                      );
-                                    })}
+                                  {["All", "Math", "English", "Science", "History"].map(subject => <div key={subject} className="flex items-center space-x-2">
+                                      <Checkbox id={`chat-${subject}`} checked={selectedSubjects.includes("All") || selectedSubjects.includes(subject)} onCheckedChange={() => handleSubjectToggle(subject)} />
+                                      <label htmlFor={`chat-${subject}`} className="text-sm text-card-foreground cursor-pointer flex-1">
+                                        {subject}
+                                      </label>
+                                    </div>)}
                                 </div>
                               </PopoverContent>
                             </Popover>
@@ -555,18 +550,13 @@ export const AISidebar = ({
                             {templatePrompts.map((templatePrompt, index) => {
                               const showMultipleSubjects = selectedSubjects.includes("All") || selectedSubjects.length > 1;
                               const isGenericPrompt = selectedSubjects.length === 0;
-                              const promptSubject = isGenericPrompt ? "" : (
-                                templatePrompt.includes("Math") ? "Math" :
-                                (templatePrompt.includes("ELA") || templatePrompt.includes("English")) ? "ELA" :
-                                templatePrompt.includes("Science") ? "Science" :
-                                "History"
-                              );
+                              const promptSubject = isGenericPrompt ? "" : (templatePrompt.includes("Math") ? "Math" : templatePrompt.includes("English") ? "English" : templatePrompt.includes("Science") ? "Science" : "History");
                               
                               let displaySubject = promptSubject;
                               if (!isGenericPrompt && showMultipleSubjects) {
                                 const activeSubjects = selectedSubjects.includes("All") ? ["Math", "English", "Science", "History"] : selectedSubjects.filter(s => s !== "All");
                                 if (activeSubjects.length === 2) {
-                                  displaySubject = activeSubjects.map(s => s === "English" ? "ELA" : s).join(" and ");
+                                  displaySubject = activeSubjects.join(" and ");
                                 } else if (activeSubjects.length > 2) {
                                   displaySubject = activeSubjects.slice(0, -1).join(", ") + ", and " + activeSubjects[activeSubjects.length - 1];
                                 }
@@ -864,7 +854,7 @@ export const AISidebar = ({
                     <button 
                       onClick={() => {
                         const activeSubjects = selectedSubjects.includes("All") ? ["Math", "English", "Science", "History"] : selectedSubjects.filter(s => s !== "All");
-                        const subjectText = selectedSubjects.length === 0 ? "score" : (activeSubjects.length === 1 ? (activeSubjects[0] === "English" ? "ELA" : activeSubjects[0]) : activeSubjects.length === 2 ? activeSubjects.map(s => s === "English" ? "ELA" : s).join(" and ") : activeSubjects.map(s => s === "English" ? "ELA" : s).slice(0, -1).join(", ") + ", and " + (activeSubjects[activeSubjects.length - 1] === "English" ? "ELA" : activeSubjects[activeSubjects.length - 1]));
+                        const subjectText = selectedSubjects.length === 0 ? "score" : (activeSubjects.length === 1 ? activeSubjects[0] : activeSubjects.length === 2 ? activeSubjects.join(" and ") : activeSubjects.slice(0, -1).join(", ") + ", and " + activeSubjects[activeSubjects.length - 1]);
                         
                         let comparisonPrompt = selectedSubjects.length === 0 
                           ? `Show me the average score for ` 
@@ -903,7 +893,7 @@ export const AISidebar = ({
                     <button 
                       onClick={() => {
                         const activeSubjects = selectedSubjects.includes("All") ? ["Math", "English", "Science", "History"] : selectedSubjects.filter(s => s !== "All");
-                        const subjectText = selectedSubjects.length === 0 ? "score" : (activeSubjects.length === 1 ? (activeSubjects[0] === "English" ? "ELA" : activeSubjects[0]) : activeSubjects.length === 2 ? activeSubjects.map(s => s === "English" ? "ELA" : s).join(" and ") : activeSubjects.map(s => s === "English" ? "ELA" : s).slice(0, -1).join(", ") + ", and " + (activeSubjects[activeSubjects.length - 1] === "English" ? "ELA" : activeSubjects[activeSubjects.length - 1]));
+                        const subjectText = selectedSubjects.length === 0 ? "score" : (activeSubjects.length === 1 ? activeSubjects[0] : activeSubjects.length === 2 ? activeSubjects.join(" and ") : activeSubjects.slice(0, -1).join(", ") + ", and " + activeSubjects[activeSubjects.length - 1]);
                         
                         let comparisonPrompt = selectedSubjects.length === 0 
                           ? `Show me the average score between ` 
@@ -946,13 +936,8 @@ export const AISidebar = ({
                 const isGenericPrompt = selectedSubjects.length === 0;
 
                 // Detect which subject is in this specific prompt (unless generic)
-                const promptSubject = isGenericPrompt ? "" : (
-                  templatePrompt.includes("Math") ? "Math" :
-                  (templatePrompt.includes("ELA") || templatePrompt.includes("English")) ? "ELA" :
-                  templatePrompt.includes("Science") ? "Science" :
-                  "History"
-                );
-                
+                const promptSubject = isGenericPrompt ? "" : (templatePrompt.includes("Math") ? "Math" : templatePrompt.includes("English") ? "English" : templatePrompt.includes("Science") ? "Science" : "History");
+
                 // Build display subject text
                 let displaySubject = promptSubject;
                 if (!isGenericPrompt && showMultipleSubjects) {

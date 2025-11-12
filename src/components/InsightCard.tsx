@@ -15,7 +15,6 @@ interface InsightCardProps {
 export const InsightCard = ({ insight, index, onAskQuestion }: InsightCardProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [question, setQuestion] = useState("");
-  const [pos, setPos] = useState<{ x: number; y: number } | null>(null);
 
   const handleSubmit = () => {
     if (question.trim()) {
@@ -32,7 +31,7 @@ export const InsightCard = ({ insight, index, onAskQuestion }: InsightCardProps)
       <PopoverTrigger asChild>
         <div 
           className="flex items-center gap-3 py-4 px-6 bg-card rounded-lg border border-border cursor-pointer hover:border-[#CD9DE0] transition-all"
-          onClick={(e) => { setIsOpen(true); setPos({ x: e.clientX, y: e.clientY }); }}
+          onClick={() => setIsOpen(true)}
         >
           
           <span className="text-sm font-semibold text-card-foreground">{index + 1}.</span>
@@ -50,7 +49,7 @@ export const InsightCard = ({ insight, index, onAskQuestion }: InsightCardProps)
           </Button>
         </div>
       </PopoverTrigger>
-      <PopoverContent className="w-80 p-3 bg-card border-border" align="start" forceMount style={{ position: 'fixed', left: pos?.x ?? 0, top: pos?.y ?? 0, transform: 'none' }}>
+      <PopoverContent className="w-80 p-3 bg-card border-border" align="start">
         <div className="space-y-2">
           <p className="text-sm font-medium text-card-foreground">Ask about this insight</p>
           <div className="flex gap-2">

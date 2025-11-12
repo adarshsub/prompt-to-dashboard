@@ -5,7 +5,7 @@ export function generateDashboardTitle(prompt: string): string {
   // Extract subjects mentioned
   const subjects: string[] = [];
   if (prompt.match(/\bmath\b/i)) subjects.push("Math");
-  if (prompt.match(/\bela\b/i) || prompt.match(/\benglish\b/i)) subjects.push("ELA");
+  if (prompt.match(/\benglish\b/i)) subjects.push("English");
   if (prompt.match(/\bscience\b/i)) subjects.push("Science");
   if (prompt.match(/\bhistory\b/i)) subjects.push("History");
 
