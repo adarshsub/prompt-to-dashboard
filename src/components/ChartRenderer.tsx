@@ -38,15 +38,16 @@ const CHART_COLORS = {
 };
 
 const CHART_HEIGHTS: Record<ChartData["type"], number> = {
-  bar: 260,
-  line: 260,
-  pie: 320,
-  area: 260,
+  bar: 240,
+  line: 240,
+  pie: 280,
+  area: 240,
 } as const;
 
 export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [question, setQuestion] = useState("");
+  const [popoverPos, setPopoverPos] = useState<{ x: number; y: number } | null>(null);
 
   const handleSubmit = () => {
     if (question.trim()) {
@@ -144,8 +145,8 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
                 cy="50%"
                 labelLine={false}
                 label={(entry) => entry.value > 0 ? entry.name : null}
-                outerRadius={110}
-                innerRadius={70}
+                outerRadius={100}
+                innerRadius={64}
                 fill={CHART_COLORS.primary}
                 dataKey="value"
               >
@@ -217,7 +218,7 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
-        <div className="cursor-pointer hover:border-[#CD9DE0] rounded-lg transition-all p-4 bg-card border border-border h-full group">
+        <div className="cursor-pointer hover:border-[#CD9DE0] rounded-lg transition-all p-3 bg-card border border-border h-full group">
           {chartTitle && (
             <h3 className="text-sm font-semibold text-card-foreground mb-3 text-center">{chartTitle}</h3>
           )}
