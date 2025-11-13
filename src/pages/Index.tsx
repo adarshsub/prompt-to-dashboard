@@ -59,28 +59,9 @@ const Index = () => {
           if (seen.includes(node)) return;
           seen.push(node);
 
-          // Direct fields - parse insights by splitting on asterisks and filtering
+          // Direct fields
           if (typeof (node as any).output === 'string') {
-            const rawText = (node as any).output;
-            // Remove everything from "**Related Factors" onward
-            const cleanedText = rawText.split('**Related Factors')[0];
-            
-            // Split by asterisks and process each part
-            const parts = cleanedText.split('*').map(p => p.trim()).filter(Boolean);
-            
-            parts.forEach(part => {
-              // Skip labels like "Blurb:", "Key Observations:", etc.
-              if (part.includes(':') && part.split(':')[0].trim().length < 30) {
-                // This is likely a label, extract the content after the colon
-                const contentAfterColon = part.split(':').slice(1).join(':').trim();
-                if (contentAfterColon) {
-                  insights.push({ text: contentAfterColon, id: `insight-${insights.length}` });
-                }
-              } else if (part.length > 10) {
-                // This is content, add it directly
-                insights.push({ text: part, id: `insight-${insights.length}` });
-              }
-            });
+            insights.push({ text: (node as any).output, id: `insight-${insights.length}` });
           }
 
           // Plotly figure -> ChartData

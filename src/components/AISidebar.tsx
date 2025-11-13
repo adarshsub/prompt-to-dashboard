@@ -29,7 +29,7 @@ interface AISidebarProps {
 const TEMPLATE_PROMPTS = {
   math: {
     performance: [
-      "Show me all students with test scores below 650 in Math class",
+      "Show me all students below 70% in Math class",
       "Show me a breakdown of Math scores by homeroom",
       "Show me the breakdown of students who did meet expectations, partially met expectations, or approached expectations in Math",
       "Which Math topics had the lowest mastery rates",

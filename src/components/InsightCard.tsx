@@ -50,7 +50,7 @@ export const InsightCard = ({ insight, index, onAskQuestion }: InsightCardProps)
           </Button>
         </div>
       </PopoverTrigger>
-      <PopoverContent className="w-80 p-3 bg-card border-border" align="start" style={pos ? { position: 'fixed', left: pos.x, top: pos.y } : {}}>
+      <PopoverContent className="w-80 p-3 bg-card border-border" align="start" forceMount style={{ position: 'fixed', left: pos?.x ?? 0, top: pos?.y ?? 0, transform: 'none' }}>
         <div className="space-y-2">
           <p className="text-sm font-medium text-card-foreground">Ask about this insight</p>
           <div className="flex gap-2">
