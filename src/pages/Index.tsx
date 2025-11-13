@@ -41,17 +41,84 @@ const Index = () => {
 
     try {
       console.log("Submitting prompt:", prompt);
-      
-      // Call n8n webhook with the question
-      const response = await sendToN8N(prompt);
-      
-      console.log("Received n8n response:", response);
-      
-      // Extract charts and insights from n8n response
-      const charts = response.charts || [];
-      const insights = response.insights || [];
+
+      // Helper to extract charts and insights from flexible n8n payloads
+      function extractChartsAndInsights(data: any): { charts: ChartData[]; insights: Insight[]; invalidSql: boolean } {
+        const charts: ChartData[] = [];
+        const insights: Insight[] = [];
+        let invalidSql = false;
+        const seen: any[] = [];
+
+        const visit = (node: any) => {
+          if (node == null) return;
+          if (typeof node === 'string') {
+            if (node.includes('Invalid SQL. Please try again.')) invalidSql = true;
+            return;
+          }
+          if (typeof node !== 'object') return;
+          if (seen.includes(node)) return;
+          seen.push(node);
+
+          // Direct fields
+          if (typeof (node as any).output === 'string') {
+            insights.push({ text: (node as any).output, id: `insight-${insights.length}` });
+          }
+
+          // Plotly figure -> ChartData
+          if (typeof (node as any).plotly_figure_json === 'string') {
+            try {
+              const fig = JSON.parse((node as any).plotly_figure_json);
+              const trace = Array.isArray(fig?.data) ? fig.data[0] : undefined;
+              if (trace) {
+                let type: ChartData['type'] = 'bar';
+                if (trace.type === 'line') type = 'line';
+                else if (trace.type === 'pie') type = 'pie';
+                else if (trace.type === 'area') type = 'area';
+
+                const items: any[] = [];
+                if (type === 'pie' && Array.isArray(trace.labels) && Array.isArray(trace.values)) {
+                  for (let i = 0; i < trace.labels.length; i++) {
+                    items.push({ name: String(trace.labels[i]), value: Number(trace.values[i]) });
+                  }
+                } else if (Array.isArray(trace.x) && Array.isArray(trace.y)) {
+                  for (let i = 0; i < trace.x.length; i++) {
+                    items.push({ name: String(trace.x[i]), value: Number(trace.y[i]) });
+                  }
+                }
+
+                charts.push({ type, data: items, config: { title: fig?.layout?.title?.text } });
+              }
+            } catch (e) {
+              console.warn('Failed to parse plotly_figure_json', e);
+            }
+          }
+
+          // Status / error indicators
+          if (typeof (node as any).status === 'string' && (node as any).status.toLowerCase() !== 'success') {
+            invalidSql = true;
+          }
+          if ((node as any).error_details) invalidSql = true;
+
+          // Drill down
+          if (Array.isArray(node)) node.forEach(visit);
+          else Object.values(node).forEach(visit);
+        };
+
+        visit(data);
+        return { charts, insights, invalidSql };
+      }
+
+      // Call n8n webhook with the exact question
+      const data = await sendToN8N(prompt);
+      console.log("Received n8n response:", data);
+
+      const { charts, insights, invalidSql } = extractChartsAndInsights(data);
 
       console.log("Extracted - Charts:", charts.length, "Insights:", insights.length);
+
+      if (invalidSql) {
+        toast.error("Invalid SQL. Please try again.");
+      }
 
       // If no data returned, show warning but still display empty dashboard
       if (charts.length === 0 && insights.length === 0) {

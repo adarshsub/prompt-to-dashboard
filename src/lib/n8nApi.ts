@@ -1,4 +1,4 @@
-const N8N_WEBHOOK_URL = "https://adarshsub.app.n8n.cloud/webhook-test/471937b8-6427-48cc-a322-f6e0aff58d8a";
+const N8N_WEBHOOK_URL = "https://adarshsub.app.n8n.cloud/webhook/471937b8-6427-48cc-a322-f6e0aff58d8a";
 
 export async function sendToN8N(question: string) {
   try {
