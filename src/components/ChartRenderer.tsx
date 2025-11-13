@@ -83,7 +83,7 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
                 textAnchor="end"
                 height={70}
               />
-              <YAxis stroke={CHART_COLORS.secondary} tick={{ fontSize: 12 }} tickFormatter={(v: number) => `${v}%`} />
+              <YAxis stroke={CHART_COLORS.secondary} tick={{ fontSize: 12 }} />
               <Tooltip 
                 contentStyle={{ 
                   backgroundColor: "white", 
@@ -93,7 +93,7 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
                 }}
                 labelStyle={{ marginBottom: 0 }}
                 itemStyle={{ padding: 0 }}
-                formatter={(value: any) => [`${value}%`, 'Score']}
+                formatter={(value: any) => [value, 'Score']}
                 cursor={{ fill: 'transparent' }}
               />
               <Bar 
@@ -119,7 +119,7 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
                 textAnchor="end"
                 height={60}
               />
-              <YAxis stroke={CHART_COLORS.secondary} tick={{ fontSize: 12 }} tickFormatter={(v: number) => `${v}%`} />
+              <YAxis stroke={CHART_COLORS.secondary} tick={{ fontSize: 12 }} />
               <Tooltip 
                 contentStyle={{ 
                   backgroundColor: "white", 
@@ -129,7 +129,7 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
                 }}
                 labelStyle={{ marginBottom: 0 }}
                 itemStyle={{ padding: 0 }}
-                formatter={(value: any) => [`${value}%`, 'Score']}
+                formatter={(value: any) => [value, 'Score']}
               />
               <Line type="monotone" dataKey="value" stroke={CHART_COLORS.primary} strokeWidth={2} dot={{ fill: CHART_COLORS.primary }} />
             </LineChart>
@@ -190,7 +190,7 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
                 textAnchor="end"
                 height={60}
               />
-              <YAxis stroke={CHART_COLORS.secondary} tick={{ fontSize: 12 }} tickFormatter={(v: number) => `${v}%`} />
+              <YAxis stroke={CHART_COLORS.secondary} tick={{ fontSize: 12 }} />
               <Tooltip 
                 contentStyle={{ 
                   backgroundColor: "white", 
@@ -198,7 +198,7 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
                   borderRadius: "6px",
                   padding: "8px 12px"
                 }}
-                formatter={(value: any) => [`${value}%`, 'Score']}
+                formatter={(value: any) => [value, 'Score']}
               />
               <Area 
                 type="monotone" 
@@ -218,7 +218,12 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
-        <div className="cursor-pointer hover:border-[#CD9DE0] rounded-lg transition-all p-3 bg-card border border-border h-full group">
+        <div 
+          className="cursor-pointer hover:border-[#CD9DE0] rounded-lg transition-all p-3 bg-card border border-border h-full group"
+          onClick={(e) => {
+            setPopoverPos({ x: e.clientX, y: e.clientY });
+          }}
+        >
           {chartTitle && (
             <h3 className="text-sm font-semibold text-card-foreground mb-3 text-center">{chartTitle}</h3>
           )}
@@ -227,7 +232,11 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
           </div>
         </div>
       </PopoverTrigger>
-      <PopoverContent className="w-80 p-3 bg-card border-border" align="start">
+      <PopoverContent 
+        className="w-80 p-3 bg-card border-border" 
+        align="start"
+        style={popoverPos ? { position: 'fixed', left: popoverPos.x, top: popoverPos.y } : {}}
+      >
         <div className="space-y-2">
           <p className="text-sm font-medium text-card-foreground">Ask about this chart</p>
           <div className="flex gap-2">
