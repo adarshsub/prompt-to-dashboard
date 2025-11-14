@@ -5,56 +5,7 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
-const N8N_WEBHOOK_URL = "https://adarshsub.app.n8n.cloud/webhook-test/471937b8-6427-48cc-a322-f6e0aff58d8a";
-
-// Mock data for testing when n8n is unavailable
-const generateMockData = (question: string) => {
-  console.log("Generating mock data for question:", question);
-  
-  return {
-    charts: [
-      {
-        type: "bar",
-        data: [
-          { name: "John\nDoe", value: 65 },
-          { name: "Jane\nSmith", value: 68 },
-          { name: "Bob\nJohnson", value: 62 },
-          { name: "Alice\nWilliams", value: 69 },
-          { name: "Mike\nBrown", value: 58 },
-          { name: "Sarah\nDavis", value: 64 },
-        ],
-        config: {
-          title: "Students Below 70% in Math",
-        },
-      },
-      {
-        type: "pie",
-        data: [
-          { name: "Above 70%", value: 35 },
-          { name: "60-70%", value: 6 },
-          { name: "50-60%", value: 0 },
-        ],
-        config: {
-          title: "Score Distribution",
-        },
-      },
-    ],
-    insights: [
-      {
-        id: "insight-1",
-        text: "Six students scored below 70% in Math class, requiring immediate intervention",
-      },
-      {
-        id: "insight-2",
-        text: "Average score for students below threshold is 64%, indicating they need additional support",
-      },
-      {
-        id: "insight-3",
-        text: "Recommend additional tutoring sessions for students scoring below 65%",
-      },
-    ],
-  };
-};
+const N8N_WEBHOOK_URL = "https://adarshsub.app.n8n.cloud/webhook/471937b8-6427-48cc-a322-f6e0aff58d8a";
 
 serve(async (req) => {
   // Handle CORS preflight
@@ -107,42 +58,22 @@ serve(async (req) => {
         console.log("n8n response status:", n8nResponse.status);
 
         if (!n8nResponse.ok) {
-          console.warn("n8n returned error, using mock data");
-          const mockData = generateMockData(question);
-          return new Response(
-            JSON.stringify(mockData),
-            { headers: { ...corsHeaders, "Content-Type": "application/json" } }
-          );
+          const errorText = await n8nResponse.text();
+          console.error("n8n returned error:", errorText);
+          throw new Error(`n8n webhook failed with status ${n8nResponse.status}`);
         }
 
         const data = await n8nResponse.json();
-        console.log("n8n returned data:", data);
+        console.log("n8n returned raw data:", JSON.stringify(data, null, 2));
 
-        // Validate and ensure proper structure
-        const charts = Array.isArray(data.charts) ? data.charts : [];
-        const insights = Array.isArray(data.insights) ? data.insights : [];
-
-        // If n8n returns empty data, use mock data
-        if (charts.length === 0 && insights.length === 0) {
-          console.warn("n8n returned empty data, using mock data");
-          const mockData = generateMockData(question);
-          return new Response(
-            JSON.stringify(mockData),
-            { headers: { ...corsHeaders, "Content-Type": "application/json" } }
-          );
-        }
-
+        // Return the raw data from n8n - let the frontend extract charts and insights
         return new Response(
-          JSON.stringify({ charts, insights }),
+          JSON.stringify(data),
           { headers: { ...corsHeaders, "Content-Type": "application/json" } }
         );
       } catch (error) {
-        console.error("Error calling n8n, using mock data:", error);
-        const mockData = generateMockData(question);
-        return new Response(
-          JSON.stringify(mockData),
-          { headers: { ...corsHeaders, "Content-Type": "application/json" } }
-        );
+        console.error("Error calling n8n:", error);
+        throw error;
       }
     }
 
