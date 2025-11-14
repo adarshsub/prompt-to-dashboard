@@ -218,7 +218,14 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
-        <div className="cursor-pointer hover:border-[#CD9DE0] rounded-lg transition-all p-3 bg-card border border-border h-full group">
+        <div 
+          className="cursor-pointer hover:border-[#CD9DE0] rounded-lg transition-all p-3 bg-card border border-border h-full group"
+          onClick={(e) => {
+            const rect = e.currentTarget.getBoundingClientRect();
+            setPopoverPos({ x: rect.left, y: rect.top });
+            setIsOpen(true);
+          }}
+        >
           {chartTitle && (
             <h3 className="text-sm font-semibold text-card-foreground mb-3 text-center">{chartTitle}</h3>
           )}
@@ -227,7 +234,12 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
           </div>
         </div>
       </PopoverTrigger>
-      <PopoverContent className="w-80 p-3 bg-card border-border" align="start">
+      <PopoverContent 
+        className="w-80 p-3 bg-card border-border" 
+        align="start" 
+        forceMount 
+        style={{ position: 'fixed', left: popoverPos?.x ?? 0, top: popoverPos?.y ?? 0, transform: 'none' }}
+      >
         <div className="space-y-2">
           <p className="text-sm font-medium text-card-foreground">Ask about this chart</p>
           <div className="flex gap-2">
