@@ -49,6 +49,13 @@ const Index = () => {
         let invalidSql = false;
         const seen: any[] = [];
 
+        // Accept direct proxy shape { charts, insights }
+        if (data && (Array.isArray((data as any).charts) || Array.isArray((data as any).insights))) {
+          if (Array.isArray((data as any).charts)) charts.push(...(data as any).charts);
+          if (Array.isArray((data as any).insights)) insights.push(...(data as any).insights);
+          return { charts, insights, invalidSql };
+        }
+
         const visit = (node: any) => {
           if (node == null) return;
           if (typeof node === 'string') {
