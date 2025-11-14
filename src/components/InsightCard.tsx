@@ -32,7 +32,11 @@ export const InsightCard = ({ insight, index, onAskQuestion }: InsightCardProps)
       <PopoverTrigger asChild>
         <div 
           className="flex items-center gap-3 py-4 px-6 bg-card rounded-lg border border-border cursor-pointer hover:border-[#CD9DE0] transition-all"
-          onClick={(e) => { setIsOpen(true); setPos({ x: e.clientX, y: e.clientY }); }}
+          onClick={(e) => { 
+            const rect = e.currentTarget.getBoundingClientRect();
+            setPos({ x: rect.left, y: rect.top }); 
+            setIsOpen(true); 
+          }}
         >
           
           <span className="text-sm font-semibold text-card-foreground">{index + 1}.</span>

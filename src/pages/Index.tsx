@@ -59,9 +59,28 @@ const Index = () => {
           if (seen.includes(node)) return;
           seen.push(node);
 
-          // Direct fields
+          // Direct fields - parse insights output
           if (typeof (node as any).output === 'string') {
-            insights.push({ text: (node as any).output, id: `insight-${insights.length}` });
+            const output = (node as any).output;
+            
+            // Remove everything from "**Related Factors" onwards
+            const cleanedOutput = output.split('**Related Factors')[0];
+            
+            // Split by asterisks and process each part
+            const parts = cleanedOutput.split('*').map((p: string) => p.trim()).filter((p: string) => p.length > 0);
+            
+            for (const part of parts) {
+              // Remove labels like "**Blurb:**", "**Key Observations:**"
+              const cleaned = part
+                .replace(/\*\*Blurb:\*\*/gi, '')
+                .replace(/\*\*Key Observations:\*\*/gi, '')
+                .replace(/\*\*/g, '')
+                .trim();
+              
+              if (cleaned.length > 0) {
+                insights.push({ text: cleaned, id: `insight-${insights.length}` });
+              }
+            }
           }
 
           // Plotly figure -> ChartData
