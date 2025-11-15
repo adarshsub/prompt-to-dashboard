@@ -82,7 +82,7 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
                 textAnchor="end"
                 height={70}
               />
-              <YAxis stroke={CHART_COLORS.secondary} tick={{ fontSize: 12 }} tickFormatter={(v: number) => `${v}%`} />
+              <YAxis stroke={CHART_COLORS.secondary} tick={{ fontSize: 12 }} />
               <Tooltip 
                 contentStyle={{ 
                   backgroundColor: "white", 
@@ -92,7 +92,6 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
                 }}
                 labelStyle={{ marginBottom: 0 }}
                 itemStyle={{ padding: 0 }}
-                formatter={(value: any) => [`${value}%`, 'Score']}
                 cursor={{ fill: 'transparent' }}
               />
               <Bar 
@@ -118,7 +117,7 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
                 textAnchor="end"
                 height={60}
               />
-              <YAxis stroke={CHART_COLORS.secondary} tick={{ fontSize: 12 }} tickFormatter={(v: number) => `${v}%`} />
+              <YAxis stroke={CHART_COLORS.secondary} tick={{ fontSize: 12 }} />
               <Tooltip 
                 contentStyle={{ 
                   backgroundColor: "white", 
@@ -128,7 +127,6 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
                 }}
                 labelStyle={{ marginBottom: 0 }}
                 itemStyle={{ padding: 0 }}
-                formatter={(value: any) => [`${value}%`, 'Score']}
               />
               <Line type="monotone" dataKey="value" stroke={CHART_COLORS.primary} strokeWidth={2} dot={{ fill: CHART_COLORS.primary }} />
             </LineChart>
@@ -189,7 +187,7 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
                 textAnchor="end"
                 height={60}
               />
-              <YAxis stroke={CHART_COLORS.secondary} tick={{ fontSize: 12 }} tickFormatter={(v: number) => `${v}%`} />
+              <YAxis stroke={CHART_COLORS.secondary} tick={{ fontSize: 12 }} />
               <Tooltip 
                 contentStyle={{ 
                   backgroundColor: "white", 
@@ -197,7 +195,6 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
                   borderRadius: "6px",
                   padding: "8px 12px"
                 }}
-                formatter={(value: any) => [`${value}%`, 'Score']}
               />
               <Area 
                 type="monotone" 
