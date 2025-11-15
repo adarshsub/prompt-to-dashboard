@@ -29,9 +29,11 @@ interface AISidebarProps {
 const TEMPLATE_PROMPTS = {
   math: {
     performance: [
-      "Show me all students with test scores below 650 in Math class",
-      "Show me a breakdown of Math scores by homeroom",
-      "Show me the breakdown of students who did meet expectations, partially met expectations, or approached expectations in Math",
+      "Show me the students that are below a score of 650 in Math.",
+      "Show me a breakdown of the Math scores by homeroom.",
+      "Show me the breakdown of students who did meet expectations, partially met expectations, or approached expectations across all students in Math.",
+      "Show me the average Math score.",
+      "Compare average Math scores across all years.",
       "Which Math topics had the lowest mastery rates",
       "How does my Math class's average score compare to the school's average"
     ],
@@ -39,27 +41,33 @@ const TEMPLATE_PROMPTS = {
   },
   english: {
     performance: [
-      "Show me all students below 70% in ELA class",
-      "Show me a breakdown of ELA scores by homeroom",
-      "Show me the breakdown of students who did meet expectations, partially met expectations, or approached expectations in ELA",
+      "Show me the students that are below a score of 650 in ELA.",
+      "Show me a breakdown of the ELA scores by homeroom.",
+      "Show me the breakdown of students who did meet expectations, partially met expectations, or approached expectations across all students in ELA.",
+      "Show me the average ELA score.",
+      "Compare average ELA scores across all years.",
       "How does my ELA class's average score compare to the school's average"
     ],
     engagement: []
   },
   science: {
     performance: [
-      "Show me all students below 70% in Science class",
-      "Show me a breakdown of Science scores by homeroom",
-      "Show me the breakdown of students who did meet expectations, partially met expectations, or approached expectations in Science",
+      "Show me the students that are below a score of 650 in Science.",
+      "Show me a breakdown of the Science scores by homeroom.",
+      "Show me the breakdown of students who did meet expectations, partially met expectations, or approached expectations across all students in Science.",
+      "Show me the average Science score.",
+      "Compare average Science scores across all years.",
       "How does my Science class's average score compare to the school's average"
     ],
     engagement: []
   },
   history: {
     performance: [
-      "Show me all students below 70% in History class",
-      "Show me a breakdown of History scores by homeroom",
-      "Show me the breakdown of students who did meet expectations, partially met expectations, or approached expectations in History",
+      "Show me the students that are below a score of 650 in History.",
+      "Show me a breakdown of the History scores by homeroom.",
+      "Show me the breakdown of students who did meet expectations, partially met expectations, or approached expectations across all students in History.",
+      "Show me the average History score.",
+      "Compare average History scores across all years.",
       "How does my History class's average score compare to the school's average"
     ],
     engagement: []

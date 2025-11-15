@@ -44,7 +44,7 @@ export const DashboardView = ({ title, onCollapse, charts = [], insights = [], o
         </Button>
       </div>
 
-      <div className="flex-1 px-6 overflow-hidden" style={{ maxHeight: '65%' }}>
+      <div className="flex-1 px-6 pb-3 overflow-y-auto" style={{ maxHeight: '65%' }}>
         {charts.length > 0 ? (
           <div className="w-full space-y-4">
             {mainGridCharts.map((chart, index) => (
