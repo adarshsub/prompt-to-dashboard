@@ -44,7 +44,7 @@ export const DashboardView = ({ title, onCollapse, charts = [], insights = [], o
         </Button>
       </div>
 
-      <div className="flex-1 px-6 overflow-hidden" style={{ maxHeight: '60.5%' }}>
+      <div className="flex-1 px-6 overflow-hidden" style={{ maxHeight: '65%' }}>
         {charts.length > 0 ? (
           <div className="w-full space-y-4">
             {mainGridCharts.map((chart, index) => (
@@ -69,7 +69,7 @@ export const DashboardView = ({ title, onCollapse, charts = [], insights = [], o
       </div>
 
       {shouldRenderSecondChartBesideInsights ? (
-        <div className="px-6 pb-6 pt-4 shrink-0 flex gap-4 min-h-0 overflow-hidden" style={{ height: '39.5%' }}>
+        <div className="px-6 pb-6 pt-4 shrink-0 flex gap-4 min-h-0 overflow-hidden" style={{ height: '35%' }}>
           <div className="w-1/2 shrink-0 overflow-y-auto">
             <div className="min-h-[240px]">
               <ChartRenderer
@@ -100,7 +100,7 @@ export const DashboardView = ({ title, onCollapse, charts = [], insights = [], o
             <h3 className="text-sm font-semibold text-[#1B247E] bg-[#f7f7f7] py-1 px-6 -mx-6">Key Insights</h3>
           </div>
 
-          <div className="px-6 pb-6 overflow-y-auto shrink-0" style={{ maxHeight: '39.5%' }}>
+          <div className="px-6 pb-6 overflow-y-auto shrink-0" style={{ maxHeight: '35%' }}>
             <div className="space-y-3">
               {insights.map((insight, index) => (
                 <InsightCard
