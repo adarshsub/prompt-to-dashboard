@@ -47,7 +47,6 @@ const CHART_HEIGHTS: Record<ChartData["type"], number> = {
 export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [question, setQuestion] = useState("");
-  const [popoverPos, setPopoverPos] = useState<{ x: number; y: number } | null>(null);
 
   const handleSubmit = () => {
     if (question.trim()) {
@@ -220,11 +219,7 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
       <PopoverTrigger asChild>
         <div 
           className="cursor-pointer hover:border-[#CD9DE0] rounded-lg transition-all p-3 bg-card border border-border h-full group"
-          onClick={(e) => {
-            const rect = e.currentTarget.getBoundingClientRect();
-            setPopoverPos({ x: rect.left, y: rect.top });
-            setIsOpen(true);
-          }}
+          onClick={() => setIsOpen(true)}
         >
           {chartTitle && (
             <h3 className="text-sm font-semibold text-card-foreground mb-3 text-center">{chartTitle}</h3>
@@ -237,8 +232,7 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
       <PopoverContent 
         className="w-80 p-3 bg-card border-border" 
         align="start" 
-        forceMount 
-        style={{ position: 'fixed', left: popoverPos?.x ?? 0, top: popoverPos?.y ?? 0, transform: 'none' }}
+        side="top"
       >
         <div className="space-y-2">
           <p className="text-sm font-medium text-card-foreground">Ask about this chart</p>
