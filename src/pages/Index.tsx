@@ -77,14 +77,18 @@ const Index = () => {
             const parts = cleanedOutput.split('*').map((p: string) => p.trim()).filter((p: string) => p.length > 0);
             
             for (const part of parts) {
-              // Remove labels like "**Blurb:**", "**Key Observations:**"
+              // Remove labels and clean up
               const cleaned = part
                 .replace(/\*\*Blurb:\*\*/gi, '')
                 .replace(/\*\*Key Observations:\*\*/gi, '')
                 .replace(/\*\*/g, '')
+                .replace(/Blurb:/gi, '')
+                .replace(/Key Observations:/gi, '')
                 .trim();
               
-              if (cleaned.length > 0) {
+              // Skip if it's just a label or empty
+              if (cleaned.length > 0 && 
+                  !cleaned.toLowerCase().match(/^(blurb|key observations):?$/)) {
                 insights.push({ text: cleaned, id: `insight-${insights.length}` });
               }
             }
