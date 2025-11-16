@@ -150,10 +150,21 @@ const Index = () => {
         toast.error("Invalid SQL. Please try again.");
       }
 
-      // If no data returned, show warning but still display empty dashboard
+      // If no visualizable data extracted, avoid false "no data" errors
       if (charts.length === 0 && insights.length === 0) {
-        console.warn("No charts or insights returned from n8n");
-        toast.error("No data returned from n8n. Please check your webhook configuration.");
+        const nonEmpty = (() => {
+          if (data == null) return false;
+          if (Array.isArray(data)) return data.length > 0;
+          if (typeof data === 'object') return Object.keys(data as any).length > 0;
+          if (typeof data === 'string') return data.trim().length > 0;
+          return true;
+        })();
+        if (!nonEmpty) {
+          console.warn("No charts/insights and empty response from n8n");
+          toast.error("No data returned from n8n. Please check your webhook configuration.");
+        } else {
+          console.info("Received response from n8n but no charts/insights parsed; proceeding without error.");
+        }
       }
 
       setCurrentCharts(charts);
