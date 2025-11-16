@@ -615,7 +615,9 @@ export const AISidebar = ({
                               if (gradeLevelText) {
                                 finalPromptForClick += ` ${gradeLevelText}`;
                               }
-                              finalPromptForClick += '.';
+                              if (!finalPromptForClick.endsWith('.')) {
+                                finalPromptForClick += '.';
+                              }
 
                               const parts = isGenericPrompt ? [adjustedPrompt] : adjustedPrompt.split(promptSubject);
                               const isModified = percentThreshold !== 70;
@@ -650,7 +652,6 @@ export const AISidebar = ({
                                           return <React.Fragment key={idx}>{word}{idx < words.length - 1 && ' '}</React.Fragment>;
                                         });
                                       })()}</>}
-                                      .
                                     </span>
                                   </div>
                                   {isBelowPrompt && (
@@ -1018,7 +1019,9 @@ export const AISidebar = ({
                 if (gradeLevelText) {
                   finalPromptForClick += ` ${gradeLevelText}`;
                 }
-                finalPromptForClick += '.';
+                if (!finalPromptForClick.endsWith('.')) {
+                  finalPromptForClick += '.';
+                }
                 
                 // For display, split properly
                 const hasAppendedText = termText || gradeLevelText;
@@ -1063,7 +1066,6 @@ export const AISidebar = ({
                                 return <React.Fragment key={idx}>{word}{idx < words.length - 1 && ' '}</React.Fragment>;
                               });
                             })()}</>}
-                            .
                           </span>
                         </div>
                         {isBelowPrompt && (
