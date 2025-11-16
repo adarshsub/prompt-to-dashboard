@@ -29,58 +29,58 @@ interface AISidebarProps {
 const TEMPLATE_PROMPTS = {
   math: {
     performance: [
-      "Show me the students that are below a score of 650 in Math.",
+      "Show me the students that are below a score of 500 in Math.",
       "Show me a breakdown of the Math scores by homeroom.",
       "Show me the breakdown of students who did meet expectations, partially met expectations, or approached expectations across all students in Math.",
       "Show me the average Math score.",
       "Compare average Math scores across all years.",
-      "Which Math topics had the lowest mastery rates",
-      "How does my Math class's average score compare to the school's average"
+      "Which Math topics had the lowest mastery rates.",
+      "How does my Math class's average score compare to the school's average."
     ],
-    engagement: ["Show student participation trends in Math", "Which students need engagement support in Math"]
+    engagement: ["Show student participation trends in Math.", "Which students need engagement support in Math."]
   },
   english: {
     performance: [
-      "Show me the students that are below a score of 650 in ELA.",
+      "Show me the students that are below a score of 500 in ELA.",
       "Show me a breakdown of the ELA scores by homeroom.",
       "Show me the breakdown of students who did meet expectations, partially met expectations, or approached expectations across all students in ELA.",
       "Show me the average ELA score.",
       "Compare average ELA scores across all years.",
-      "How does my ELA class's average score compare to the school's average"
+      "How does my ELA class's average score compare to the school's average."
     ],
     engagement: []
   },
   science: {
     performance: [
-      "Show me the students that are below a score of 650 in Science.",
+      "Show me the students that are below a score of 500 in Science.",
       "Show me a breakdown of the Science scores by homeroom.",
       "Show me the breakdown of students who did meet expectations, partially met expectations, or approached expectations across all students in Science.",
       "Show me the average Science score.",
       "Compare average Science scores across all years.",
-      "How does my Science class's average score compare to the school's average"
+      "How does my Science class's average score compare to the school's average."
     ],
     engagement: []
   },
   history: {
     performance: [
-      "Show me the students that are below a score of 650 in History.",
+      "Show me the students that are below a score of 500 in History.",
       "Show me a breakdown of the History scores by homeroom.",
       "Show me the breakdown of students who did meet expectations, partially met expectations, or approached expectations across all students in History.",
       "Show me the average History score.",
       "Compare average History scores across all years.",
-      "How does my History class's average score compare to the school's average"
+      "How does my History class's average score compare to the school's average."
     ],
     engagement: []
   },
   generic: {
     performance: [
-      "Show me all students below 70% in my classes",
-      "Show me a breakdown of scores by homeroom",
-      "Show me the breakdown of students who did meet expectations, partially met expectations, or approached expectations in my classes",
-      "Which topics had the lowest mastery rates",
-      "How do my classes' average scores compare to the school's average"
+      "Show me all students below 70% in my classes.",
+      "Show me a breakdown of scores by homeroom.",
+      "Show me the breakdown of students who did meet expectations, partially met expectations, or approached expectations in my classes.",
+      "Which topics had the lowest mastery rates.",
+      "How do my classes' average scores compare to the school's average."
     ],
-    engagement: ["Show student participation trends in my classes", "Which students need engagement support in my classes"]
+    engagement: ["Show student participation trends in my classes.", "Which students need engagement support in my classes."]
   }
 };
 export const AISidebar = ({
@@ -1104,7 +1104,7 @@ export const AISidebar = ({
 
       <div className="mt-auto">
         <div className="relative">
-          {showHistory && (
+          {showHistory && !prompt.trim() && (
             <Button
               onClick={() => setShowQuickActionsInChat(!showQuickActionsInChat)}
               variant="ghost"
