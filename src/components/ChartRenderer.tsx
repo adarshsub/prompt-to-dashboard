@@ -90,7 +90,7 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
                   borderRadius: "6px",
                   padding: "6px 8px"
                 }}
-                labelStyle={{ marginBottom: 0 }}
+                labelStyle={{ marginBottom: 4, fontWeight: 500 }}
                 itemStyle={{ padding: 0 }}
                 cursor={{ fill: 'transparent' }}
               />
