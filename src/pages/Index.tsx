@@ -98,6 +98,43 @@ const Index = () => {
           if (typeof (node as any).plotly_figure_json === 'string') {
             try {
               const fig = JSON.parse((node as any).plotly_figure_json);
+
+              // Helper to decode Plotly typed arrays like { dtype: 'i2'|'i4'|'f4'|'f8'|'u1', bdata: '...' }
+              const decodeBData = (val: any): number[] | null => {
+                try {
+                  if (!val || typeof val !== 'object' || typeof val.bdata !== 'string') return null;
+                  const base64 = val.bdata as string;
+                  const dtype = String(val.dtype || '').toLowerCase();
+                  const binary = atob(base64);
+                  const bytes = new Uint8Array(binary.length);
+                  for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+                  const buf = bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength);
+                  switch (dtype) {
+                    case 'i2':
+                      return Array.from(new Int16Array(buf));
+                    case 'i4':
+                      return Array.from(new Int32Array(buf));
+                    case 'f4':
+                      return Array.from(new Float32Array(buf));
+                    case 'f8':
+                      return Array.from(new Float64Array(buf));
+                    case 'u1':
+                      return Array.from(new Uint8Array(buf));
+                    default:
+                      return null;
+                  }
+                } catch (err) {
+                  console.warn('Failed to decode Plotly typed array', err);
+                  return null;
+                }
+              };
+
+              const asArray = (val: any): any[] => {
+                if (Array.isArray(val)) return val;
+                const decoded = decodeBData(val);
+                return decoded ?? [];
+              };
+
               const trace = Array.isArray(fig?.data) ? fig.data[0] : undefined;
               if (trace) {
                 let type: ChartData['type'] = 'bar';
@@ -107,16 +144,13 @@ const Index = () => {
                 if (trace.type === 'table') {
                   if (trace.cells?.values && Array.isArray(trace.cells.values)) {
                     const columns = trace.cells.values;
-                    // Find name column (first) and value column (last numeric column)
-                    const nameColumn = columns[0] || [];
-                    const valueColumn = columns[columns.length - 1] || [];
-                    
+                    const nameColumn = Array.isArray(columns[0]) ? columns[0] : asArray(columns[0]);
+                    const valueColumnRaw = columns[columns.length - 1];
+                    const valueColumn = Array.isArray(valueColumnRaw) ? valueColumnRaw : asArray(valueColumnRaw);
                     for (let i = 0; i < Math.min(nameColumn.length, valueColumn.length); i++) {
-                      const name = String(nameColumn[i] || '').trim();
-                      const value = parseFloat(String(valueColumn[i]));
-                      if (name && !isNaN(value)) {
-                        items.push({ name, value });
-                      }
+                      const name = String(nameColumn[i] ?? '').trim();
+                      const v = Number(valueColumn[i]);
+                      if (name && !Number.isNaN(v)) items.push({ name, value: v });
                     }
                   }
                 }
@@ -124,31 +158,31 @@ const Index = () => {
                 else if (trace.type === 'scatter') {
                   if (trace.fill) type = 'area';
                   else if (trace.mode?.includes('lines')) type = 'line';
-                  
-                  if (Array.isArray(trace.x) && Array.isArray(trace.y)) {
-                    for (let i = 0; i < trace.x.length; i++) {
-                      items.push({ name: String(trace.x[i]), value: Number(trace.y[i]) });
-                    }
+                  const xArr = asArray(trace.x);
+                  let yArr = asArray(trace.y);
+                  if (yArr.length === 0 && trace.marker?.color) yArr = asArray(trace.marker.color); // fallback
+                  for (let i = 0; i < Math.min(xArr.length, yArr.length); i++) {
+                    items.push({ name: String(xArr[i]), value: Number(yArr[i]) });
                   }
                 }
                 // Handle pie chart
                 else if (trace.type === 'pie') {
                   type = 'pie';
-                  if (Array.isArray(trace.labels) && Array.isArray(trace.values)) {
-                    for (let i = 0; i < trace.labels.length; i++) {
-                      items.push({ name: String(trace.labels[i]), value: Number(trace.values[i]) });
-                    }
+                  const labels = asArray(trace.labels);
+                  const values = asArray(trace.values);
+                  for (let i = 0; i < Math.min(labels.length, values.length); i++) {
+                    items.push({ name: String(labels[i]), value: Number(values[i]) });
                   }
                 }
-                // Handle bar and line types
+                // Handle bar and line/area fallbacks
                 else {
                   if (trace.type === 'line') type = 'line';
                   else if (trace.type === 'area') type = 'area';
-                  
-                  if (Array.isArray(trace.x) && Array.isArray(trace.y)) {
-                    for (let i = 0; i < trace.x.length; i++) {
-                      items.push({ name: String(trace.x[i]), value: Number(trace.y[i]) });
-                    }
+                  const xArr = asArray(trace.x);
+                  let yArr = asArray(trace.y);
+                  if (yArr.length === 0 && trace.marker?.color) yArr = asArray(trace.marker.color); // fallback when y is encoded in marker.color
+                  for (let i = 0; i < Math.min(xArr.length, yArr.length); i++) {
+                    items.push({ name: String(xArr[i]), value: Number(yArr[i]) });
                   }
                 }
 
