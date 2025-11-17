@@ -101,22 +101,61 @@ const Index = () => {
               const trace = Array.isArray(fig?.data) ? fig.data[0] : undefined;
               if (trace) {
                 let type: ChartData['type'] = 'bar';
-                if (trace.type === 'line') type = 'line';
-                else if (trace.type === 'pie') type = 'pie';
-                else if (trace.type === 'area') type = 'area';
-
                 const items: any[] = [];
-                if (type === 'pie' && Array.isArray(trace.labels) && Array.isArray(trace.values)) {
-                  for (let i = 0; i < trace.labels.length; i++) {
-                    items.push({ name: String(trace.labels[i]), value: Number(trace.values[i]) });
+
+                // Handle table type (convert to bar chart)
+                if (trace.type === 'table') {
+                  if (trace.cells?.values && Array.isArray(trace.cells.values)) {
+                    const columns = trace.cells.values;
+                    // Find name column (first) and value column (last numeric column)
+                    const nameColumn = columns[0] || [];
+                    const valueColumn = columns[columns.length - 1] || [];
+                    
+                    for (let i = 0; i < Math.min(nameColumn.length, valueColumn.length); i++) {
+                      const name = String(nameColumn[i] || '').trim();
+                      const value = parseFloat(String(valueColumn[i]));
+                      if (name && !isNaN(value)) {
+                        items.push({ name, value });
+                      }
+                    }
                   }
-                } else if (Array.isArray(trace.x) && Array.isArray(trace.y)) {
-                  for (let i = 0; i < trace.x.length; i++) {
-                    items.push({ name: String(trace.x[i]), value: Number(trace.y[i]) });
+                }
+                // Handle scatter type (can be line or area)
+                else if (trace.type === 'scatter') {
+                  if (trace.fill) type = 'area';
+                  else if (trace.mode?.includes('lines')) type = 'line';
+                  
+                  if (Array.isArray(trace.x) && Array.isArray(trace.y)) {
+                    for (let i = 0; i < trace.x.length; i++) {
+                      items.push({ name: String(trace.x[i]), value: Number(trace.y[i]) });
+                    }
+                  }
+                }
+                // Handle pie chart
+                else if (trace.type === 'pie') {
+                  type = 'pie';
+                  if (Array.isArray(trace.labels) && Array.isArray(trace.values)) {
+                    for (let i = 0; i < trace.labels.length; i++) {
+                      items.push({ name: String(trace.labels[i]), value: Number(trace.values[i]) });
+                    }
+                  }
+                }
+                // Handle bar and line types
+                else {
+                  if (trace.type === 'line') type = 'line';
+                  else if (trace.type === 'area') type = 'area';
+                  
+                  if (Array.isArray(trace.x) && Array.isArray(trace.y)) {
+                    for (let i = 0; i < trace.x.length; i++) {
+                      items.push({ name: String(trace.x[i]), value: Number(trace.y[i]) });
+                    }
                   }
                 }
 
-                charts.push({ type, data: items, config: { title: fig?.layout?.title?.text } });
+                // Only add chart if we have valid data
+                if (items.length > 0) {
+                  charts.push({ type, data: items, config: { title: fig?.layout?.title?.text } });
+                }
               }
             } catch (e) {
               console.warn('Failed to parse plotly_figure_json', e);
