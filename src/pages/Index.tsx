@@ -139,86 +139,97 @@ const Index = () => {
                 return decoded ?? [];
               };
 
-              const trace = Array.isArray(fig?.data) ? fig.data[0] : undefined;
-              if (trace) {
-                let type: ChartData['type'] = 'bar';
-                const items: any[] = [];
-
-                // Handle table type (convert to bar chart)
-                if (trace.type === 'table') {
-                  if (trace.cells?.values && Array.isArray(trace.cells.values)) {
-                    const columns = trace.cells.values;
-                    const nameColumn = Array.isArray(columns[0]) ? columns[0] : asArray(columns[0]);
-                    const valueColumnRaw = columns[columns.length - 1];
-                    const valueColumn = Array.isArray(valueColumnRaw) ? valueColumnRaw : asArray(valueColumnRaw);
-                    for (let i = 0; i < Math.min(nameColumn.length, valueColumn.length); i++) {
-                      const name = String(nameColumn[i] ?? '').trim();
-                      const v = Number(valueColumn[i]);
-                      // Filter out entries with "--" as x-value
-                      if (name && name !== '--' && !Number.isNaN(v)) {
-                        items.push({ name, value: Number(v.toFixed(2)) });
-                      }
-                    }
-                  }
-                }
-                // Handle scatter type (can be line or area)
-                else if (trace.type === 'scatter') {
-                  if (trace.fill) type = 'area';
-                  else if (trace.mode?.includes('lines')) type = 'line';
-                  const xArr = asArray(trace.x);
-                  let yArr = asArray(trace.y);
-                  if (yArr.length === 0 && trace.marker?.color) yArr = asArray(trace.marker.color); // fallback
-                  for (let i = 0; i < Math.min(xArr.length, yArr.length); i++) {
-                    const name = String(xArr[i]);
-                    const value = Number(yArr[i]);
-                    // Filter out entries with "--" as x-value
-                    if (name !== '--') {
-                      items.push({ name, value: Number(value.toFixed(2)) });
-                    }
-                  }
-                }
-                // Handle pie chart
-                else if (trace.type === 'pie') {
-                  type = 'pie';
-                  const labels = asArray(trace.labels);
-                  const values = asArray(trace.values);
-                  for (let i = 0; i < Math.min(labels.length, values.length); i++) {
-                    const name = String(labels[i]);
-                    const value = Number(values[i]);
-                    // Filter out entries with "--" as x-value
-                    if (name !== '--') {
-                      items.push({ name, value: Number(value.toFixed(2)) });
-                    }
-                  }
-                }
-                // Handle bar and line/area fallbacks
-                else {
-                  if (trace.type === 'line') type = 'line';
-                  else if (trace.type === 'area') type = 'area';
-                  const xArr = asArray(trace.x);
-                  let yArr = asArray(trace.y);
-                  if (yArr.length === 0 && trace.marker?.color) yArr = asArray(trace.marker.color); // fallback when y is encoded in marker.color
-                  for (let i = 0; i < Math.min(xArr.length, yArr.length); i++) {
-                    const name = String(xArr[i]);
-                    const value = Number(yArr[i]);
-                    // Filter out entries with "--" as x-value
-                    if (name !== '--') {
-                      items.push({ name, value: Number(value.toFixed(2)) });
-                    }
-                  }
-                }
-
-                // Only add chart if we have valid data
-                if (items.length > 0) {
-                  charts.push({ type, data: items, config: { title: fig?.layout?.title?.text } });
-                }
-              }
-            } catch (e) {
-              console.warn('Failed to parse plotly_figure_json', e);
-            }
-          }
-
-          // Status / error indicators
+               const traces = Array.isArray(fig?.data) ? fig.data : [];
+               if (traces.length) {
+                 let type: ChartData['type'] = 'bar';
+                 const items: any[] = [];
+ 
+                 const processTrace = (trace: any) => {
+                   if (!trace) return;
+ 
+                   // Handle table type (convert to bar chart)
+                   if (trace.type === 'table') {
+                     if (trace.cells?.values && Array.isArray(trace.cells.values)) {
+                       const columns = trace.cells.values;
+                       const nameColumn = Array.isArray(columns[0]) ? columns[0] : asArray(columns[0]);
+                       const valueColumnRaw = columns[columns.length - 1];
+                       const valueColumn = Array.isArray(valueColumnRaw) ? valueColumnRaw : asArray(valueColumnRaw);
+                       for (let i = 0; i < Math.min(nameColumn.length, valueColumn.length); i++) {
+                         const name = String(nameColumn[i] ?? '').trim();
+                         const v = Number(valueColumn[i]);
+                         // Filter out entries with "--" as x-value
+                         if (name && name !== '--' && !Number.isNaN(v)) {
+                           items.push({ name, value: Number(v.toFixed(2)) });
+                         }
+                       }
+                     }
+                     return;
+                   }
+ 
+                   // Handle scatter type (can be line or area)
+                   if (trace.type === 'scatter') {
+                     if (trace.fill) type = 'area';
+                     else if (trace.mode?.includes('lines')) type = 'line';
+                     const xArr = asArray(trace.x);
+                     let yArr = asArray(trace.y);
+                     if (yArr.length === 0 && trace.marker?.color) yArr = asArray(trace.marker.color); // fallback
+                     for (let i = 0; i < Math.min(xArr.length, yArr.length); i++) {
+                       const name = String(xArr[i]);
+                       const value = Number(yArr[i]);
+                       // Filter out entries with "--" as x-value
+                       if (name !== '--') {
+                         items.push({ name, value: Number(value.toFixed(2)) });
+                       }
+                     }
+                     return;
+                   }
+ 
+                   // Handle pie chart
+                   if (trace.type === 'pie') {
+                     type = 'pie';
+                     const labels = asArray(trace.labels);
+                     const values = asArray(trace.values);
+                     for (let i = 0; i < Math.min(labels.length, values.length); i++) {
+                       const name = String(labels[i]);
+                       const value = Number(values[i]);
+                       // Filter out entries with "--" as x-value
+                       if (name !== '--') {
+                         items.push({ name, value: Number(value.toFixed(2)) });
+                       }
+                     }
+                     return;
+                   }
+ 
+                   // Handle bar and line/area fallbacks
+                   if (trace.type === 'line') type = 'line';
+                   else if (trace.type === 'area') type = 'area';
+                   const xArr = asArray(trace.x);
+                   let yArr = asArray(trace.y);
+                   if (yArr.length === 0 && trace.marker?.color) yArr = asArray(trace.marker.color); // fallback when y is encoded in marker.color
+                   for (let i = 0; i < Math.min(xArr.length, yArr.length); i++) {
+                     const name = String(xArr[i]);
+                     const value = Number(yArr[i]);
+                     // Filter out entries with "--" as x-value
+                     if (name !== '--') {
+                       items.push({ name, value: Number(value.toFixed(2)) });
+                     }
+                   }
+                 };
+ 
+                 // Process all traces so multi-series charts still render
+                 traces.forEach(processTrace);
+ 
+                 // Only add chart if we have valid data
+                 if (items.length > 0) {
+                   charts.push({ type, data: items, config: { title: fig?.layout?.title?.text } });
+                 }
+               }
+             } catch (e) {
+               console.warn('Failed to parse plotly_figure_json', e);
+             }
+           }
+ 
+           // Status / error indicators
           if (typeof (node as any).status === 'string' && (node as any).status.toLowerCase() !== 'success') {
             invalidSql = true;
           }
