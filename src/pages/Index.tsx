@@ -38,6 +38,10 @@ const Index = () => {
     setIsLoading(true);
     setShowResults(true);
     setIsSidebarHidden(false);
+    
+    // Clear previous data to ensure fresh results
+    setCurrentCharts([]);
+    setCurrentInsights([]);
 
     try {
       console.log("Submitting prompt:", prompt);
