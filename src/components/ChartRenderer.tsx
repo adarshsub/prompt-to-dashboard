@@ -93,11 +93,6 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
                 labelStyle={{ marginBottom: 4, fontWeight: 500 }}
                 itemStyle={{ padding: 0 }}
                 cursor={{ fill: 'transparent' }}
-                formatter={(value: number, _name: any, props: any) => {
-                  const formatted = typeof value === 'number' ? value.toFixed(2) : value;
-                  const studentName = props?.payload?.name ?? '';
-                  return [`Score: ${formatted}`, studentName];
-                }}
               />
               <Bar 
                 dataKey="value" 
@@ -128,24 +123,12 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
                   backgroundColor: "white", 
                   border: `1px solid ${CHART_COLORS.neutral}`,
                   borderRadius: "6px",
-                  padding: "6px 8px"
+                  padding: "8px 12px"
                 }}
-                labelStyle={{ marginBottom: 4, fontWeight: 500 }}
+                labelStyle={{ marginBottom: 0 }}
                 itemStyle={{ padding: 0 }}
-                cursor={{ fill: 'transparent' }}
-                formatter={(value: number) => {
-                  const formatted = typeof value === 'number' ? value.toFixed(2) : value;
-                  return [`Value: ${formatted}`, ''];
-                }}
               />
-              <Line 
-                type="monotone" 
-                dataKey="value" 
-                stroke={CHART_COLORS.primary} 
-                strokeWidth={2}
-                dot={{ fill: CHART_COLORS.primary, r: 3 }}
-                activeDot={{ r: 5, style: { cursor: 'pointer' } }}
-              />
+              <Line type="monotone" dataKey="value" stroke={CHART_COLORS.primary} strokeWidth={2} dot={{ fill: CHART_COLORS.primary }} />
             </LineChart>
           </ResponsiveContainer>
         );
@@ -158,11 +141,7 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
                 cx="50%"
                 cy="50%"
                 labelLine={false}
-                label={(entry) => {
-                  if (entry.value === 0) return null;
-                  const formatted = typeof entry.value === 'number' ? entry.value.toFixed(2) : entry.value;
-                  return entry.value > 0 ? `${entry.name}: ${formatted}` : null;
-                }}
+                label={(entry) => entry.value > 0 ? entry.name : null}
                 outerRadius={100}
                 innerRadius={64}
                 fill={CHART_COLORS.primary}
@@ -180,17 +159,16 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
                   backgroundColor: "white", 
                   border: `1px solid ${CHART_COLORS.neutral}`,
                   borderRadius: "6px",
-                  padding: "6px 8px"
+                  padding: "8px 12px"
                 }}
-                labelStyle={{ marginBottom: 4, fontWeight: 500 }}
+                labelStyle={{ marginBottom: 0 }}
                 itemStyle={{ padding: 0 }}
-                formatter={(value: number, name: any, props: any) => {
-                  const formatted = typeof value === 'number' ? value.toFixed(2) : value;
+                formatter={(value: any, name: any, props: any) => {
                   const label = props.payload.name;
                   if (label.includes('%')) {
-                    return [`${formatted} students`, label];
+                    return [`${value} students`, label];
                   }
-                  return [`${formatted}`, label];
+                  return [value, name];
                 }}
               />
             </PieChart>
@@ -215,14 +193,7 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
                   backgroundColor: "white", 
                   border: `1px solid ${CHART_COLORS.neutral}`,
                   borderRadius: "6px",
-                  padding: "6px 8px"
-                }}
-                labelStyle={{ marginBottom: 4, fontWeight: 500 }}
-                itemStyle={{ padding: 0 }}
-                cursor={{ fill: 'transparent' }}
-                formatter={(value: number) => {
-                  const formatted = typeof value === 'number' ? value.toFixed(2) : value;
-                  return [`Value: ${formatted}`, ''];
+                  padding: "8px 12px"
                 }}
               />
               <Area 
@@ -230,8 +201,7 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
                 dataKey="value" 
                 stroke={CHART_COLORS.primary} 
                 fill={CHART_COLORS.primary} 
-                fillOpacity={0.3}
-                strokeWidth={2}
+                fillOpacity={0.3} 
               />
             </AreaChart>
           </ResponsiveContainer>
