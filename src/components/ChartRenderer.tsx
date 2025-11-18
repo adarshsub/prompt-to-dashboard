@@ -82,7 +82,7 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
                 textAnchor="end"
                 height={70}
               />
-              <YAxis stroke={CHART_COLORS.secondary} tick={{ fontSize: 12 }} />
+              <YAxis stroke={CHART_COLORS.secondary} tick={{ fontSize: 12 }} tickFormatter={(value) => typeof value === 'number' ? value.toFixed(2) : value} />
               <Tooltip 
                 contentStyle={{ 
                   backgroundColor: "white", 
@@ -93,6 +93,7 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
                 labelStyle={{ marginBottom: 4, fontWeight: 500 }}
                 itemStyle={{ padding: 0 }}
                 cursor={{ fill: 'transparent' }}
+                formatter={(value: any) => typeof value === 'number' ? value.toFixed(2) : value}
               />
               <Bar 
                 dataKey="value" 
@@ -117,7 +118,7 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
                 textAnchor="end"
                 height={60}
               />
-              <YAxis stroke={CHART_COLORS.secondary} tick={{ fontSize: 12 }} />
+              <YAxis stroke={CHART_COLORS.secondary} tick={{ fontSize: 12 }} tickFormatter={(value) => typeof value === 'number' ? value.toFixed(2) : value} />
               <Tooltip 
                 contentStyle={{ 
                   backgroundColor: "white", 
@@ -127,6 +128,7 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
                 }}
                 labelStyle={{ marginBottom: 0 }}
                 itemStyle={{ padding: 0 }}
+                formatter={(value: any) => typeof value === 'number' ? value.toFixed(2) : value}
               />
               <Line type="monotone" dataKey="value" stroke={CHART_COLORS.primary} strokeWidth={2} dot={{ fill: CHART_COLORS.primary }} />
             </LineChart>
@@ -165,10 +167,11 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
                 itemStyle={{ padding: 0 }}
                 formatter={(value: any, name: any, props: any) => {
                   const label = props.payload.name;
+                  const formattedValue = typeof value === 'number' ? value.toFixed(2) : value;
                   if (label.includes('%')) {
-                    return [`${value} students`, label];
+                    return [`${formattedValue} students`, label];
                   }
-                  return [value, name];
+                  return [formattedValue, name];
                 }}
               />
             </PieChart>
@@ -187,7 +190,7 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
                 textAnchor="end"
                 height={60}
               />
-              <YAxis stroke={CHART_COLORS.secondary} tick={{ fontSize: 12 }} />
+              <YAxis stroke={CHART_COLORS.secondary} tick={{ fontSize: 12 }} tickFormatter={(value) => typeof value === 'number' ? value.toFixed(2) : value} />
               <Tooltip 
                 contentStyle={{ 
                   backgroundColor: "white", 
@@ -195,6 +198,7 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
                   borderRadius: "6px",
                   padding: "8px 12px"
                 }}
+                formatter={(value: any) => typeof value === 'number' ? value.toFixed(2) : value}
               />
               <Area 
                 type="monotone" 
