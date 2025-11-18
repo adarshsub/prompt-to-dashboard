@@ -29,7 +29,7 @@ interface AISidebarProps {
 const TEMPLATE_PROMPTS = {
   math: {
     performance: [
-      "Show me the students that are below a score of 500 in Math.",
+      "Show me the students that are below a score of 700 in Math.",
       "Compare average Math scores across all years.",
       "Show me a breakdown of the Math scores by homeroom.",
       "Show me the breakdown of students who did meet expectations, partially met expectations, or approached expectations across all students in Math.",
@@ -41,7 +41,7 @@ const TEMPLATE_PROMPTS = {
   },
   english: {
     performance: [
-      "Show me the students that are below a score of 500 in ELA.",
+      "Show me the students that are below a score of 700 in ELA.",
       "Compare average ELA scores across all years.",
       "Show me a breakdown of the ELA scores by homeroom.",
       "Show me the breakdown of students who did meet expectations, partially met expectations, or approached expectations across all students in ELA.",
@@ -52,7 +52,7 @@ const TEMPLATE_PROMPTS = {
   },
   science: {
     performance: [
-      "Show me the students that are below a score of 500 in Science.",
+      "Show me the students that are below a score of 700 in Science.",
       "Compare average Science scores across all years.",
       "Show me a breakdown of the Science scores by homeroom.",
       "Show me the breakdown of students who did meet expectations, partially met expectations, or approached expectations across all students in Science.",
@@ -63,7 +63,7 @@ const TEMPLATE_PROMPTS = {
   },
   history: {
     performance: [
-      "Show me the students that are below a score of 500 in History.",
+      "Show me the students that are below a score of 700 in History.",
       "Compare average History scores across all years.",
       "Show me a breakdown of the History scores by homeroom.",
       "Show me the breakdown of students who did meet expectations, partially met expectations, or approached expectations across all students in History.",

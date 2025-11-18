@@ -93,7 +93,11 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
                 labelStyle={{ marginBottom: 4, fontWeight: 500 }}
                 itemStyle={{ padding: 0 }}
                 cursor={{ fill: 'transparent' }}
-                formatter={(value: any) => typeof value === 'number' ? value.toFixed(2) : value}
+                formatter={(value: any, name: any, props: any) => {
+                  const formattedValue = typeof value === 'number' ? value.toFixed(2) : value;
+                  return [formattedValue, props.payload?.name ? `${props.payload.name}` : 'Score'];
+                }}
+                labelFormatter={(label: any) => label}
               />
               <Bar 
                 dataKey="value" 
