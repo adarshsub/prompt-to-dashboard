@@ -154,7 +154,10 @@ const Index = () => {
                     for (let i = 0; i < Math.min(nameColumn.length, valueColumn.length); i++) {
                       const name = String(nameColumn[i] ?? '').trim();
                       const v = Number(valueColumn[i]);
-                      if (name && !Number.isNaN(v)) items.push({ name, value: v });
+                      // Filter out entries with "--" as x-value
+                      if (name && name !== '--' && !Number.isNaN(v)) {
+                        items.push({ name, value: Number(v.toFixed(2)) });
+                      }
                     }
                   }
                 }
@@ -166,7 +169,12 @@ const Index = () => {
                   let yArr = asArray(trace.y);
                   if (yArr.length === 0 && trace.marker?.color) yArr = asArray(trace.marker.color); // fallback
                   for (let i = 0; i < Math.min(xArr.length, yArr.length); i++) {
-                    items.push({ name: String(xArr[i]), value: Number(yArr[i]) });
+                    const name = String(xArr[i]);
+                    const value = Number(yArr[i]);
+                    // Filter out entries with "--" as x-value
+                    if (name !== '--') {
+                      items.push({ name, value: Number(value.toFixed(2)) });
+                    }
                   }
                 }
                 // Handle pie chart
@@ -175,7 +183,12 @@ const Index = () => {
                   const labels = asArray(trace.labels);
                   const values = asArray(trace.values);
                   for (let i = 0; i < Math.min(labels.length, values.length); i++) {
-                    items.push({ name: String(labels[i]), value: Number(values[i]) });
+                    const name = String(labels[i]);
+                    const value = Number(values[i]);
+                    // Filter out entries with "--" as x-value
+                    if (name !== '--') {
+                      items.push({ name, value: Number(value.toFixed(2)) });
+                    }
                   }
                 }
                 // Handle bar and line/area fallbacks
@@ -186,7 +199,12 @@ const Index = () => {
                   let yArr = asArray(trace.y);
                   if (yArr.length === 0 && trace.marker?.color) yArr = asArray(trace.marker.color); // fallback when y is encoded in marker.color
                   for (let i = 0; i < Math.min(xArr.length, yArr.length); i++) {
-                    items.push({ name: String(xArr[i]), value: Number(yArr[i]) });
+                    const name = String(xArr[i]);
+                    const value = Number(yArr[i]);
+                    // Filter out entries with "--" as x-value
+                    if (name !== '--') {
+                      items.push({ name, value: Number(value.toFixed(2)) });
+                    }
                   }
                 }
 
