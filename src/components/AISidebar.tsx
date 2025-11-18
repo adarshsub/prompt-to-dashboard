@@ -30,10 +30,10 @@ const TEMPLATE_PROMPTS = {
   math: {
     performance: [
       "Show me the students that are below a score of 500 in Math.",
+      "Compare average Math scores across all years.",
       "Show me a breakdown of the Math scores by homeroom.",
       "Show me the breakdown of students who did meet expectations, partially met expectations, or approached expectations across all students in Math.",
       "Show me the average Math score.",
-      "Compare average Math scores across all years.",
       "Which Math topics had the lowest mastery rates.",
       "How does my Math class's average score compare to the school's average."
     ],
@@ -42,10 +42,10 @@ const TEMPLATE_PROMPTS = {
   english: {
     performance: [
       "Show me the students that are below a score of 500 in ELA.",
+      "Compare average ELA scores across all years.",
       "Show me a breakdown of the ELA scores by homeroom.",
       "Show me the breakdown of students who did meet expectations, partially met expectations, or approached expectations across all students in ELA.",
       "Show me the average ELA score.",
-      "Compare average ELA scores across all years.",
       "How does my ELA class's average score compare to the school's average."
     ],
     engagement: []
@@ -53,10 +53,10 @@ const TEMPLATE_PROMPTS = {
   science: {
     performance: [
       "Show me the students that are below a score of 500 in Science.",
+      "Compare average Science scores across all years.",
       "Show me a breakdown of the Science scores by homeroom.",
       "Show me the breakdown of students who did meet expectations, partially met expectations, or approached expectations across all students in Science.",
       "Show me the average Science score.",
-      "Compare average Science scores across all years.",
       "How does my Science class's average score compare to the school's average."
     ],
     engagement: []
@@ -64,10 +64,10 @@ const TEMPLATE_PROMPTS = {
   history: {
     performance: [
       "Show me the students that are below a score of 500 in History.",
+      "Compare average History scores across all years.",
       "Show me a breakdown of the History scores by homeroom.",
       "Show me the breakdown of students who did meet expectations, partially met expectations, or approached expectations across all students in History.",
       "Show me the average History score.",
-      "Compare average History scores across all years.",
       "How does my History class's average score compare to the school's average."
     ],
     engagement: []
