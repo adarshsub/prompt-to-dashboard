@@ -93,9 +93,10 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
                 labelStyle={{ marginBottom: 4, fontWeight: 500 }}
                 itemStyle={{ padding: 0 }}
                 cursor={{ fill: 'transparent' }}
-                formatter={(value: number) => {
+                formatter={(value: number, _name: any, props: any) => {
                   const formatted = typeof value === 'number' ? value.toFixed(2) : value;
-                  return [`Score: ${formatted}`, ''];
+                  const studentName = props?.payload?.name ?? '';
+                  return [`Score: ${formatted}`, studentName];
                 }}
               />
               <Bar 
