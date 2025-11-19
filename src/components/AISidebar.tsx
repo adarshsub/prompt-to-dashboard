@@ -39,7 +39,7 @@ const TEMPLATE_PROMPTS = {
     ],
     engagement: ["Show student participation trends in Math.", "Which students need engagement support in Math."]
   },
-  english: {
+  ela: {
     performance: [
       "Show me the students that are below a score of 700 in ELA.",
       "Compare average ELA scores across all years.",
@@ -189,7 +189,7 @@ export const AISidebar = ({
     setSelectedSubjects(prev => {
       if (subject === "All") {
         // If toggling "All", add or remove all subjects
-        return prev.includes("All") ? [] : ["All", "Math", "English", "Science", "History"];
+        return prev.includes("All") ? [] : ["All", "Math", "ELA", "Science", "History"];
       } else {
         // If toggling individual subject, remove "All" if it was selected
         const newSubjects = prev.includes(subject) ? prev.filter(s => s !== subject) : [...prev.filter(s => s !== "All"), subject];
@@ -267,10 +267,10 @@ export const AISidebar = ({
     // If "All" is selected, combine all subject prompts
     if (selectedSubjects.includes("All")) {
       const mathPrompts = TEMPLATE_PROMPTS.math[selectedCategory] || [];
-      const englishPrompts = TEMPLATE_PROMPTS.english[selectedCategory] || [];
+      const elaPrompts = TEMPLATE_PROMPTS.ela[selectedCategory] || [];
       const sciencePrompts = TEMPLATE_PROMPTS.science[selectedCategory] || [];
       const historyPrompts = TEMPLATE_PROMPTS.history[selectedCategory] || [];
-      return [...mathPrompts, ...englishPrompts, ...sciencePrompts, ...historyPrompts];
+      return [...mathPrompts, ...elaPrompts, ...sciencePrompts, ...historyPrompts];
     }
 
     // Combine prompts for all selected subjects
@@ -404,7 +404,7 @@ export const AISidebar = ({
                                   borderColor: '#00A6FF',
                                   borderWidth: '1px'
                                 }}>
-                                          {subject === "English" ? "ELA" : subject}
+                                          {subject}
                                           <button onClick={e => {
                                     e.stopPropagation();
                                     handleRemoveSubject(subject);
@@ -424,8 +424,8 @@ export const AISidebar = ({
                               </PopoverTrigger>
                               <PopoverContent className="w-[232px] p-3 bg-card border-border" align="start">
                                 <div className="space-y-2">
-                                  {(["All", "Math", "English", "Science", "History"]).map(subject => {
-                                      const label = subject === "English" ? "ELA" : subject;
+                                  {(["All", "Math", "ELA", "Science", "History"]).map(subject => {
+                                      const label = subject;
                                       return (
                                         <div key={subject} className="flex items-center space-x-2">
                                           <Checkbox id={`chat-${subject}`} checked={selectedSubjects.includes("All") || selectedSubjects.includes(subject)} onCheckedChange={() => handleSubjectToggle(subject)} />
@@ -740,7 +740,7 @@ export const AISidebar = ({
                   </PopoverTrigger>
                   <PopoverContent className="w-[232px] p-3 bg-card border-border" align="start">
                     <div className="space-y-2">
-                      {["All", "Math", "English", "Science", "History"].map(subject => <div key={subject} className="flex items-center space-x-2">
+                      {["All", "Math", "ELA", "Science", "History"].map(subject => <div key={subject} className="flex items-center space-x-2">
                           <Checkbox id={subject} checked={selectedSubjects.includes("All") || selectedSubjects.includes(subject)} onCheckedChange={() => handleSubjectToggle(subject)} />
                           <label htmlFor={subject} className="text-sm text-card-foreground cursor-pointer flex-1">
                             {subject}
@@ -875,8 +875,8 @@ export const AISidebar = ({
                   {selectedTerms.length > 1 && <div className="mt-2 space-y-2">
                     <button 
                       onClick={() => {
-                        const activeSubjects = selectedSubjects.includes("All") ? ["Math", "English", "Science", "History"] : selectedSubjects.filter(s => s !== "All");
-                        const subjectText = selectedSubjects.length === 0 ? "score" : (activeSubjects.length === 1 ? (activeSubjects[0] === "English" ? "ELA" : activeSubjects[0]) : activeSubjects.length === 2 ? activeSubjects.map(s => s === "English" ? "ELA" : s).join(" and ") : activeSubjects.map(s => s === "English" ? "ELA" : s).slice(0, -1).join(", ") + ", and " + (activeSubjects[activeSubjects.length - 1] === "English" ? "ELA" : activeSubjects[activeSubjects.length - 1]));
+                        const activeSubjects = selectedSubjects.includes("All") ? ["Math", "ELA", "Science", "History"] : selectedSubjects.filter(s => s !== "All");
+                        const subjectText = selectedSubjects.length === 0 ? "score" : (activeSubjects.length === 1 ? activeSubjects[0] : activeSubjects.length === 2 ? activeSubjects.join(" and ") : activeSubjects.slice(0, -1).join(", ") + ", and " + activeSubjects[activeSubjects.length - 1]);
                         
                         let comparisonPrompt = selectedSubjects.length === 0 
                           ? `Show me the average score for ` 
@@ -897,7 +897,7 @@ export const AISidebar = ({
                       <Sparkles className="h-4 w-4 flex-shrink-0" color="#323232" />
                       <span className="text-card-foreground leading-snug px-0.5 flex-1">
                         Show me the average {selectedSubjects.length === 0 ? "score" : (() => {
-                          const activeSubjects = selectedSubjects.includes("All") ? ["Math", "English", "Science", "History"] : selectedSubjects.filter(s => s !== "All");
+                          const activeSubjects = selectedSubjects.includes("All") ? ["Math", "ELA", "Science", "History"] : selectedSubjects.filter(s => s !== "All");
                           const subjectDisplay = activeSubjects.length === 1 ? <strong>{activeSubjects[0]}</strong> : activeSubjects.length === 2 ? <><strong>{activeSubjects[0]}</strong> and <strong>{activeSubjects[1]}</strong></> : <>{activeSubjects.slice(0, -1).map((s, i) => <React.Fragment key={s}><strong>{s}</strong>{i < activeSubjects.length - 2 ? ", " : ""}</React.Fragment>)}, and <strong>{activeSubjects[activeSubjects.length - 1]}</strong></>;
                           return subjectDisplay;
                         })()} score for {selectedTerms.length === 2 ? (
@@ -914,8 +914,8 @@ export const AISidebar = ({
 
                     <button 
                       onClick={() => {
-                        const activeSubjects = selectedSubjects.includes("All") ? ["Math", "English", "Science", "History"] : selectedSubjects.filter(s => s !== "All");
-                        const subjectText = selectedSubjects.length === 0 ? "score" : (activeSubjects.length === 1 ? (activeSubjects[0] === "English" ? "ELA" : activeSubjects[0]) : activeSubjects.length === 2 ? activeSubjects.map(s => s === "English" ? "ELA" : s).join(" and ") : activeSubjects.map(s => s === "English" ? "ELA" : s).slice(0, -1).join(", ") + ", and " + (activeSubjects[activeSubjects.length - 1] === "English" ? "ELA" : activeSubjects[activeSubjects.length - 1]));
+                        const activeSubjects = selectedSubjects.includes("All") ? ["Math", "ELA", "Science", "History"] : selectedSubjects.filter(s => s !== "All");
+                        const subjectText = selectedSubjects.length === 0 ? "score" : (activeSubjects.length === 1 ? activeSubjects[0] : activeSubjects.length === 2 ? activeSubjects.join(" and ") : activeSubjects.slice(0, -1).join(", ") + ", and " + activeSubjects[activeSubjects.length - 1]);
                         
                         let comparisonPrompt = selectedSubjects.length === 0 
                           ? `Show me the average score between ` 
@@ -936,7 +936,7 @@ export const AISidebar = ({
                       <Sparkles className="h-4 w-4 flex-shrink-0" color="#323232" />
                       <span className="text-card-foreground leading-snug px-0.5 flex-1">
                         Show me the average {selectedSubjects.length === 0 ? "score" : (() => {
-                          const activeSubjects = selectedSubjects.includes("All") ? ["Math", "English", "Science", "History"] : selectedSubjects.filter(s => s !== "All");
+                          const activeSubjects = selectedSubjects.includes("All") ? ["Math", "ELA", "Science", "History"] : selectedSubjects.filter(s => s !== "All");
                           const subjectDisplay = activeSubjects.length === 1 ? <strong>{activeSubjects[0]}</strong> : activeSubjects.length === 2 ? <><strong>{activeSubjects[0]}</strong> and <strong>{activeSubjects[1]}</strong></> : <>{activeSubjects.slice(0, -1).map((s, i) => <React.Fragment key={s}><strong>{s}</strong>{i < activeSubjects.length - 2 ? ", " : ""}</React.Fragment>)}, and <strong>{activeSubjects[activeSubjects.length - 1]}</strong></>;
                           return subjectDisplay;
                         })()} score between {selectedTerms.length === 2 ? (
@@ -968,7 +968,7 @@ export const AISidebar = ({
                 // Build display subject text
                 let displaySubject = promptSubject;
                 if (!isGenericPrompt && showMultipleSubjects) {
-                  const activeSubjects = selectedSubjects.includes("All") ? ["Math", "English", "Science", "History"] : selectedSubjects.filter(s => s !== "All");
+                  const activeSubjects = selectedSubjects.includes("All") ? ["Math", "ELA", "Science", "History"] : selectedSubjects.filter(s => s !== "All");
 
                   // Format with commas and "and"
                   if (activeSubjects.length === 2) {
