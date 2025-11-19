@@ -585,18 +585,17 @@ export const AISidebar = ({
                               if (isBelowPrompt) {
                                 adjustedPrompt = adjustedPrompt.replace("70%", `${percentThreshold}%`);
                               }
-                              if (!isGenericPrompt && showMultipleSubjects) {
-                                // Replace the subject name with the combined display subject
-                                adjustedPrompt = adjustedPrompt.replace(promptSubject, displaySubject);
-                                // Adjust grammar for multiple subjects
-                                adjustedPrompt = adjustedPrompt.replace(`${displaySubject} class`, `${displaySubject} classes`).replace(`${displaySubject} class's`, `${displaySubject} classes'`).replace("does my", "do my").replace("score compare", "scores compare");
-                              }
                               
+                              // Store term text for appending
                               const termText = selectedTerms.length === 1 ? selectedTerms[0] : null;
+                              
+                              // Store grade level text for appending
                               let gradeLevelText = null;
                               let gradeLevelParts = [];
                               if (selectedGradeLevels.length > 0) {
+                                // Extract just the grade numbers (e.g., "9th" from "9th Grade")
                                 const gradeNumbers = selectedGradeLevels.map(level => level.replace(" Grade", ""));
+                                
                                 if (gradeNumbers.length === 1) {
                                   gradeLevelText = `for the ${gradeNumbers[0]} grade`;
                                   gradeLevelParts = [gradeNumbers[0]];
@@ -611,7 +610,18 @@ export const AISidebar = ({
                                 }
                               }
                               
+                              // Build final prompt for click with subject replacement and grammar adjustments
                               let finalPromptForClick = adjustedPrompt;
+                              if (!isGenericPrompt && showMultipleSubjects) {
+                                // Replace the subject name with the combined display subject
+                                finalPromptForClick = finalPromptForClick.replace(promptSubject, displaySubject);
+                                // Adjust grammar for multiple subjects
+                                finalPromptForClick = finalPromptForClick
+                                  .replace(`${displaySubject} class`, `${displaySubject} classes`)
+                                  .replace(`${displaySubject} class's`, `${displaySubject} classes'`)
+                                  .replace("does my", "do my")
+                                  .replace("score compare", "scores compare");
+                              }
                               if (termText) {
                                 finalPromptForClick += ` in ${termText}`;
                               }
@@ -981,20 +991,10 @@ export const AISidebar = ({
                 // Check if this is a "below X%" prompt
                 const isBelowPrompt = templatePrompt.includes("below 70%");
 
-                // Adjust grammar for multiple subjects and replace threshold
+                // Adjust threshold only
                 let adjustedPrompt = templatePrompt;
                 if (isBelowPrompt) {
                   adjustedPrompt = adjustedPrompt.replace("70%", `${percentThreshold}%`);
-                }
-                if (!isGenericPrompt && showMultipleSubjects) {
-                  // Replace the subject name with the combined display subject
-                  adjustedPrompt = adjustedPrompt.replace(promptSubject, displaySubject);
-                  // Adjust grammar for multiple subjects
-                  adjustedPrompt = adjustedPrompt
-                    .replace(`${displaySubject} class`, `${displaySubject} classes`)
-                    .replace(`${displaySubject} class's`, `${displaySubject} classes'`)
-                    .replace("does my", "do my")
-                    .replace("score compare", "scores compare");
                 }
                 
                 // Store term text for appending
@@ -1021,8 +1021,18 @@ export const AISidebar = ({
                   }
                 }
                 
-                // Build final prompt with term and grade level appended
+                // Build final prompt with subject replacement and grammar adjustments
                 let finalPromptForClick = adjustedPrompt;
+                if (!isGenericPrompt && showMultipleSubjects) {
+                  // Replace the subject name with the combined display subject
+                  finalPromptForClick = finalPromptForClick.replace(promptSubject, displaySubject);
+                  // Adjust grammar for multiple subjects
+                  finalPromptForClick = finalPromptForClick
+                    .replace(`${displaySubject} class`, `${displaySubject} classes`)
+                    .replace(`${displaySubject} class's`, `${displaySubject} classes'`)
+                    .replace("does my", "do my")
+                    .replace("score compare", "scores compare");
+                }
                 if (termText) {
                   finalPromptForClick += ` in ${termText}`;
                 }
