@@ -42,6 +42,9 @@ const Index = () => {
     // Clear previous data to ensure fresh results
     setCurrentCharts([]);
     setCurrentInsights([]);
+    
+    // Reference to clear prompt in sidebar
+    const clearPromptRef = { shouldClear: false };
 
     try {
       console.log("Submitting prompt:", prompt);
@@ -289,6 +292,9 @@ const Index = () => {
         )
       );
       
+      // Signal that prompt should be cleared
+      clearPromptRef.shouldClear = true;
+      
       setIsDashboardCollapsed(false);
     } catch (error) {
       console.error("Error processing request:", error);
@@ -300,6 +306,8 @@ const Index = () => {
     } finally {
       setIsLoading(false);
     }
+    
+    return clearPromptRef.shouldClear;
   };
 
   const handleCloseSidebar = () => {
