@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
 import { MiniChart } from "@/components/MiniChart";
 import { ChartData } from "@/types/dashboard";
 interface AISidebarProps {
-  onSubmit?: (prompt: string) => void;
+  onSubmit?: (prompt: string) => Promise<boolean> | void;
   isLoading?: boolean;
   showHistory?: boolean;
   conversationHistory: Array<{
@@ -248,9 +248,12 @@ export const AISidebar = ({
       });
     }
   };
-  const handleSend = () => {
+  const handleSend = async () => {
     if (prompt.trim() && onSubmit) {
-      onSubmit(prompt);
+      const shouldClear = await onSubmit(prompt);
+      if (shouldClear) {
+        setPrompt('');
+      }
     }
   };
   const getTemplatePrompts = () => {
