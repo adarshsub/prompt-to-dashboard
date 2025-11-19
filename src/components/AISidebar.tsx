@@ -987,7 +987,14 @@ export const AISidebar = ({
                   adjustedPrompt = adjustedPrompt.replace("70%", `${percentThreshold}%`);
                 }
                 if (!isGenericPrompt && showMultipleSubjects) {
-                  adjustedPrompt = adjustedPrompt.replace(`${promptSubject} class`, `${promptSubject} classes`).replace(`${promptSubject} class's`, `${promptSubject} classes'`).replace("does my", "do my").replace("score compare", "scores compare");
+                  // Replace the subject name with the combined display subject
+                  adjustedPrompt = adjustedPrompt.replace(promptSubject, displaySubject);
+                  // Adjust grammar for multiple subjects
+                  adjustedPrompt = adjustedPrompt
+                    .replace(`${displaySubject} class`, `${displaySubject} classes`)
+                    .replace(`${displaySubject} class's`, `${displaySubject} classes'`)
+                    .replace("does my", "do my")
+                    .replace("score compare", "scores compare");
                 }
                 
                 // Store term text for appending
