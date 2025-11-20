@@ -69,8 +69,8 @@ export const DashboardView = ({ title, onCollapse, charts = [], insights = [], o
       </div>
 
       {shouldRenderSecondChartBesideInsights ? (
-        <div className="px-6 pb-6 pt-4 shrink-0 flex gap-4 min-h-0 overflow-hidden" style={{ height: '35%' }}>
-          <div className="w-1/2 shrink-0 overflow-y-auto">
+        <div className="px-6 pb-6 pt-4 shrink-0 flex gap-4 min-h-0" style={{ height: '35%' }}>
+          <div className="w-1/2 shrink-0 overflow-y-auto pr-2">
             <div className="min-h-[240px]">
               <ChartRenderer
                 chart={sideChart!}
