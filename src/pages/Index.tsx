@@ -150,24 +150,40 @@ const Index = () => {
                  const processTrace = (trace: any) => {
                    if (!trace) return;
  
-                   // Handle table type (convert to bar chart)
-                   if (trace.type === 'table') {
-                     if (trace.cells?.values && Array.isArray(trace.cells.values)) {
-                       const columns = trace.cells.values;
-                       const nameColumn = Array.isArray(columns[0]) ? columns[0] : asArray(columns[0]);
-                       const valueColumnRaw = columns[columns.length - 1];
-                       const valueColumn = Array.isArray(valueColumnRaw) ? valueColumnRaw : asArray(valueColumnRaw);
-                       for (let i = 0; i < Math.min(nameColumn.length, valueColumn.length); i++) {
-                         const name = String(nameColumn[i] ?? '').trim();
-                         const v = Number(valueColumn[i]);
-                         // Filter out entries with "--" as x-value
-                         if (name && name !== '--' && !Number.isNaN(v)) {
-                           items.push({ name, value: Number(v.toFixed(2)) });
-                         }
-                       }
-                     }
-                     return;
-                   }
+                    // Handle table type (convert to bar chart)
+                    if (trace.type === 'table') {
+                      if (trace.cells?.values && Array.isArray(trace.cells.values)) {
+                        const columns = trace.cells.values;
+                        
+                        // First column is always names/labels
+                        const nameColumn = Array.isArray(columns[0]) ? columns[0] : asArray(columns[0]);
+                        
+                        // Find the first numeric column (skip column 0)
+                        let valueColumn = null;
+                        for (let colIdx = 1; colIdx < columns.length; colIdx++) {
+                          const col = Array.isArray(columns[colIdx]) ? columns[colIdx] : asArray(columns[colIdx]);
+                          // Check if column contains numeric values
+                          const hasNumericValues = col.some(val => !Number.isNaN(Number(val)));
+                          if (hasNumericValues) {
+                            valueColumn = col;
+                            break;
+                          }
+                        }
+                        
+                        // If we found a numeric column, extract the data
+                        if (valueColumn) {
+                          for (let i = 0; i < Math.min(nameColumn.length, valueColumn.length); i++) {
+                            const name = String(nameColumn[i] ?? '').trim();
+                            const v = Number(valueColumn[i]);
+                            // Filter out entries with "--" as x-value
+                            if (name && name !== '--' && !Number.isNaN(v)) {
+                              items.push({ name, value: Number(v.toFixed(2)) });
+                            }
+                          }
+                        }
+                      }
+                      return;
+                    }
  
                    // Handle scatter type (can be line or area)
                    if (trace.type === 'scatter') {
