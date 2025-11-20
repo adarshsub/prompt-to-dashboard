@@ -143,128 +143,169 @@ const Index = () => {
               };
 
                const traces = Array.isArray(fig?.data) ? fig.data : [];
-               if (traces.length) {
-                 let type: ChartData['type'] = 'bar';
-                 const items: any[] = [];
- 
-                 const processTrace = (trace: any) => {
-                   if (!trace) return;
- 
-                    // Handle table type (convert to bar chart)
-                    if (trace.type === 'table') {
-                      if (trace.cells?.values && Array.isArray(trace.cells.values)) {
-                        const columns = trace.cells.values;
+                if (traces.length) {
+                  let type: ChartData['type'] = 'bar';
+                  const items: any[] = [];
+                  
+                  // Detect multi-series bar/line charts
+                  const barLineTraces = traces.filter(t => t && ['bar', 'line', 'area', 'scatter'].includes(t.type));
+                  const isMultiSeries = barLineTraces.length > 1;
+                  
+                  if (isMultiSeries) {
+                    // Handle multi-series: merge traces into single data points with multiple series
+                    type = barLineTraces[0].type === 'line' ? 'line' : barLineTraces[0].type === 'area' ? 'area' : 'bar';
+                    const dataMap = new Map<string, any>();
+                    
+                    barLineTraces.forEach(trace => {
+                      const xArr = asArray(trace.x);
+                      let yArr = asArray(trace.y);
+                      if (yArr.length === 0 && trace.marker?.color) yArr = asArray(trace.marker.color);
+                      const seriesName = trace.name || 'value';
+                      
+                      for (let i = 0; i < Math.min(xArr.length, yArr.length); i++) {
+                        const name = String(xArr[i]);
+                        if (name === '--') continue;
                         
-                        // First column is always names/labels
-                        const nameColumn = Array.isArray(columns[0]) ? columns[0] : asArray(columns[0]);
-                        
-                        // Find the first numeric column (skip column 0)
-                        let valueColumn = null;
-                        for (let colIdx = 1; colIdx < columns.length; colIdx++) {
-                          const col = Array.isArray(columns[colIdx]) ? columns[colIdx] : asArray(columns[colIdx]);
-                          // Check if column contains numeric values
-                          const hasNumericValues = col.some(val => !Number.isNaN(Number(val)));
-                          if (hasNumericValues) {
-                            valueColumn = col;
-                            break;
-                          }
+                        if (!dataMap.has(name)) {
+                          dataMap.set(name, { name });
                         }
-                        
-                        // If we found a numeric column, extract the data
-                        if (valueColumn) {
-                          for (let i = 0; i < Math.min(nameColumn.length, valueColumn.length); i++) {
-                            const name = String(nameColumn[i] ?? '').trim();
-                            const v = Number(valueColumn[i]);
-                            // Filter out entries with "--" as x-value
-                            if (name && name !== '--' && !Number.isNaN(v)) {
-                              items.push({ name, value: Number(v.toFixed(2)) });
-                            }
-                          }
-                        }
+                        const value = Number(yArr[i]);
+                        dataMap.get(name)[seriesName] = Number(value.toFixed(2));
                       }
-                      return;
+                    });
+                    
+                    const multiSeriesData = Array.from(dataMap.values());
+                    if (multiSeriesData.length > 0) {
+                      charts.push({ 
+                        type, 
+                        data: multiSeriesData, 
+                        config: { 
+                          title: fig?.layout?.title?.text,
+                          series: barLineTraces.map(t => t.name || 'value')
+                        } 
+                      });
                     }
- 
-                   // Handle scatter type (can be line or area)
-                   if (trace.type === 'scatter') {
-                     if (trace.fill) type = 'area';
-                     else if (trace.mode?.includes('lines')) type = 'line';
-                     const xArr = asArray(trace.x);
-                     let yArr = asArray(trace.y);
-                     if (yArr.length === 0 && trace.marker?.color) yArr = asArray(trace.marker.color); // fallback
-                     for (let i = 0; i < Math.min(xArr.length, yArr.length); i++) {
-                       const name = String(xArr[i]);
-                       const value = Number(yArr[i]);
-                       // Filter out entries with "--" as x-value
-                       if (name !== '--') {
-                         items.push({ name, value: Number(value.toFixed(2)) });
+                  } else {
+                    // Single-series: use existing logic
+                    const processTrace = (trace: any) => {
+                      if (!trace) return;
+    
+                       // Handle table type (convert to bar chart)
+                       if (trace.type === 'table') {
+                         if (trace.cells?.values && Array.isArray(trace.cells.values)) {
+                           const columns = trace.cells.values;
+                           
+                           // First column is always names/labels
+                           const nameColumn = Array.isArray(columns[0]) ? columns[0] : asArray(columns[0]);
+                           
+                           // Find the first numeric column (skip column 0)
+                           let valueColumn = null;
+                           for (let colIdx = 1; colIdx < columns.length; colIdx++) {
+                             const col = Array.isArray(columns[colIdx]) ? columns[colIdx] : asArray(columns[colIdx]);
+                             // Check if column contains numeric values
+                             const hasNumericValues = col.some(val => !Number.isNaN(Number(val)));
+                             if (hasNumericValues) {
+                               valueColumn = col;
+                               break;
+                             }
+                           }
+                           
+                           // If we found a numeric column, extract the data
+                           if (valueColumn) {
+                             for (let i = 0; i < Math.min(nameColumn.length, valueColumn.length); i++) {
+                               const name = String(nameColumn[i] ?? '').trim();
+                               const v = Number(valueColumn[i]);
+                               // Filter out entries with "--" as x-value
+                               if (name && name !== '--' && !Number.isNaN(v)) {
+                                 items.push({ name, value: Number(v.toFixed(2)) });
+                               }
+                             }
+                           }
+                         }
+                         return;
                        }
-                     }
-                     return;
-                   }
- 
-                    // Handle pie chart
-                    if (trace.type === 'pie') {
-                      type = 'pie';
-                      const labels = asArray(trace.labels);
-                      const values = asArray(trace.values);
-                      for (let i = 0; i < Math.min(labels.length, values.length); i++) {
-                        const name = String(labels[i]);
-                        const value = Number(values[i]);
+    
+                      // Handle scatter type (can be line or area)
+                      if (trace.type === 'scatter') {
+                        if (trace.fill) type = 'area';
+                        else if (trace.mode?.includes('lines')) type = 'line';
+                        const xArr = asArray(trace.x);
+                        let yArr = asArray(trace.y);
+                        if (yArr.length === 0 && trace.marker?.color) yArr = asArray(trace.marker.color); // fallback
+                        for (let i = 0; i < Math.min(xArr.length, yArr.length); i++) {
+                          const name = String(xArr[i]);
+                          const value = Number(yArr[i]);
+                          // Filter out entries with "--" as x-value
+                          if (name !== '--') {
+                            items.push({ name, value: Number(value.toFixed(2)) });
+                          }
+                        }
+                        return;
+                      }
+    
+                       // Handle pie chart
+                       if (trace.type === 'pie') {
+                         type = 'pie';
+                         const labels = asArray(trace.labels);
+                         const values = asArray(trace.values);
+                         for (let i = 0; i < Math.min(labels.length, values.length); i++) {
+                           const name = String(labels[i]);
+                           const value = Number(values[i]);
+                           // Filter out entries with "--" as x-value
+                           if (name !== '--') {
+                             items.push({ name, value: Number(value.toFixed(2)) });
+                           }
+                         }
+                         return;
+                       }
+  
+                       // Handle histogram (convert to bar chart with frequency count)
+                       if (trace.type === 'histogram') {
+                         type = 'bar';
+                         const xArr = asArray(trace.x);
+                         
+                         // Create frequency map
+                         const frequencyMap = new Map<string, number>();
+                         xArr.forEach(val => {
+                           const key = String(val);
+                           if (key !== '--') {
+                             frequencyMap.set(key, (frequencyMap.get(key) || 0) + 1);
+                           }
+                         });
+                         
+                         // Convert to chart items
+                         frequencyMap.forEach((count, bin) => {
+                           items.push({ name: bin, value: count });
+                         });
+                         
+                         return;
+                       }
+  
+                       // Handle bar and line/area fallbacks
+                      if (trace.type === 'line') type = 'line';
+                      else if (trace.type === 'area') type = 'area';
+                      const xArr = asArray(trace.x);
+                      let yArr = asArray(trace.y);
+                      if (yArr.length === 0 && trace.marker?.color) yArr = asArray(trace.marker.color); // fallback when y is encoded in marker.color
+                      for (let i = 0; i < Math.min(xArr.length, yArr.length); i++) {
+                        const name = String(xArr[i]);
+                        const value = Number(yArr[i]);
                         // Filter out entries with "--" as x-value
                         if (name !== '--') {
                           items.push({ name, value: Number(value.toFixed(2)) });
                         }
                       }
-                      return;
+                    };
+    
+                    // Process all traces
+                    traces.forEach(processTrace);
+    
+                    // Only add chart if we have valid data
+                    if (items.length > 0) {
+                      charts.push({ type, data: items, config: { title: fig?.layout?.title?.text } });
                     }
-
-                    // Handle histogram (convert to bar chart with frequency count)
-                    if (trace.type === 'histogram') {
-                      type = 'bar';
-                      const xArr = asArray(trace.x);
-                      
-                      // Create frequency map
-                      const frequencyMap = new Map<string, number>();
-                      xArr.forEach(val => {
-                        const key = String(val);
-                        if (key !== '--') {
-                          frequencyMap.set(key, (frequencyMap.get(key) || 0) + 1);
-                        }
-                      });
-                      
-                      // Convert to chart items
-                      frequencyMap.forEach((count, bin) => {
-                        items.push({ name: bin, value: count });
-                      });
-                      
-                      return;
-                    }
-
-                    // Handle bar and line/area fallbacks
-                   if (trace.type === 'line') type = 'line';
-                   else if (trace.type === 'area') type = 'area';
-                   const xArr = asArray(trace.x);
-                   let yArr = asArray(trace.y);
-                   if (yArr.length === 0 && trace.marker?.color) yArr = asArray(trace.marker.color); // fallback when y is encoded in marker.color
-                   for (let i = 0; i < Math.min(xArr.length, yArr.length); i++) {
-                     const name = String(xArr[i]);
-                     const value = Number(yArr[i]);
-                     // Filter out entries with "--" as x-value
-                     if (name !== '--') {
-                       items.push({ name, value: Number(value.toFixed(2)) });
-                     }
-                   }
-                 };
- 
-                 // Process all traces so multi-series charts still render
-                 traces.forEach(processTrace);
- 
-                 // Only add chart if we have valid data
-                 if (items.length > 0) {
-                   charts.push({ type, data: items, config: { title: fig?.layout?.title?.text } });
-                 }
-               }
+                  }
+                }
              } catch (e) {
                console.warn('Failed to parse plotly_figure_json', e);
              }
