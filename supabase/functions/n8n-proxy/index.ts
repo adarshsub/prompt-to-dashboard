@@ -51,7 +51,7 @@ async function tryN8n(question: string): Promise<{ data: AnyJson; attempted: str
     if (r1.ok) {
       const d1 = await parseResponse(r1);
       console.log('n8n POST json parsed:', JSON.stringify(d1)?.slice(0, 500));
-      if (isNonEmpty(d1)) return { data: d1, attempted };
+      return { data: d1, attempted };
     }
   } catch (e) {
     console.warn('n8n POST json failed:', e);
@@ -69,7 +69,7 @@ async function tryN8n(question: string): Promise<{ data: AnyJson; attempted: str
     if (r2.ok) {
       const d2 = await parseResponse(r2);
       console.log('n8n POST form parsed:', JSON.stringify(d2)?.slice(0, 500));
-      if (isNonEmpty(d2)) return { data: d2, attempted };
+      return { data: d2, attempted };
     }
   } catch (e) {
     console.warn('n8n POST form failed:', e);
@@ -84,7 +84,7 @@ async function tryN8n(question: string): Promise<{ data: AnyJson; attempted: str
     if (r3.ok) {
       const d3 = await parseResponse(r3);
       console.log('n8n GET parsed:', JSON.stringify(d3)?.slice(0, 500));
-      if (isNonEmpty(d3)) return { data: d3, attempted };
+      return { data: d3, attempted };
     }
   } catch (e) {
     console.warn('n8n GET failed:', e);
