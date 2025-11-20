@@ -3,6 +3,7 @@ export interface ChartData {
   data: any[];
   config?: {
     title?: string;
+    series?: string[];
     [key: string]: any;
   };
 }

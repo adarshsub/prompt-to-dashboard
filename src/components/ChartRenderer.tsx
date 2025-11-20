@@ -70,6 +70,10 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
   const renderChart = () => {
     switch (chart.type) {
       case "bar":
+        const barSeries = chart.config?.series || ['value'];
+        const isMultiSeriesBar = barSeries.length > 1;
+        const barColors = [CHART_COLORS.primary, '#AC5CCC', '#34D399', '#F59E0B', '#EF4444'];
+        
         return (
           <ResponsiveContainer width="100%" height={CHART_HEIGHTS.bar}>
             <BarChart data={chart.data} margin={{ top: 10, right: 10, left: 0, bottom: 30 }}>
@@ -93,19 +97,35 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
                 labelStyle={{ marginBottom: 4, fontWeight: 500 }}
                 itemStyle={{ padding: 0 }}
                 cursor={{ fill: 'transparent' }}
-                formatter={(value: any, name: any, props: any) => {
+                formatter={(value: any, name: any) => {
                   const formattedValue = typeof value === 'number' ? value.toFixed(2) : value;
-                  return [formattedValue, props.payload?.name ? `${props.payload.name}` : 'Score'];
+                  return [formattedValue, name];
                 }}
                 labelFormatter={(label: any) => label}
               />
-              <Bar 
-                dataKey="value" 
-                fill={CHART_COLORS.primary} 
-                maxBarSize={40}
-                activeBar={{ fill: CHART_COLORS.primary, opacity: 0.7 }}
-                style={{ cursor: 'pointer' }}
-              />
+              {isMultiSeriesBar ? (
+                <>
+                  <Legend />
+                  {barSeries.map((seriesName, idx) => (
+                    <Bar
+                      key={seriesName}
+                      dataKey={seriesName}
+                      fill={barColors[idx % barColors.length]}
+                      maxBarSize={40}
+                      activeBar={{ opacity: 0.7 }}
+                      style={{ cursor: 'pointer' }}
+                    />
+                  ))}
+                </>
+              ) : (
+                <Bar 
+                  dataKey="value" 
+                  fill={CHART_COLORS.primary} 
+                  maxBarSize={40}
+                  activeBar={{ fill: CHART_COLORS.primary, opacity: 0.7 }}
+                  style={{ cursor: 'pointer' }}
+                />
+              )}
             </BarChart>
           </ResponsiveContainer>
         );
