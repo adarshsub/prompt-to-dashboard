@@ -20,21 +20,3 @@ export async function sendToN8N(question: string) {
   }
 }
 
-export async function postInsightsToN8N(insights: any[]) {
-  try {
-    console.log("Posting insights to backend proxy");
-    const { data, error } = await supabase.functions.invoke('n8n-proxy', {
-      body: { insights },
-    });
-
-    if (error) {
-      console.warn("Insights post to proxy failed:", error);
-      return { success: false } as any;
-    }
-
-    return data as any;
-  } catch (error) {
-    console.error("Error posting insights via proxy:", error);
-    return { success: false } as any;
-  }
-}

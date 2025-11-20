@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { generateDashboardTitle } from "@/lib/promptUtils";
 import { Button } from "@/components/ui/button";
 import { Sparkles } from "lucide-react";
-import { sendToN8N, postInsightsToN8N } from "@/lib/n8nApi";
+import { sendToN8N } from "@/lib/n8nApi";
 import { ChartData, Insight } from "@/types/dashboard";
 import { toast } from "sonner";
 
@@ -316,12 +316,6 @@ const Index = () => {
 
       setCurrentCharts(charts);
       setCurrentInsights(insights);
-
-      // Post insights back to n8n if we have any
-      if (insights.length > 0) {
-        console.log("Posting insights back to n8n");
-        await postInsightsToN8N(insights);
-      }
 
       // Mark the conversation as loaded with the data
       setConversationHistory((prev) =>
