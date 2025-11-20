@@ -100,32 +100,8 @@ serve(async (req) => {
   }
 
   try {
-    const { question, insights } = await req.json();
-    console.log("n8n-proxy received:", { question, insights });
-
-    // Post insights back to n8n
-    if (insights) {
-      console.log('Posting insights to n8n');
-      try {
-        const n8nResponse = await fetch(N8N_WEBHOOK_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ insights }),
-        });
-        if (!n8nResponse.ok) {
-          console.warn('n8n insights post failed:', n8nResponse.status);
-        }
-        return new Response(JSON.stringify({ success: true }), {
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        });
-      } catch (error) {
-        console.error('Error posting insights to n8n:', error);
-        return new Response(JSON.stringify({ success: false, error: 'Failed to post insights' }), {
-          status: 500,
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        });
-      }
-    }
+    const { question } = await req.json();
+    console.log("n8n-proxy received question:", question);
 
     // Send question to n8n using robust fallbacks
     if (question) {
