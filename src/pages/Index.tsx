@@ -187,23 +187,45 @@ const Index = () => {
                      return;
                    }
  
-                   // Handle pie chart
-                   if (trace.type === 'pie') {
-                     type = 'pie';
-                     const labels = asArray(trace.labels);
-                     const values = asArray(trace.values);
-                     for (let i = 0; i < Math.min(labels.length, values.length); i++) {
-                       const name = String(labels[i]);
-                       const value = Number(values[i]);
-                       // Filter out entries with "--" as x-value
-                       if (name !== '--') {
-                         items.push({ name, value: Number(value.toFixed(2)) });
-                       }
-                     }
-                     return;
-                   }
- 
-                   // Handle bar and line/area fallbacks
+                    // Handle pie chart
+                    if (trace.type === 'pie') {
+                      type = 'pie';
+                      const labels = asArray(trace.labels);
+                      const values = asArray(trace.values);
+                      for (let i = 0; i < Math.min(labels.length, values.length); i++) {
+                        const name = String(labels[i]);
+                        const value = Number(values[i]);
+                        // Filter out entries with "--" as x-value
+                        if (name !== '--') {
+                          items.push({ name, value: Number(value.toFixed(2)) });
+                        }
+                      }
+                      return;
+                    }
+
+                    // Handle histogram (convert to bar chart with frequency count)
+                    if (trace.type === 'histogram') {
+                      type = 'bar';
+                      const xArr = asArray(trace.x);
+                      
+                      // Create frequency map
+                      const frequencyMap = new Map<string, number>();
+                      xArr.forEach(val => {
+                        const key = String(val);
+                        if (key !== '--') {
+                          frequencyMap.set(key, (frequencyMap.get(key) || 0) + 1);
+                        }
+                      });
+                      
+                      // Convert to chart items
+                      frequencyMap.forEach((count, bin) => {
+                        items.push({ name: bin, value: count });
+                      });
+                      
+                      return;
+                    }
+
+                    // Handle bar and line/area fallbacks
                    if (trace.type === 'line') type = 'line';
                    else if (trace.type === 'area') type = 'area';
                    const xArr = asArray(trace.x);
