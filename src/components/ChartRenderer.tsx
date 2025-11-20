@@ -76,7 +76,7 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
         
         return (
           <ResponsiveContainer width="100%" height={CHART_HEIGHTS.bar}>
-            <BarChart data={chart.data} margin={{ top: 10, right: 10, left: 0, bottom: 30 }}>
+            <BarChart data={chart.data} margin={{ top: 10, right: 16, left: 28, bottom: 36 }}>
               <CartesianGrid strokeDasharray="3 3" stroke={CHART_COLORS.neutral} opacity={0.3} />
               <XAxis 
                 dataKey="name" 
@@ -132,7 +132,7 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
       case "line":
         return (
           <ResponsiveContainer width="100%" height={CHART_HEIGHTS.line}>
-            <LineChart data={chart.data} margin={{ top: 10, right: 10, left: 0, bottom: 20 }}>
+            <LineChart data={chart.data} margin={{ top: 10, right: 16, left: 28, bottom: 28 }}>
               <CartesianGrid strokeDasharray="3 3" stroke={CHART_COLORS.neutral} opacity={0.3} />
               <XAxis 
                 dataKey="name" 
@@ -204,7 +204,7 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
       case "area":
         return (
           <ResponsiveContainer width="100%" height={CHART_HEIGHTS.area}>
-            <AreaChart data={chart.data} margin={{ top: 10, right: 10, left: 0, bottom: 20 }}>
+            <AreaChart data={chart.data} margin={{ top: 10, right: 16, left: 28, bottom: 28 }}>
               <CartesianGrid strokeDasharray="3 3" stroke={CHART_COLORS.neutral} opacity={0.3} />
               <XAxis 
                 dataKey="name" 
