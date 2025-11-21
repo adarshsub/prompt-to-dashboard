@@ -97,10 +97,11 @@ export const ChartRenderer = ({ chart, onAskQuestion }: ChartRendererProps) => {
                 labelStyle={{ marginBottom: 4, fontWeight: 500 }}
                 itemStyle={{ padding: 0 }}
                 cursor={{ fill: 'transparent' }}
-                formatter={(value: any, name: any) => {
-                  const formattedValue = typeof value === 'number' ? value.toFixed(2) : value;
-                  return [formattedValue, name];
-                }}
+                  formatter={(value: any, _name: any, props: any) => {
+                   const formattedValue = typeof value === 'number' ? value.toFixed(2) : value;
+                   const studentName = props?.payload?.name;
+                   return [formattedValue, studentName || 'Score'];
+                 }}
                 labelFormatter={(label: any) => label}
               />
               {isMultiSeriesBar ? (
